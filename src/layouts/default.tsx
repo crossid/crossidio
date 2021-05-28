@@ -22,6 +22,7 @@ import {
   UserGroupIcon,
   ViewGridIcon,
   XIcon,
+  MailIcon,
 } from '@heroicons/react/outline'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
@@ -53,9 +54,8 @@ const solutions = [
   },
 ]
 const callsToAction = [
-  { name: 'Watch Demo', href: '#', icon: PlayIcon },
-  { name: 'View All Products', href: '#', icon: CheckCircleIcon },
-  { name: 'Contact Sales', href: '#', icon: PhoneIcon },
+  // { name: 'Watch Demo', href: '#', icon: PlayIcon },
+  { name: 'Contact Sales', href: '#', icon: MailIcon },
 ]
 const company = [
   { name: 'About', href: '#', icon: InformationCircleIcon },
@@ -155,7 +155,7 @@ function Header() {
                         >
                           <Popover.Panel
                             static
-                            className="hidden md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-white border border-gray-100"
+                            className="hidden md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-white"
                           >
                             <div className="max-w-7xl mx-auto grid gap-y-6 px-4 py-6 sm:grid-cols-2 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-4 lg:px-8 lg:py-12 xl:py-16">
                               {solutions.map((item) => (
