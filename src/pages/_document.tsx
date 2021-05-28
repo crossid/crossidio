@@ -2,7 +2,7 @@ import NextDocument, { Html, Head, Main, NextScript } from 'next/document'
 import { GA_TRACKING_ID } from '@/lib/gtag'
 
 export default class Document extends NextDocument {
-  static async getInitialProps(ctx : any) {
+  static async getInitialProps(ctx: any) {
     const initialProps = await NextDocument.getInitialProps(ctx)
     return { ...initialProps }
   }
@@ -41,7 +41,13 @@ export default class Document extends NextDocument {
         <body>
           <Main />
           <NextScript />
-          <script> </script>
+          <script
+            type="text/javascript"
+            id="hs-script-loader"
+            async
+            defer
+            src="//js-na1.hs-scripts.com/8906484.js"
+          ></script>
         </body>
       </Html>
     )
