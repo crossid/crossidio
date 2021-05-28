@@ -55,7 +55,7 @@ const solutions = [
 ]
 const callsToAction = [
   // { name: 'Watch Demo', href: '#', icon: PlayIcon },
-  { name: 'Contact Sales', href: '#', icon: MailIcon },
+  { name: 'Contact Sales', href: 'contact', icon: MailIcon },
 ]
 const company = [
   { name: 'About', href: '#', icon: InformationCircleIcon },
@@ -106,20 +106,22 @@ function Header() {
           <div className="relative z-20">
             <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-8 lg:px-8 md:justify-start md:space-x-10">
               <div>
-                <a href="#" className="flex">
-                  <span className="sr-only">Workflow</span>
-                  {/* <img
+                <Link href="/">
+                  <a className="flex">
+                    <span className="sr-only">Workflow</span>
+                    {/* <img
                     className="h-8 w-auto sm:h-10"
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                     alt=""
                   /> */}
-                  <p>
-                    <span className="bg-black px-2 rounded-md text-white text-3xl">C</span>
-                    <span className="ml-1 rounded-md text-indigo-600 text-2xl font-logo">
-                      Crossid
-                    </span>
-                  </p>
-                </a>
+                    <p>
+                      <span className="bg-black px-2 rounded-md text-white text-3xl">C</span>
+                      <span className="ml-1 rounded-md text-indigo-600 text-2xl font-logo">
+                        Crossid
+                      </span>
+                    </p>
+                  </a>
+                </Link>
               </div>
               <div className="-mr-2 -my-2 md:hidden">
                 <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -191,16 +193,15 @@ function Header() {
                               <div className="max-w-7xl mx-auto space-y-6 px-4 py-5 sm:flex sm:space-y-0 sm:space-x-10 sm:px-6 lg:px-8">
                                 {callsToAction.map((item) => (
                                   <div key={item.name} className="flow-root">
-                                    <a
-                                      href={item.href}
-                                      className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
-                                    >
-                                      <item.icon
-                                        className="flex-shrink-0 h-6 w-6 text-gray-400"
-                                        aria-hidden="true"
-                                      />
-                                      <span className="ml-3">{item.name}</span>
-                                    </a>
+                                    <Link href={item.href}>
+                                      <a className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">
+                                        <item.icon
+                                          className="flex-shrink-0 h-6 w-6 text-gray-400"
+                                          aria-hidden="true"
+                                        />
+                                        <span className="ml-3">{item.name}</span>
+                                      </a>
+                                    </Link>
                                   </div>
                                 ))}
                               </div>
@@ -366,12 +367,11 @@ function Header() {
                       Try Free
                     </button>
                   </Link>
-                  <a
-                    href="#"
-                    className="ml-4 inline-flex items-center px-3 py-2 border border-transparent text-xs leading-4 font-bold rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    Contact Sales
-                  </a>
+                  <Link href="/contact">
+                    <a className="ml-4 inline-flex items-center px-3 py-2 border border-transparent text-xs leading-4 font-bold rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Contact Sales
+                    </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -473,12 +473,11 @@ function Header() {
                       Blog
                     </a>
 
-                    <a
-                      href="#"
-                      className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                    >
-                      Contact Sales
-                    </a>
+                    <Link href="/contact">
+                      <a className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700">
+                        Contact Sales
+                      </a>
+                    </Link>
                   </div>
                   <div className="mt-6">
                     <Link href="/signup">
