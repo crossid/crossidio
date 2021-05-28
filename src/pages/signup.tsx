@@ -208,7 +208,7 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
         }
       })
       .catch((e) => {
-        addNotif({ message: 'Failed to register account, please try again later.', level: 'info' })
+        addNotif({ message: 'Failed to register account, please try again later.', level: 'error' })
       })
       .finally(() => setInSubmit(false))
   }
