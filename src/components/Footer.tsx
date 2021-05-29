@@ -12,6 +12,17 @@ const navigation = {
     { name: 'Guides', href: '#' },
     { name: 'API Status', href: '#' },
   ],
+  developer: [
+    {
+      name: 'Guides',
+      href: 'https://developer.crossid.io/docs/guides/get-started',
+    },
+    { name: 'Blog', href: 'https://developer.crossid.io/blog' },
+    {
+      name: 'Reference',
+      href: 'https://developer.crossid.io/docs/reference/api',
+    },
+  ],
   company: [
     { name: 'About', href: '#' },
     { name: 'Blog', href: '#' },
@@ -131,12 +142,26 @@ export default function Footer() {
                   ))}
                 </ul>
               </div>
-              <div className="mt-12 md:mt-0">
+              {/* <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                   Support
                 </h3>
                 <ul className="mt-4 space-y-4">
                   {navigation.support.map((item) => (
+                    <li key={item.name}>
+                      <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
+                        {item.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div> */}
+              <div className="mt-12 md:mt-0">
+                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                  Developer
+                </h3>
+                <ul className="mt-4 space-y-4">
+                  {navigation.developer.map((item) => (
                     <li key={item.name}>
                       <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
                         {item.name}
