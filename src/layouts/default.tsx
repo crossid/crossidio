@@ -359,9 +359,9 @@ function Header() {
                       </button>
                     </div>
                   </form> */}
-                  <a href="#" className="text-xs font-bold text-black hover:underline">
-                    Sign in
-                  </a>
+                  <Link href="/login">
+                    <a className="text-xs font-bold text-black hover:underline">Login</a>
+                  </Link>
                   <Link href="/signup">
                     <button className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Try Free
@@ -487,9 +487,11 @@ function Header() {
                     </Link>
                     <p className="mt-6 text-center text-base font-medium text-gray-500">
                       Existing customer?{' '}
-                      <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                        Sign in
-                      </a>
+                      <Link href="/login">
+                        <a href="#" className="text-indigo-600 hover:text-indigo-500">
+                          Login
+                        </a>
+                      </Link>
                     </p>
                   </div>
                 </div>
