@@ -74,7 +74,7 @@ interface Feature {
 }
 
 const features: Feature[] = [
-  { title: 'login', image: 'https://cdn.worldvectorlogo.com/logos/divino-buenos-ayres.svg' },
+  { title: 'login', image: '/index/login.png' },
   { title: 'sign-up', image: 'https://cdn.worldvectorlogo.com/logos/rtd-1.svg' },
 ]
 
@@ -139,8 +139,8 @@ const Product = () => {
             />
           </svg> */}
           <div className="relative mx-auto w-full rounded-lg lg:max-w-md">
-            <div className="py-4">
-              <div className="border-4 border-dashed border-gray-200 rounded-lg h-96">
+            <div className="">
+              <div className="rounded-lg h-96">
                 {features.map((p, i) => (
                   <Transition
                     key={i}
@@ -154,7 +154,8 @@ const Product = () => {
                   >
                     <img
                       key={i}
-                      className="absolute transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
+                      // className="absolute transform translate-x-6 translate-y-6 rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
+                      className="absolute rounded-md object-cover object-left-top sm:translate-x-16 lg:translate-y-20"
                       src={p.image}
                       alt="App screenshot"
                     />
