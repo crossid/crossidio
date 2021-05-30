@@ -184,8 +184,8 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
     }
 
     const body = {
-      tenantId: form.email.split('.')[0],
-      userDetails: {
+      type: 'developer',
+      user: {
         displayName: form.fullName,
         email: form.email,
         password: form.password,
