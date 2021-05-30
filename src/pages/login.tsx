@@ -7,6 +7,9 @@ function Login() {
 
   function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (!tenantId || tenantId.length < 3) {
+      return
+    }
     window.location.href = `https://${tenantId}.${domain}/auth/login`
   }
 
