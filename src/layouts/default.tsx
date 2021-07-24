@@ -24,7 +24,7 @@ import {
   AcademicCapIcon,
   DocumentSearchIcon,
 } from '@heroicons/react/outline'
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid'
+import { ChevronDownIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 
 const solutions = [
@@ -110,15 +110,13 @@ function classNames(...classes: string[]) {
 }
 
 function Header() {
-  const [opened, setOpened] = useState('')
-
   return (
     <Popover className="relative bg-white">
       {({ open }) => (
         <>
           <div className="absolute inset-0 z-30 pointer-events-none" aria-hidden="true" />
           <div className="relative z-20">
-            <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-8 lg:px-8 md:justify-start md:space-x-10">
+            <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-5 sm:px-6 sm:py-8 lg:px-8 lg:justify-start lg:space-x-10">
               <div>
                 <Link href="/">
                   <a className="flex">
@@ -137,13 +135,13 @@ function Header() {
                   </a>
                 </Link>
               </div>
-              <div className="-mr-2 -my-2 md:hidden">
+              <div className="-mr-2 -my-2 lg:hidden">
                 <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                   <span className="sr-only">Open menu</span>
                   <MenuIcon className="h-6 w-6" aria-hidden="true" />
                 </Popover.Button>
               </div>
-              <div className="hidden md:flex-1 md:flex md:items-center md:justify-between">
+              <div className="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between">
                 <Popover.Group as="nav" className="flex space-x-8">
                   <Popover>
                     {({ open }) => (
@@ -404,7 +402,7 @@ function Header() {
             <Popover.Panel
               focus
               static
-              className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+              className="absolute z-30 top-0 inset-x-0 p-2 transition transform origin-top-right lg:hidden"
             >
               <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
                 <div className="pt-5 pb-6 px-5 sm:pb-8">
