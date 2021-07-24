@@ -176,7 +176,7 @@ const StartNow = () => {
   })
   const [form, setForm] = useState({ emailAddress: '' })
   const [inSubmit, setInSubmit] = useState(false)
-  const [sentMode, setSentMode] = useState(false)
+  const [sentMode, setSentMode] = useState(true)
 
   const encode = (data: any) => {
     return Object.keys(data)
@@ -250,7 +250,7 @@ const StartNow = () => {
               <button
                 disabled={inSubmit}
                 type="submit"
-                className="w-full flex items-center justify-center px-8 py-3 lg:py-5 text-base lg:text-2xl border border-transparent font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-full flex items-center justify-center px-8 py-3 lg:py-5 text-base lg:text-2xl border border-transparent font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60"
               >
                 Get Started
               </button>

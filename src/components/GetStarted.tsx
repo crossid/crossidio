@@ -73,7 +73,7 @@ const GetStarted = () => {
             type="submit"
             className="mt-3 w-full flex items-center justify-center px-5 py-3 border-2 border-black text-base font-medium rounded-none rounded-r-md text-white bg-black hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-700 focus:ring-white sm:mt-0 sm:w-auto sm:flex-shrink-0"
           >
-            Get Strted
+            {inSubmit ? 'Submitting...' : 'Get Strted'}
           </button>
         </form>
       )}
