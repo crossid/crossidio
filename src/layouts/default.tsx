@@ -283,7 +283,7 @@ function Header() {
                                     ))}
                                   </ul>
                                 </div>
-                                <div>
+                                <div className="hidden">
                                   <h3 className="text-sm font-medium tracking-wide text-gray-500 uppercase">
                                     Resources
                                   </h3>
@@ -350,9 +350,9 @@ function Header() {
                       </>
                     )}
                   </Popover>
-                  <a href="#" className="text-base font-bold text-black">
+                  {/* <a href="#" className="text-base font-bold text-black">
                     Pricing
-                  </a>
+                  </a> */}
                 </Popover.Group>
                 <div className="flex items-center">
                   {/* <form action="#" className="hidden lg:block">
@@ -450,12 +450,12 @@ function Header() {
                 </div>
                 <div className="py-6 px-5">
                   <div className="grid grid-cols-2 gap-4">
-                    <a
+                    {/* <a
                       href="#"
                       className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
                     >
                       Pricing
-                    </a>
+                    </a> */}
 
                     <a
                       href="#"
