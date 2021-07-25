@@ -169,8 +169,15 @@ interface Feature {
 
 export const Product = () => {
   const [selected, setSelected] = useState('login')
+  const [onScreen, setOnscreen] = useState(false)
   const ref: any = useRef<HTMLDivElement>()
-  const onScreen: boolean = useOnScreen<HTMLDivElement>(ref, '-250px')
+  const observe: boolean = useOnScreen<HTMLDivElement>(ref, '-20px')
+
+  useEffect(() => {
+    if (!onScreen && observe) {
+      setOnscreen(true)
+    }
+  }, [observe])
 
   const expired = (word: string) => {
     const idx = features.findIndex((f) => f.word === word)
@@ -184,7 +191,7 @@ export const Product = () => {
   }
 
   return (
-    <section ref={ref} id="product" className="mt-40">
+    <section ref={ref} className="mt-40">
       <div className="lg:grid lg:grid-cols-12 lg:gap-8 md:mt-2">
         <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
           <h2
