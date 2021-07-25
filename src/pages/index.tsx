@@ -55,11 +55,11 @@ export const Hero = () => {
 }
 
 const features: Feature[] = [
-  { word: 'login', image: '/index/login.png', timeout: 5000 },
+  { word: 'login', image: '/index/login_otp.png', timeout: 5000 },
+  { word: 'MFA', image: '/index/mfa_webauthn.png', timeout: 5000 },
   { word: 'sign-up', image: '/index/signup.png', timeout: 5000 },
   { word: 'apps', image: '/index/apps.png', timeout: 5000 },
-  { word: 'MFA', image: '/index/mfa_chrome.png', timeout: 5000 },
-  { word: 'more', image: '/index/more.png', timeout: 5000 },
+  { word: 'more', image: '/index/marketplace.png', timeout: 5000 },
 ]
 
 const ProgressTimeout = ({ timeout }: { timeout: number }) => {
@@ -206,7 +206,7 @@ export const Product = () => {
               timeout={features[0].timeout}
               expired={expired}
             />
-            {' and '}
+            {' with '}
             <FeatureWord
               selected={selected}
               setSelected={select}
@@ -214,7 +214,7 @@ export const Product = () => {
               timeout={features[1].timeout}
               expired={expired}
             />
-            {" but there's also "}
+            {' and '}
             <FeatureWord
               selected={selected}
               setSelected={select}
@@ -222,7 +222,7 @@ export const Product = () => {
               timeout={features[2].timeout}
               expired={expired}
             />
-            {', '}
+            {" but there's also "}
             <FeatureWord
               selected={selected}
               setSelected={select}
@@ -230,6 +230,7 @@ export const Product = () => {
               timeout={features[3].timeout}
               expired={expired}
             />
+            {', '}
             {' and  '}
             <FeatureWord
               selected={selected}
