@@ -339,8 +339,8 @@ export const StartNow = () => {
   return (
     <>
       <Notifications items={notifs} removeItem={removeNotif} />
-      <div className="bg-white">
-        <div className="max-w-7xl mx-auto py-40 px-4 sm:px-6 lg:py-48 lg:px-8">
+      <div className="bg-white pt-48 lg:pt-16">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:py-12 lg:px-8">
           {!sentMode && (
             <>
               <h2 className="inline text-3xl font-normal tracking-tight text-gray-900 sm:block sm:text-6xl">
