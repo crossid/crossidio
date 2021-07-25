@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = {
   solutions: [
@@ -24,16 +26,16 @@ const navigation = {
     },
   ],
   company: [
-    { name: 'About', href: '#' },
-    { name: 'Blog', href: '#' },
-    { name: 'Jobs', href: '#' },
-    { name: 'Press', href: '#' },
-    { name: 'Partners', href: '#' },
+    { name: 'About', href: '/company' },
+    //   { name: 'Blog', href: '#' },
+    //   { name: 'Jobs', href: '#' },
+    //   { name: 'Press', href: '#' },
+    //   { name: 'Partners', href: '#' },
   ],
   legal: [
-    { name: 'Claim', href: '#' },
-    { name: 'Privacy', href: '#' },
-    { name: 'Terms', href: '#' },
+    // { name: 'Claim', href: '#' },
+    // { name: 'Privacy', href: '#' },
+    { name: 'Terms', href: '/tos' },
   ],
   social: [
     {
@@ -193,9 +195,9 @@ export default function Footer() {
                 <ul className="mt-4 space-y-4">
                   {navigation.legal.map((item) => (
                     <li key={item.name}>
-                      <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
-                        {item.name}
-                      </a>
+                      <Link href={item.href}>
+                        <a className="text-base text-gray-500 hover:text-gray-900">{item.name}</a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
