@@ -340,7 +340,7 @@ export const StartNow = () => {
   return (
     <>
       <Notifications items={notifs} removeItem={removeNotif} />
-      <div className="bg-white pt-48 lg:pt-16">
+      <div className="bg-white pt-48 lg:pt-18">
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:py-12 lg:px-8">
           {!sentMode && (
             <>
