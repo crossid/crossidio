@@ -72,16 +72,18 @@ const FeatureImage = ({
   expired: (feature: string) => void
 }) => {
   useEffect(() => {
-    const timeoutID = window.setTimeout(() => {
-      expired(feature)
-    }, timeout)
+    if (timeout > 0) {
+      const timeoutID = window.setTimeout(() => {
+        expired(feature)
+      }, timeout)
 
-    return () => window.clearTimeout(timeoutID)
+      return () => window.clearTimeout(timeoutID)
+    }
   }, [feature, timeout])
 
   return (
     <div className="relative mx-auto w-full rounded-lg lg:max-w-md">
-      <ProgressTimeout key={feature} timeout={timeout} />
+      {timeout > 0 && <ProgressTimeout key={feature} timeout={timeout} />}
       <div className="">
         <div className="rounded-lg h-96">
           {features.map((p, i) => (
@@ -119,6 +121,7 @@ interface Feature {
 export const ProductTeaser = () => {
   const [selected, setSelected] = useState('login')
   const [onScreen, setOnscreen] = useState(false)
+  const [auto, setAuto] = useState(true)
   const ref: any = useRef<HTMLDivElement>()
   const observe: boolean = useOnScreen<HTMLDivElement>(ref, '-20px')
 
@@ -127,6 +130,11 @@ export const ProductTeaser = () => {
       setOnscreen(true)
     }
   }, [observe])
+
+  const manuallySelected = (word: string) => {
+    setSelected(word)
+    setAuto(false)
+  }
 
   const expired = (word: string) => {
     const idx = features.findIndex((f) => f.word === word)
@@ -150,7 +158,7 @@ export const ProductTeaser = () => {
             {'It does '}
             <FeatureWord
               selected={selected}
-              setSelected={select}
+              setSelected={manuallySelected}
               word={features[0].word}
               timeout={features[0].timeout}
               expired={expired}
@@ -158,7 +166,7 @@ export const ProductTeaser = () => {
             {' with '}
             <FeatureWord
               selected={selected}
-              setSelected={select}
+              setSelected={manuallySelected}
               word={features[1].word}
               timeout={features[1].timeout}
               expired={expired}
@@ -166,7 +174,7 @@ export const ProductTeaser = () => {
             {' and '}
             <FeatureWord
               selected={selected}
-              setSelected={select}
+              setSelected={manuallySelected}
               word={features[2].word}
               timeout={features[2].timeout}
               expired={expired}
@@ -174,7 +182,7 @@ export const ProductTeaser = () => {
             {" but there's also "}
             <FeatureWord
               selected={selected}
-              setSelected={select}
+              setSelected={manuallySelected}
               word={features[3].word}
               timeout={features[3].timeout}
               expired={expired}
@@ -183,7 +191,7 @@ export const ProductTeaser = () => {
             {' and  '}
             <FeatureWord
               selected={selected}
-              setSelected={select}
+              setSelected={manuallySelected}
               word={features[4].word}
               timeout={features[4].timeout}
               expired={expired}
@@ -230,7 +238,7 @@ export const ProductTeaser = () => {
           {onScreen && (
             <FeatureImage
               feature={selected}
-              timeout={features[features.findIndex((f) => f.word === selected)].timeout}
+              timeout={auto ? features[features.findIndex((f) => f.word === selected)].timeout : -1}
               expired={expired}
             />
           )}
