@@ -28,10 +28,10 @@ const ProgressTimeout = ({ timeout }: { timeout: number }) => {
 const Progress = ({ percent }: { percent: number }) => {
   return (
     <div className="relative pt-1">
-      <div className="overflow-hidden h-1 text-xs flex rounded bg-purple-200">
+      <div className="overflow-hidden h-1 text-xs flex rounded bg-indigo-200">
         <div
           style={{ width: `${percent}%` }}
-          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500"
+          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500"
         ></div>
       </div>
     </div>
