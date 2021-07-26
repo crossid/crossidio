@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Notifications, { NotificationDef } from '../Notifications'
 import useDisposableList from 'use-disposable-list'
 import Link from 'next/link'
+import * as gtag from '@/lib/gtag'
 
 export const StartNow = () => {
   const [notifs, addNotif, removeNotif] = useDisposableList<NotificationDef>({
