@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Notifications, { NotificationDef } from '../Notifications'
 import useDisposableList from 'use-disposable-list'
+import Link from 'next/link'
 
 export const StartNow = () => {
   const [notifs, addNotif, removeNotif] = useDisposableList<NotificationDef>({
@@ -89,6 +90,11 @@ export const StartNow = () => {
                   </button>
                 </div>
               </form>
+              <div className="text-right pr-8 lg:pr-2 lg:pt-2 text-sm text-indigo-600 font-bold">
+                <Link href="/contact">
+                  <a>Need help? let's talk</a>
+                </Link>
+              </div>
             </>
           )}
           {sentMode && (
