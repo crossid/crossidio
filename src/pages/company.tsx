@@ -44,7 +44,7 @@ export default function Company() {
           <div className="lg:col-span-2">
             <ul className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-12 sm:space-y-0 lg:gap-x-8">
               {team.map((p) => (
-                <li>
+                <li key={p.name}>
                   <div className="flex items-center space-x-4 lg:space-x-6">
                     <img
                       className="w-16 h-16 rounded-full lg:w-20 lg:h-20"
