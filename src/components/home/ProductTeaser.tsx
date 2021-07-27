@@ -134,6 +134,7 @@ export const ProductTeaser = () => {
   const manuallySelected = (word: string) => {
     setSelected(word)
     setAuto(false)
+    ref.current.scrollIntoView({ behavior: 'smooth' })
   }
 
   const expired = (word: string) => {
