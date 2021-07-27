@@ -1,13 +1,19 @@
 import Footer from '../components/Footer'
 
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, MouseEventHandler, ReactNode, useState } from 'react'
+import {
+  ButtonHTMLAttributes,
+  Fragment,
+  MouseEventHandler,
+  ReactNode,
+  useRef,
+  useState,
+} from 'react'
 import Link from 'next/link'
 import { Popover, Transition } from '@headlessui/react'
 import {
   BookmarkAltIcon,
   BriefcaseIcon,
-  ChartBarIcon,
   CursorClickIcon,
   DesktopComputerIcon,
   GlobeAltIcon,
@@ -23,20 +29,21 @@ import {
   DocumentTextIcon,
   AcademicCapIcon,
   DocumentSearchIcon,
+  UserIcon,
 } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 
-const solutions = [
+const product = [
   {
-    name: 'Analytics',
-    description: 'Get a better understanding of where your traffic is coming from.',
-    href: '#',
-    icon: ChartBarIcon,
+    name: 'Cross Directory',
+    description: 'Manage users, groups and devices at scale.',
+    href: '/directory',
+    icon: UserIcon,
   },
   {
-    name: 'Engagement',
-    description: 'Speak directly to your customers in a more meaningful way.',
+    name: 'Authentication',
+    description: 'Sign users in, securely.',
     href: '#',
     icon: CursorClickIcon,
   },
@@ -87,21 +94,11 @@ const developer = [
 const blogPosts = [
   {
     id: 1,
-    name: 'Boost your conversion rate',
-    href: '#',
+    name: 'What is SCIM',
+    href: 'https://developer.crossid.io/blog/what-is-scim',
     preview:
-      'Eget ullamcorper ac ut vulputate fames nec mattis pellentesque elementum. Viverra tempor id mus.',
-    imageUrl:
-      'https://images.unsplash.com/photo-1558478551-1a378f63328e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2849&q=80',
-  },
-  {
-    id: 2,
-    name: 'How to use search engine optimization to drive traffic to your site',
-    href: '#',
-    preview:
-      'Eget ullamcorper ac ut vulputate fames nec mattis pellentesque elementum. Viverra tempor id mus.',
-    imageUrl:
-      'https://images.unsplash.com/1/apple-gear-looking-pretty.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2850&q=80',
+      'The protocol to manage user identity in cloud-based applications and services in a standardized way.',
+    imageUrl: 'https://www.thousandeyes.com/dA/ffba0ead06/Featured-Image-SCIM-Blog.png',
   },
 ]
 
@@ -110,6 +107,12 @@ function classNames(...classes: string[]) {
 }
 
 function Header() {
+  const solutionButtonRef = useRef<HTMLButtonElement>(null)
+
+  const closeMobileMenu = () => {
+    document.getElementById('mobileCloseButton')?.click()
+  }
+
   return (
     <Popover className="relative bg-white">
       {({ open }) => (
@@ -146,8 +149,11 @@ function Header() {
                   <Popover>
                     {({ open }) => (
                       <>
-                        <Popover.Button className="group bg-white rounded-md inline-flex items-center text-base font-bold text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                          <span>Solutions</span>
+                        <Popover.Button
+                          ref={solutionButtonRef}
+                          className="group bg-white rounded-md inline-flex items-center text-base font-bold text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                          <span>Product</span>
                           <ChevronDownIcon
                             className={clsx(
                               'text-black ml-2 h-5 w-5 transform ease-in-out duration-150',
@@ -172,7 +178,7 @@ function Header() {
                             className="hidden md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-white"
                           >
                             <div className="max-w-7xl mx-auto grid gap-y-6 px-4 py-6 sm:grid-cols-2 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-4 lg:px-8 lg:py-12 xl:py-16">
-                              {solutions.map((item) => (
+                              {product.map((item) => (
                                 <a
                                   key={item.name}
                                   href={item.href}
@@ -206,7 +212,10 @@ function Header() {
                                 {callsToAction.map((item) => (
                                   <div key={item.name} className="flow-root">
                                     <Link href={item.href}>
-                                      <a className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100">
+                                      <a
+                                        onClick={() => solutionButtonRef?.current?.click()}
+                                        className="-m-3 p-3 flex items-center rounded-md text-base font-medium text-gray-900 hover:bg-gray-100"
+                                      >
                                         <item.icon
                                           className="flex-shrink-0 h-6 w-6 text-gray-400"
                                           aria-hidden="true"
@@ -338,7 +347,10 @@ function Header() {
                                   </ul>
                                 </div>
                                 <div className="mt-6 text-sm font-medium">
-                                  <a href="#" className="text-indigo-600 hover:text-indigo-500">
+                                  <a
+                                    href="https://developer.crossid.io/blog"
+                                    className="text-indigo-600 hover:text-indigo-500"
+                                  >
                                     {' '}
                                     View all posts <span aria-hidden="true">&rarr;</span>
                                   </a>
@@ -415,7 +427,10 @@ function Header() {
                       />
                     </div>
                     <div className="-mr-2">
-                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                      <Popover.Button
+                        id="mobileCloseButton"
+                        className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                      >
                         <span className="sr-only">Close menu</span>
                         <XIcon className="h-6 w-6" aria-hidden="true" />
                       </Popover.Button>
@@ -424,7 +439,7 @@ function Header() {
                   <div className="mt-6 sm:mt-8">
                     <nav>
                       <div className="grid gap-7 sm:grid-cols-2 sm:gap-y-8 sm:gap-x-4">
-                        {solutions.map((item) => (
+                        {product.map((item) => (
                           <a
                             key={item.name}
                             href={item.href}
@@ -458,35 +473,33 @@ function Header() {
                     </a> */}
 
                     <a
-                      href="#"
+                      href="https://developer.crossid.io/docs/guides/get-started"
                       className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
                     >
                       Docs
                     </a>
 
-                    <a
-                      href="#"
-                      className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                    >
-                      Company
-                    </a>
+                    <Link href="/company">
+                      <a
+                        onClick={closeMobileMenu}
+                        className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
+                      >
+                        Company
+                      </a>
+                    </Link>
 
                     <a
-                      href="#"
-                      className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
-                    >
-                      Resources
-                    </a>
-
-                    <a
-                      href="#"
+                      href="https://developer.crossid.io/blog"
                       className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
                     >
                       Blog
                     </a>
 
                     <Link href="/contact">
-                      <a className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700">
+                      <a
+                        onClick={closeMobileMenu}
+                        className="rounded-md text-base font-medium text-gray-900 hover:text-gray-700"
+                      >
                         Contact Sales
                       </a>
                     </Link>
