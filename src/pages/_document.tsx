@@ -9,12 +9,7 @@ export default class Document extends NextDocument {
 
   render() {
     return (
-      <Html
-        lang="en"
-        className={`antialiased ${
-          this.props.dangerousAsPath.startsWith('/examples/') ? '' : 'bg-white'
-        }`}
-      >
+      <Html lang="en" className="antialiased text-gray-500">
         <Head>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`} />
