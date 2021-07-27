@@ -149,7 +149,7 @@ export const ProductTeaser = () => {
 
   return (
     <section ref={ref} className="mt-40">
-      <div className="lg:grid lg:grid-cols-12 lg:gap-8 md:mt-2">
+      <div className="lg:grid lg:grid-cols-12 lg:gap-8 md:mt-2 text-black">
         <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
           <h2
             className="block mt-1 text-3xl tracking-tight font-bold sm:text-4xl xl:text-5xl"

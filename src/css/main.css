@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 /*! purgecss start ignore */
+@import 'prism.css';
 /* @import 'docsearch.css'; */
 /* @import 'bar-of-progress.css'; */
 /* @import 'bar-of-progress.css'; */
 /*! purgecss end ignore */
+
+@import 'utilities.css';

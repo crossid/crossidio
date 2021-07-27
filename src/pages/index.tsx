@@ -1,11 +1,8 @@
 import DefaultLayout from '../layouts/default'
-import useDisposableList from 'use-disposable-list'
-import Notifications, { NotificationDef } from '@/components/Notifications'
-import { useState } from 'react'
-import * as gtag from '@/lib/gtag'
 import { Hero } from '@/components/home/Hero'
 import { ProductTeaser } from '@/components/home/ProductTeaser'
 import { StartNow } from '@/components/home/StartNow'
+import { Developer } from '@/components/home/Developer'
 
 function Home() {
   return (
@@ -13,7 +10,9 @@ function Home() {
       <div className="mx-auto max-w-7xl">
         <Hero />
         <ProductTeaser />
-        <div className="pt-64" />
+        {/* a workaround for the absolute, fixed height ProductTeaser */}
+        <div className="pt-24 lg:pt-48" />
+        <Developer />
         <StartNow />
       </div>
     </main>
