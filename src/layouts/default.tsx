@@ -146,7 +146,7 @@ function Header() {
               </div>
               <div className="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between">
                 <Popover.Group as="nav" className="flex space-x-8">
-                  <Popover>
+                  {/* <Popover>
                     {({ open }) => (
                       <>
                         <Popover.Button
@@ -186,7 +186,7 @@ function Header() {
                                 >
                                   <div className="flex md:h-full lg:flex-col">
                                     <div className="flex-shrink-0">
-                                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-indigo-500 text-white sm:h-12 sm:w-12">
+                                      <span className="inline-flex items-center justify-center h-10 w-10 rounded-md bg-black text-white sm:h-12 sm:w-12">
                                         <item.icon className="h-6 w-6" aria-hidden="true" />
                                       </span>
                                     </div>
@@ -231,7 +231,7 @@ function Header() {
                         </Transition>
                       </>
                     )}
-                  </Popover>
+                  </Popover> */}
                   <Popover>
                     {({ open }) => (
                       <>

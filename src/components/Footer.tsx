@@ -131,7 +131,7 @@ export default function Footer() {
           <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
-                <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
+                {/* <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
                   Solutions
                 </h3>
                 <ul className="mt-4 space-y-4">
@@ -142,7 +142,7 @@ export default function Footer() {
                       </a>
                     </li>
                   ))}
-                </ul>
+                </ul> */}
               </div>
               {/* <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
