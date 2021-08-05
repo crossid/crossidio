@@ -14,7 +14,7 @@ import { CodeWindow, getClassNameForToken, Line } from '../CodeWindow'
 import { AnimatePresence, AnimateSharedLayout, motion, useIsPresent } from 'framer-motion'
 import { usePrevious } from '@/hooks/use-previous'
 import clsx from 'clsx'
-import { MutableRefObject } from 'react'
+import { useOnScreen } from '@/hooks/use-on-screen'
 // import VueLogo from '@/img/icons/vue.svg'
 // import JSLogo from '@/img/icons/js.svg'
 
@@ -132,14 +132,39 @@ const lineRanges: Record<string, number[]> = {
   'AuthButton.tsx:signout-btn-hover': [14, 20],
 }
 
+const elements: { [e: string]: string } = {
+  public: 'App.tsx:public-btn-hover',
+  protected: 'App.tsx:protected-btn-hover',
+  signout: 'AuthButton.tsx:signout-btn-hover',
+}
+
 export function Developer() {
   const [framework, setFramework] = useState('react')
   const [states, setStates] = useState<string[]>([])
-  const [selectedItem, setSelectedItem] = useState('public')
+  const [selectedItem, setSelectedItem] = useState('')
+  const ref: any = useRef<HTMLDivElement>()
+  const observe: boolean = useOnScreen<HTMLDivElement>(ref, '-20px')
+  const [play, setPlay] = useState(true)
+
+  useEffect(() => {
+    if (play && observe) {
+      const keys = Object.keys(elements)
+      const idx = keys.findIndex((f) => f === selectedItem)
+      const nextIdx = idx === keys.length - 1 ? 0 : idx + 1
+      const timeoutID = window.setTimeout(() => {
+        setSelectedItem(keys[nextIdx])
+        setStates((states) => [elements[keys[nextIdx]]])
+      }, 4000)
+
+      return () => {
+        window.clearTimeout(timeoutID)
+      }
+    }
+  }, [selectedItem, play, observe])
 
   return (
-    <section id="developer">
-      <div className="px-4 sm:px-6 md:px-8 mb-10 sm:mb-16 md:mb-20">
+    <section id="developer" ref={ref}>
+      <div className="px-4 sm:px-6 md:px-8 mb-10 sm:mb-16 md:mb-20 mt-8 lg:mt-24">
         <IconContainer className={`${gradients.indigo[0]} mb-8`}>
           <Icon />
         </IconContainer>
@@ -207,12 +232,12 @@ export function Developer() {
                           selectedItem === 'public' && 'text-indigo-700 bg-indigo-100'
                         )}
                         onMouseEnter={() => {
-                          setStates((states) => [...states, 'App.tsx:public-btn-hover'])
+                          setPlay(false)
+                          setStates((states) => [elements['public']])
+                          setSelectedItem('public')
                         }}
                         onMouseLeave={() => {
-                          setStates((states) =>
-                            states.filter((x) => x !== 'App.tsx:public-btn-hover')
-                          )
+                          setStates((states) => states.filter((x) => x !== elements['public']))
                         }}
                       >
                         Public
@@ -222,17 +247,15 @@ export function Developer() {
                       <div
                         className={clsx(
                           'px-4 py-2 rounded-md cursor-pointer',
-                          selectedItem !== 'public' && 'text-indigo-700 bg-indigo-100'
+                          selectedItem === 'protected' && 'text-indigo-700 bg-indigo-100'
                         )}
                         onMouseEnter={() => {
-                          setStates((states) => [...states, 'App.tsx:protected-btn-hover'])
+                          setPlay(false)
+                          setStates((states) => [elements['protected']])
                           setSelectedItem('protected')
                         }}
                         onMouseLeave={() => {
-                          setStates((states) =>
-                            states.filter((x) => x !== 'App.tsx:protected-btn-hover')
-                          )
-                          setSelectedItem('public')
+                          setStates((states) => states.filter((x) => x !== elements['protected']))
                         }}
                       >
                         Protected
@@ -241,16 +264,17 @@ export function Developer() {
                   </ul>
                 </nav>
                 <div
-                  className="hover:bg-indigo-200 hover:text-indigo-800 group flex items-center rounded-md bg-indigo-100 text-indigo-600 text-xs font-medium px-2 py-1 cursor-pointer"
+                  className={clsx(
+                    'hover:bg-indigo-200 hover:text-indigo-800 group flex items-center rounded-md text-xs font-medium px-2 py-1 cursor-pointer',
+                    selectedItem === 'signout' && 'text-indigo-700 bg-indigo-100'
+                  )}
                   onMouseEnter={() => {
-                    setStates((states) => [...states, 'AuthButton.tsx:signout-btn-hover'])
+                    setPlay(false)
+                    setStates((states) => [elements['signout']])
                     setSelectedItem('signout')
                   }}
                   onMouseLeave={() => {
-                    setStates((states) =>
-                      states.filter((x) => x !== 'AuthButton.tsx:signout-btn-hover')
-                    )
-                    setSelectedItem('public')
+                    setStates((states) => states.filter((x) => x !== elements['signout']))
                   }}
                 >
                   <LogoutIcon
