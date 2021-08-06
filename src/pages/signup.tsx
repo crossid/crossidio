@@ -193,7 +193,7 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
     }
 
     setInSubmit(true)
-    fetch(`https://${tenantId}/api/global/tenants`, {
+    fetch(`https://cid.crossid.io/api/global/v1/tenants/.register`, {
       method: 'POST',
       body: JSON.stringify(body),
     })
