@@ -6,3 +6,8 @@
   transition-duration: 0.5s;
   transition-property: background-color, border-color, color, fill, stroke;
 }
+
+::selection {
+  color: #fff;
+  background: #4f46e5;
+}
