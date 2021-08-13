@@ -1,7 +1,10 @@
 import Notifications, { NotificationDef } from '@/components/Notifications'
 import NoLayout from '@/layouts/none'
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/outline'
 import { CheckCircleIcon } from '@heroicons/react/solid'
-import { useEffect, useState } from 'react'
+import clsx from 'clsx'
+import { Dispatch, Fragment, SetStateAction, useEffect, useMemo, useState } from 'react'
 import useDisposableList from 'use-disposable-list'
 
 function isEmail(email: string) {
@@ -18,6 +21,30 @@ const features = [
   { name: 'SSO via OAuth2', icon: CheckCircleIcon },
   { name: 'Social providers', icon: CheckCircleIcon },
   { name: 'Passwordless authentication', icon: CheckCircleIcon },
+]
+
+interface env {
+  id: string
+  title: string
+  description: string
+  current: boolean
+  disabled?: boolean
+}
+
+const envs: env[] = [
+  {
+    id: 'preview',
+    title: 'Preview',
+    description: 'Latest features, non production.',
+    current: false,
+  },
+  {
+    id: 'prod',
+    title: 'Production Environment',
+    description: 'Stable, for production use..',
+    current: true,
+    disabled: true,
+  },
 ]
 
 function Signup() {
@@ -133,6 +160,7 @@ function Signup() {
 
 const Form = ({ onSuccess }: { onSuccess: Function }) => {
   const [tenantId, setTenantId] = useState('')
+  const [isTenantManual, setTenantManual] = useState(false)
   const [form, setForm] = useState({
     fullName: '',
     email: '',
@@ -147,7 +175,12 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
     timeout: 2000,
   })
 
+  const [env, setEnv] = useState(envs[0])
+
   useEffect(() => {
+    if (isTenantManual) {
+      return
+    }
     const { email } = form
     let tid = ''
     if (isEmail(email)) {
@@ -160,7 +193,7 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
     }
 
     if (tid) {
-      setTenantId(tid + '.crossid.io')
+      setTenantId(tid)
     }
   }, [form.email])
 
@@ -185,6 +218,7 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
 
     const body = {
       type: 'developer',
+      tenantId,
       user: {
         displayName: form.fullName,
         email: form.email,
@@ -192,8 +226,10 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
       },
     }
 
+    const base = 'crossid.io/api/global/v1/tenants/.register'
+    const url = env.id === 'preview' ? `https://root.preview.${base}` : `https://root.${base}`
     setInSubmit(true)
-    fetch(`https://cid.crossid.io/api/global/v1/tenants/.register`, {
+    fetch(url, {
       method: 'POST',
       body: JSON.stringify(body),
     })
@@ -350,9 +386,35 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
               </div>
 
               <div>
+                <label htmlFor="account" className="sr-only">
+                  Account
+                </label>
+                <input
+                  type="text"
+                  name="account"
+                  id="account"
+                  autoComplete="off"
+                  placeholder="Account identifier"
+                  required
+                  onFocus={(event) => event.target.select()}
+                  className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                  value={tenantId}
+                  onChange={(e) => {
+                    setTenantId(e.target.value)
+                    setTenantManual(true)
+                  }}
+                />
+              </div>
+
+              <div>
+                <ListBox selected={env} setSelected={setEnv} />
+              </div>
+
+              <div>
                 <button
                   type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  disabled={inSubmit}
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-60"
                 >
                   Get Started
                 </button>
@@ -379,6 +441,80 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
         </div>
       </div>
     </>
+  )
+}
+
+function ListBox({
+  selected,
+  setSelected,
+}: {
+  selected: env
+  setSelected: Dispatch<SetStateAction<env>>
+}) {
+  return (
+    <Listbox value={selected} onChange={setSelected}>
+      {({ open }) => (
+        <>
+          <Listbox.Label className="sr-only">Change published status</Listbox.Label>
+          <div className="relative">
+            <div className="inline-flex w-full shadow-sm rounded-md divide-x divide-indigo-700">
+              <div className="relative z-0 inline-flex w-full justify-center shadow-sm rounded-md divide-x divide-indigo-700">
+                <div className="relative inline-flex w-full bg-indigo-600 py-2 pl-3 pr-4 border border-transparent rounded-l-md shadow-sm text-white">
+                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                  <p className="ml-2.5 text-sm w-full text-center font-medium">{selected.title}</p>
+                </div>
+                <Listbox.Button className="relative inline-flex items-center bg-indigo-600 p-2 rounded-l-none rounded-r-md text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:z-10 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
+                  <span className="sr-only">Change published status</span>
+                  <ChevronDownIcon className="h-5 w-5 text-white" aria-hidden="true" />
+                </Listbox.Button>
+              </div>
+            </div>
+
+            <Transition
+              show={open}
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Listbox.Options className="origin-top-right absolute z-10 right-0 mt-2 w-72 rounded-md shadow-lg overflow-hidden bg-white divide-y divide-gray-200 ring-1 ring-black ring-opacity-5 focus:outline-none">
+                {envs.map((option) => (
+                  <Listbox.Option
+                    key={option.title}
+                    disabled={option.disabled}
+                    className={({ active }) =>
+                      clsx(
+                        active ? 'text-white bg-indigo-500' : 'text-gray-900',
+                        'cursor-default select-none relative p-4 text-sm'
+                      )
+                    }
+                    value={option}
+                  >
+                    {({ selected, active }) => (
+                      <div className="flex flex-col">
+                        <div className="flex justify-between">
+                          <p className={selected ? 'font-semibold' : 'font-normal'}>
+                            {option.title}
+                          </p>
+                          {selected ? (
+                            <span className={active ? 'text-white' : 'text-indigo-500'}>
+                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                            </span>
+                          ) : null}
+                        </div>
+                        <p className={clsx(active ? 'text-indigo-200' : 'text-gray-500', 'mt-2')}>
+                          {option.description}
+                        </p>
+                      </div>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+          </div>
+        </>
+      )}
+    </Listbox>
   )
 }
 
