@@ -33,6 +33,7 @@ import {
 } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
+import Logo from '@/components/Logo'
 
 const product = [
   {
@@ -129,12 +130,7 @@ function Header() {
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                     alt=""
                   /> */}
-                    <p>
-                      <span className="bg-black px-2 rounded-md text-white text-3xl">C</span>
-                      <span className="ml-1 rounded-md text-indigo-600 text-2xl font-logo">
-                        Crossid
-                      </span>
-                    </p>
+                    <Logo />
                   </a>
                 </Link>
               </div>
