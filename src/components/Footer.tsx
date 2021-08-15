@@ -1,8 +1,9 @@
 import Link from 'next/link'
+import { features } from '../features'
 
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = {
-  features: [{ name: 'Identity Store', href: '/store' }],
+  features: features,
   solutions: [
     { name: 'Marketing', href: '#' },
     { name: 'Analytics', href: '#' },
@@ -137,9 +138,9 @@ export default function Footer() {
                 </h3>
                 <ul className="mt-4 space-y-4">
                   {navigation.features.map((item) => (
-                    <li key={item.name}>
+                    <li key={item.id}>
                       <Link href={item.href}>
-                        <a className="text-base text-gray-500 hover:text-gray-900">{item.name}</a>
+                        <a className="text-base text-gray-500 hover:text-gray-900">{item.title}</a>
                       </Link>
                     </li>
                   ))}

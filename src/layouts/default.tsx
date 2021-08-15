@@ -25,33 +25,8 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import Logo from '@/components/Logo'
+import { features } from 'features'
 
-const features = [
-  {
-    name: 'Identity Store',
-    description: 'Manage users, groups and devices at scale.',
-    href: '/store',
-    icon: UserIcon,
-  },
-  // {
-  //   name: 'Authentication',
-  //   description: 'Sign users in, securely.',
-  //   href: '#',
-  //   icon: CursorClickIcon,
-  // },
-  // {
-  //   name: 'Security',
-  //   description: "Your customers' data will be safe and secure.",
-  //   href: '#',
-  //   icon: ShieldCheckIcon,
-  // },
-  // {
-  //   name: 'Integrations',
-  //   description: "Connect with third-party tools that you're already using.",
-  //   href: '#',
-  //   icon: ViewGridIcon,
-  // },
-]
 const callsToAction = [
   // { name: 'Watch Demo', href: '#', icon: PlayIcon },
   { name: 'Contact Sales', href: 'contact', icon: MailIcon },

@@ -3,8 +3,11 @@ import HeroScreenshot from '@/img/products/store/hero.png'
 import EntitlementsScreenshot from '@/img/products/store/group_entitlements.png'
 import AddRuleScreenshot from '@/img/products/store/add_rule.png'
 import { ReactNode } from 'react'
+import { features } from '../features'
 
 // const product = products.filter((p) => p.title === 'Store')[0]
+
+const store = features.filter((f) => f.id == 'store')[0]
 
 const Hero = () => {
   return (
@@ -372,7 +375,7 @@ export default function Store() {
 Store.layoutProps = {
   Layout: DefaultLayout,
   meta: {
-    title: 'TODO',
-    description: 'TODO!!!',
+    title: store.title,
+    description: store.description,
   },
 }
