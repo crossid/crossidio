@@ -1,20 +1,12 @@
 import Footer from '../components/Footer'
 
 /* This example requires Tailwind CSS v2.0+ */
-import {
-  ButtonHTMLAttributes,
-  Fragment,
-  MouseEventHandler,
-  ReactNode,
-  useRef,
-  useState,
-} from 'react'
+import { Fragment, ReactNode, useRef, useState } from 'react'
 import Link from 'next/link'
 import { Popover, Transition } from '@headlessui/react'
 import {
   BookmarkAltIcon,
   BriefcaseIcon,
-  CursorClickIcon,
   DesktopComputerIcon,
   GlobeAltIcon,
   InformationCircleIcon,
@@ -23,7 +15,6 @@ import {
   OfficeBuildingIcon,
   ShieldCheckIcon,
   UserGroupIcon,
-  ViewGridIcon,
   XIcon,
   MailIcon,
   DocumentTextIcon,
@@ -35,7 +26,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import Logo from '@/components/Logo'
 
-const product = [
+const features = [
   {
     name: 'Identity Store',
     description: 'Manage users, groups and devices at scale.',
@@ -149,7 +140,7 @@ function Header() {
                           ref={solutionButtonRef}
                           className="group bg-white rounded-md inline-flex items-center text-base font-bold text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                          <span>Product</span>
+                          <span>Features</span>
                           <ChevronDownIcon
                             className={clsx(
                               'text-black ml-2 h-5 w-5 transform ease-in-out duration-150',
@@ -174,7 +165,7 @@ function Header() {
                             className="hidden md:block absolute z-10 top-full inset-x-0 transform shadow-lg bg-white"
                           >
                             <div className="max-w-7xl mx-auto grid gap-y-6 px-4 py-6 sm:grid-cols-2 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-4 lg:px-8 lg:py-12 xl:py-16">
-                              {product.map((item) => (
+                              {features.map((item) => (
                                 <a
                                   key={item.name}
                                   href={item.href}
@@ -435,7 +426,7 @@ function Header() {
                   <div className="mt-6 sm:mt-8">
                     <nav>
                       <div className="grid gap-7 sm:grid-cols-2 sm:gap-y-8 sm:gap-x-4">
-                        {product.map((item) => (
+                        {features.map((item) => (
                           <a
                             key={item.name}
                             href={item.href}

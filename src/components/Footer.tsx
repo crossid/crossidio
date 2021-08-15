@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = {
-  product: [{ name: 'Identity Store', href: '/store' }],
+  features: [{ name: 'Identity Store', href: '/store' }],
   solutions: [
     { name: 'Marketing', href: '#' },
     { name: 'Analytics', href: '#' },
@@ -133,10 +133,10 @@ export default function Footer() {
             <div className="md:grid md:grid-cols-2 md:gap-8">
               <div>
                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">
-                  Product
+                  Features
                 </h3>
                 <ul className="mt-4 space-y-4">
-                  {navigation.product.map((item) => (
+                  {navigation.features.map((item) => (
                     <li key={item.name}>
                       <Link href={item.href}>
                         <a className="text-base text-gray-500 hover:text-gray-900">{item.name}</a>
