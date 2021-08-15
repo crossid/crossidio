@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 
 function Login() {
-  const [domain, setDomain] = useState('crossid.io')
+  const [domain, setDomain] = useState('preview.crossid.io')
   const [tenantId, setTenantId] = useState('')
 
   function submit(e: FormEvent<HTMLFormElement>) {
@@ -11,7 +11,7 @@ function Login() {
     if (!tenantId || tenantId.length < 3) {
       return
     }
-    window.location.href = `https://${tenantId}.${domain}/auth/login`
+    window.location.href = `https://${tenantId}.${domain}/admin`
   }
 
   return (
@@ -23,12 +23,12 @@ function Login() {
           alt="Workflow"
         /> */}
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Login</h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        {/* <p className="mt-2 text-center text-sm text-gray-600">
           Or{' '}
           <Link href="/signup">
             <a className="font-medium text-indigo-600 hover:text-indigo-500">sign up for free</a>
           </Link>
-        </p>
+        </p> */}
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -45,7 +45,7 @@ function Login() {
                   name="tenantId"
                   id="tenantId"
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-12 sm:text-sm border-gray-300 rounded-md"
-                  placeholder="my-org"
+                  placeholder="my-tenant"
                   value={tenantId}
                   onChange={(e) => setTenantId(e.target.value)}
                 />
@@ -60,8 +60,8 @@ function Login() {
                     onChange={(e) => setDomain(e.target.value)}
                     value={domain}
                   >
-                    <option>.crossid.io</option>
-                    {/* <option>.crossid-preview.io</option> */}
+                    {/* <option>.crossid.io</option> */}
+                    <option>.crossid-preview.io</option>
                   </select>
                 </div>
               </div>
@@ -89,12 +89,17 @@ function Login() {
 
             <div className="mt-6">
               <div className="text-sm">
-                <a
-                  href="#"
+                <Link href="/signup">
+                  <a className="font-medium text-indigo-600 hover:text-indigo-500 w-full inline-flex justify-center">
+                    Sign up for free
+                  </a>
+                </Link>
+                {/* <a
+                  href="https://developer.crossid.io/"
                   className="w-full inline-flex justify-center font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Don't know your org?
-                </a>
+                  Don't know your tenant?
+                </a> */}
               </div>
             </div>
           </div>
