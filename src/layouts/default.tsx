@@ -37,29 +37,29 @@ import Logo from '@/components/Logo'
 
 const product = [
   {
-    name: 'Cross Directory',
+    name: 'Identity Store',
     description: 'Manage users, groups and devices at scale.',
-    href: '/directory',
+    href: '/store',
     icon: UserIcon,
   },
-  {
-    name: 'Authentication',
-    description: 'Sign users in, securely.',
-    href: '#',
-    icon: CursorClickIcon,
-  },
-  {
-    name: 'Security',
-    description: "Your customers' data will be safe and secure.",
-    href: '#',
-    icon: ShieldCheckIcon,
-  },
-  {
-    name: 'Integrations',
-    description: "Connect with third-party tools that you're already using.",
-    href: '#',
-    icon: ViewGridIcon,
-  },
+  // {
+  //   name: 'Authentication',
+  //   description: 'Sign users in, securely.',
+  //   href: '#',
+  //   icon: CursorClickIcon,
+  // },
+  // {
+  //   name: 'Security',
+  //   description: "Your customers' data will be safe and secure.",
+  //   href: '#',
+  //   icon: ShieldCheckIcon,
+  // },
+  // {
+  //   name: 'Integrations',
+  //   description: "Connect with third-party tools that you're already using.",
+  //   href: '#',
+  //   icon: ViewGridIcon,
+  // },
 ]
 const callsToAction = [
   // { name: 'Watch Demo', href: '#', icon: PlayIcon },
@@ -142,7 +142,7 @@ function Header() {
               </div>
               <div className="hidden lg:flex-1 lg:flex lg:items-center lg:justify-between">
                 <Popover.Group as="nav" className="flex space-x-8">
-                  {/* <Popover>
+                  <Popover>
                     {({ open }) => (
                       <>
                         <Popover.Button
@@ -227,7 +227,7 @@ function Header() {
                         </Transition>
                       </>
                     )}
-                  </Popover> */}
+                  </Popover>
                   <Popover>
                     {({ open }) => (
                       <>
