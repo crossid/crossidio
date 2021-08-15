@@ -2,7 +2,7 @@ import Notifications, { NotificationDef } from '@/components/Notifications'
 import NoLayout from '@/layouts/none'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/outline'
-import { CheckCircleIcon } from '@heroicons/react/solid'
+import { CheckCircleIcon, CloudIcon, CodeIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import { Dispatch, Fragment, SetStateAction, useEffect, useMemo, useState } from 'react'
 import useDisposableList from 'use-disposable-list'
@@ -27,6 +27,7 @@ interface env {
   id: string
   title: string
   description: string
+  icon: React.ElementType
   current: boolean
   disabled?: boolean
 }
@@ -34,14 +35,16 @@ interface env {
 const envs: env[] = [
   {
     id: 'preview',
-    title: 'Preview',
+    title: 'Preview Stage',
     description: 'Latest features, non production.',
+    icon: CodeIcon,
     current: false,
   },
   {
     id: 'prod',
-    title: 'Production Environment',
+    title: 'Production Stage',
     description: 'Stable, for production use..',
+    icon: CloudIcon,
     current: true,
     disabled: true,
   },
@@ -394,7 +397,7 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
                   name="account"
                   id="account"
                   autoComplete="off"
-                  placeholder="Account identifier"
+                  placeholder="Tenant ID"
                   required
                   onFocus={(event) => event.target.select()}
                   className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
@@ -457,14 +460,14 @@ function ListBox({
         <>
           <Listbox.Label className="sr-only">Change published status</Listbox.Label>
           <div className="relative">
-            <div className="inline-flex w-full shadow-sm rounded-md divide-x divide-indigo-700">
-              <div className="relative z-0 inline-flex w-full justify-center shadow-sm rounded-md divide-x divide-indigo-700">
-                <div className="relative inline-flex w-full bg-indigo-600 py-2 pl-3 pr-4 border border-transparent rounded-l-md shadow-sm text-white">
-                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
+            <div className="inline-flex w-full rounded-md divide-x divide-indigo-700">
+              <div className="relative z-0 inline-flex w-full justify-center rounded-md divide-x divide-indigo-700">
+                <div className="relative inline-flex w-full bg-white py-2 pl-3 pr-4 border border-gray-300 rounded-l-md">
+                  <selected.icon className="h-5 w-5" aria-hidden="true" />
                   <p className="ml-2.5 text-sm w-full text-center font-medium">{selected.title}</p>
                 </div>
                 <Listbox.Button className="relative inline-flex items-center bg-indigo-600 p-2 rounded-l-none rounded-r-md text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:z-10 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">
-                  <span className="sr-only">Change published status</span>
+                  <span className="sr-only">Change env</span>
                   <ChevronDownIcon className="h-5 w-5 text-white" aria-hidden="true" />
                 </Listbox.Button>
               </div>
