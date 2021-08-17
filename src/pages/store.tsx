@@ -94,7 +94,7 @@ const StoreSection = () => (
             />
             <FeatureItem
               title="Ownership"
-              description="Link users to their identity Identity and entitlements ownership with automated correlations and orphan correction tools."
+              description="Link users to their identity with automated correlations tools."
             />
             <FeatureItem
               title="Audit Log"
