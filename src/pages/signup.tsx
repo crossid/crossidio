@@ -389,13 +389,13 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
               </div>
 
               <div>
-                <label htmlFor="account" className="sr-only">
-                  Account
+                <label htmlFor="tenant" className="sr-only">
+                  Tenant
                 </label>
                 <input
                   type="text"
-                  name="account"
-                  id="account"
+                  name="tenant"
+                  id="tenant"
                   autoComplete="off"
                   placeholder="Tenant ID"
                   required
@@ -403,7 +403,9 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
                   className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
                   value={tenantId}
                   onChange={(e) => {
-                    setTenantId(e.target.value)
+                    let value = e.target.value
+                    value = value.replace(/[^a-z0-9]/g, '')
+                    setTenantId(value)
                     setTenantManual(true)
                   }}
                 />
