@@ -142,7 +142,7 @@ function Header() {
                             <div className="max-w-7xl mx-auto grid gap-y-6 px-4 py-6 sm:grid-cols-2 sm:gap-8 sm:px-6 sm:py-8 lg:grid-cols-4 lg:px-8 lg:py-12 xl:py-16">
                               {features.map((item) => (
                                 <a
-                                  key={item.name}
+                                  key={item.id}
                                   href={item.href}
                                   className="-m-3 p-3 flex flex-col justify-between rounded-lg hover:bg-gray-50"
                                 >
@@ -155,7 +155,7 @@ function Header() {
                                     <div className="ml-4 md:flex-1 md:flex md:flex-col md:justify-between lg:ml-0 lg:mt-4">
                                       <div>
                                         <p className="text-base font-medium text-gray-900">
-                                          {item.name}
+                                          {item.title}
                                         </p>
                                         <p className="mt-1 text-sm text-gray-500">
                                           {item.description}
@@ -403,7 +403,7 @@ function Header() {
                       <div className="grid gap-7 sm:grid-cols-2 sm:gap-y-8 sm:gap-x-4">
                         {features.map((item) => (
                           <a
-                            key={item.name}
+                            key={item.id}
                             href={item.href}
                             className="-m-3 flex items-center p-3 rounded-lg hover:bg-gray-50"
                           >
@@ -411,7 +411,7 @@ function Header() {
                               <item.icon className="h-6 w-6" aria-hidden="true" />
                             </div>
                             <div className="ml-4 text-base font-medium text-gray-900">
-                              {item.name}
+                              {item.title}
                             </div>
                           </a>
                         ))}
