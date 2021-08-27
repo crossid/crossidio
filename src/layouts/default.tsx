@@ -96,7 +96,7 @@ function Header() {
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                     alt=""
                   /> */}
-                    <Logo />
+                    <Logo kind="light" />
                   </a>
                 </Link>
               </div>

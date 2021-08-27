@@ -1,3 +1,4 @@
+import Logo from '@/components/Logo'
 import Notifications, { NotificationDef } from '@/components/Notifications'
 import NoLayout from '@/layouts/none'
 import { Listbox, Transition } from '@headlessui/react'
@@ -79,6 +80,9 @@ function Signup() {
         </svg>
       </div>
       <div className="relative pt-2 lg:pt-12 pb-16 sm:pb-36">
+        <header className="ml-4 lg:ml-12">
+          <Logo kind="dark" />
+        </header>
         <main className="mt-16 sm:mt-24">
           <div className="mx-auto max-w-7xl">
             <div className="lg:grid lg:grid-cols-12 lg:gap-8">

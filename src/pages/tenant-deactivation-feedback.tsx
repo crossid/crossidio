@@ -8,7 +8,7 @@ function DeactivationFeedback() {
       <div className="max-w-max mx-auto">
         <main className="sm:flex">
           <p className="text-4xl text-indigo-600 sm:text-5xl">
-            <Logo />
+            <Logo kind="light" />
           </p>
           <div className="sm:ml-6">
             <div className="sm:border-l sm:border-gray-200 sm:pl-6">

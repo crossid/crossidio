@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { features } from '../features'
+import Logo from './Logo'
 
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = {
@@ -118,8 +119,7 @@ export default function Footer() {
               src="https://tailwindui.com/img/logos/workflow-mark-gray-300.svg"
               alt="Company name"
             /> */}
-            <span className="bg-gray-300 px-2 rounded-md text-white text-4xl">C</span>
-            <span className="ml-1 rounded-md text-gray-300 text-2xl font-logo">Crossid</span>
+            <Logo kind="grayscale" />
             <p className="text-gray-500 text-base">Identity, seamlessly.</p>
             <div className="flex space-x-6">
               {navigation.social.map((item) => (
