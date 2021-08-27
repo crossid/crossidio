@@ -20,7 +20,7 @@ const Hero = () => {
                 <span className="block">Manage Users.</span>
               </h2>
               <p className={`mt-8 text-lg leading-6`}>
-                Unify the management of identities, privileges and devices in one place.
+                Unified management of user profiles, privileges and devices at scale.
               </p>
             </div>
           </div>
