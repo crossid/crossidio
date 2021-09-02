@@ -61,12 +61,27 @@ const developer = [
 const blogPosts = [
   {
     id: 1,
-    name: 'What is SCIM',
-    href: 'https://developer.crossid.io/blog/what-is-scim',
+    name: 'Echo with OAuth2',
+    href: 'https://developer.crossid.io/blog/echo-with-oauth2',
     preview:
-      'The protocol to manage user identity in cloud-based applications and services in a standardized way.',
-    imageUrl: 'https://www.thousandeyes.com/dA/ffba0ead06/Featured-Image-SCIM-Blog.png',
+      'Show to protect Echo endpoints with access token issued by Crossid OAuth2 auth server.',
+    imageUrl: 'https://avatars.githubusercontent.com/u/2624634',
   },
+  {
+    id: 2,
+    name: 'Oauth2-Proxy with Crossid',
+    href: 'https://developer.crossid.io/blog/oauth2-proxy',
+    preview: 'Protect your apps and files using oauth2-proxy identity awareness proxy.',
+    imageUrl: 'https://oauth2-proxy.github.io/oauth2-proxy/img/logos/OAuth2_Proxy_icon.svg',
+  },
+  // {
+  //   id: 2,
+  //   name: 'What is SCIM',
+  //   href: 'https://developer.crossid.io/blog/what-is-scim',
+  //   preview:
+  //     'The protocol to manage user identity in cloud-based applications and services in a standardized way.',
+  //   imageUrl: 'https://www.thousandeyes.com/dA/ffba0ead06/Featured-Image-SCIM-Blog.png',
+  // },
 ]
 
 function classNames(...classes: string[]) {
@@ -290,7 +305,7 @@ function Header() {
                                         >
                                           <div className="hidden sm:block flex-shrink-0">
                                             <img
-                                              className="w-32 h-20 object-cover rounded-md"
+                                              className="w-20 h-20 object-cover rounded-md"
                                               src={post.imageUrl}
                                               alt=""
                                             />
