@@ -61,22 +61,31 @@ const developer = [
 const blogPosts = [
   {
     id: 1,
-    name: 'Echo with OAuth2',
+    name: 'Deploy identity-aware Monorepo on DigitalOcean.',
+    href: 'https://developer.crossid.io/blog/do-crossid-monorepo',
+    preview:
+      'See how you can deploy frontend and backend components with identity-awareness on DigitalOcean in minutes.',
+    imageUrl:
+      'https://images.prismic.io/www-static/72f5e1f3-5df0-40c0-8c7f-4d85f3ec0c92_AP-blog-banner.png?auto=compress,format',
+  },
+  {
+    id: 2,
+    name: 'Echo with OAuth2.',
     href: 'https://developer.crossid.io/blog/echo-with-oauth2',
     preview:
       'Show to protect Echo endpoints with access token issued by Crossid OAuth2 auth server.',
     imageUrl: 'https://avatars.githubusercontent.com/u/2624634',
   },
-  {
-    id: 2,
-    name: 'Oauth2-Proxy with Crossid',
-    href: 'https://developer.crossid.io/blog/oauth2-proxy',
-    preview: 'Protect your apps and files using oauth2-proxy identity awareness proxy.',
-    imageUrl: 'https://oauth2-proxy.github.io/oauth2-proxy/img/logos/OAuth2_Proxy_icon.svg',
-  },
+  // {
+  //   id: 3,
+  //   name: 'Oauth2-Proxy with Crossid.',
+  //   href: 'https://developer.crossid.io/blog/oauth2-proxy',
+  //   preview: 'Protect your apps and files using oauth2-proxy identity awareness proxy.',
+  //   imageUrl: 'https://oauth2-proxy.github.io/oauth2-proxy/img/logos/OAuth2_Proxy_icon.svg',
+  // },
   // {
   //   id: 2,
-  //   name: 'What is SCIM',
+  //   name: 'What is SCIM.',
   //   href: 'https://developer.crossid.io/blog/what-is-scim',
   //   preview:
   //     'The protocol to manage user identity in cloud-based applications and services in a standardized way.',
