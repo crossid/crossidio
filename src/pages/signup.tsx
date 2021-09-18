@@ -35,19 +35,18 @@ interface env {
 
 const envs: env[] = [
   {
-    id: 'preview',
-    title: 'Preview Stage',
-    description: 'Latest features, non production.',
-    icon: CodeIcon,
-    current: false,
-  },
-  {
     id: 'prod',
     title: 'Production Stage',
     description: 'Stable, for production use..',
     icon: CloudIcon,
     current: true,
-    disabled: true,
+  },
+  {
+    id: 'preview',
+    title: 'Preview Stage',
+    description: 'Latest features, non production.',
+    icon: CodeIcon,
+    current: false,
   },
 ]
 
