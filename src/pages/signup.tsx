@@ -176,6 +176,7 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
   const [inSubmit, setInSubmit] = useState(false)
   const [errors, setErrors] = useState({
     password: '',
+    tenantId: '',
   })
   const [notifs, addNotif, removeNotif] = useDisposableList<NotificationDef>({
     timeout: 2000,
@@ -205,9 +206,9 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
 
   const handleChange = (e: any) => {
     if (e.target.name === 'password' && e.target.value.length < 8) {
-      setErrors({ password: 'Minimum 8 chars' })
+      setErrors({ ...errors, password: 'Minimum 8 chars' })
     } else {
-      setErrors({ password: '' })
+      setErrors({ ...errors, password: '' })
     }
     setForm({ ...form, [e.target.name]: e.target.value })
   }
@@ -242,6 +243,8 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
       .then((r) => {
         if (r.status === 200) {
           onSuccess()
+        } else if (r.status === 409) {
+          setErrors({ ...errors, tenantId: `Tenant "${tenantId}" already exists.` })
         } else {
           addNotif({
             message: 'Failed to register account, please try again later.',
@@ -412,6 +415,9 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
                     setTenantManual(true)
                   }}
                 />
+                <span className="block text-xs text-indigo-500 h-2 min-h-full">
+                  {isSubmitted && errors.tenantId && errors.tenantId}
+                </span>
               </div>
 
               <div>
