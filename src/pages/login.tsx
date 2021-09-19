@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { FormEvent, useState } from 'react'
 
 function Login() {
-  const [domain, setDomain] = useState('preview.crossid.io')
+  const [domain, setDomain] = useState('.crossid.io')
   const [tenantId, setTenantId] = useState('')
 
   function submit(e: FormEvent<HTMLFormElement>) {
@@ -11,7 +11,7 @@ function Login() {
     if (!tenantId || tenantId.length < 3) {
       return
     }
-    window.location.href = `https://${tenantId}.${domain}/admin`
+    window.location.href = `https://${tenantId}${domain}/admin`
   }
 
   return (
@@ -37,7 +37,7 @@ function Login() {
             <div>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <label htmlFor="tenantId" className="sr-only">
-                  Org ID
+                  Tenant ID
                 </label>
                 <input
                   type="text"
@@ -60,8 +60,8 @@ function Login() {
                     onChange={(e) => setDomain(e.target.value)}
                     value={domain}
                   >
-                    {/* <option>.crossid.io</option> */}
-                    <option>.crossid-preview.io</option>
+                    <option>.crossid.io</option>
+                    <option>.preview.crossid.io</option>
                   </select>
                 </div>
               </div>
