@@ -170,12 +170,10 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
   const [form, setForm] = useState({
     fullName: '',
     email: '',
-    password: '',
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [inSubmit, setInSubmit] = useState(false)
   const [errors, setErrors] = useState({
-    password: '',
     tenantId: '',
   })
   const [notifs, addNotif, removeNotif] = useDisposableList<NotificationDef>({
@@ -205,11 +203,6 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
   }, [form.email])
 
   const handleChange = (e: any) => {
-    if (e.target.name === 'password' && e.target.value.length < 8) {
-      setErrors({ ...errors, password: 'Minimum 8 chars' })
-    } else {
-      setErrors({ ...errors, password: '' })
-    }
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
@@ -219,9 +212,6 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
     // if (Object.keys(errors).filter((k: string) => errors[k] !== '').length > 0) {
     // return
     // }
-    if (errors['password'] != '') {
-      return
-    }
 
     const body = {
       type: 'developer',
@@ -229,7 +219,6 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
       user: {
         displayName: form.fullName,
         email: form.email,
-        password: form.password,
       },
     }
 
@@ -372,26 +361,6 @@ const Form = ({ onSuccess }: { onSuccess: Function }) => {
                   value={form.email}
                   onChange={handleChange}
                 />
-              </div>
-
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  autoComplete="current-password"
-                  required
-                  className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-                  value={form.password}
-                  onChange={handleChange}
-                />
-                <span className="block text-xs text-indigo-500 h-2 min-h-full">
-                  {isSubmitted && errors.password && errors.password}
-                </span>
               </div>
 
               <div>
