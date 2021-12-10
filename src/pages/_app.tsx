@@ -1,4 +1,4 @@
-import { useEffect, Fragment, ReactNode } from 'react'
+import React, { useEffect, Fragment, ReactNode } from 'react'
 import '../css/fonts.css'
 import '../css/main.css'
 import Router from 'next/router'
@@ -8,6 +8,8 @@ import Head from 'next/head'
 import * as gtag from '@/lib/gtag'
 // import twitterLargeCard from '@/img/crossid-large-card.jpg'
 import ProgressBar from '@badrap/bar-of-progress'
+import { IntercomProvider, useIntercom } from 'react-use-intercom'
+const INTERCOM_APP_ID = 'j176kjoq'
 
 const progress = new ProgressBar({
   size: 2,
@@ -84,7 +86,9 @@ export default function App({
       </Head>
       {/* <ToastProvider> */}
       <Layout {...layoutProps}>
-        <Component {...pageProps} />
+        <IntercomProvider appId={INTERCOM_APP_ID} autoBoot>
+          <Component {...pageProps} />
+        </IntercomProvider>
       </Layout>
       {/* </ToastProvider> */}
     </>

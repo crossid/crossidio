@@ -36,13 +36,6 @@ export default class Document extends NextDocument {
         <body>
           <Main />
           <NextScript />
-          <script
-            type="text/javascript"
-            id="hs-script-loader"
-            async
-            defer
-            src="//js-na1.hs-scripts.com/8906484.js"
-          ></script>
         </body>
       </Html>
     )
