@@ -4,6 +4,8 @@ import * as gtag from '@/lib/gtag'
 import clsx from 'clsx'
 import useDisposableList from 'use-disposable-list'
 import Notifications, { NotificationDef } from '@/components/Notifications'
+import { ChatIcon } from '@heroicons/react/outline'
+import { useIntercom } from 'react-use-intercom'
 
 const Hero = () => (
   <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
@@ -38,6 +40,8 @@ function Form() {
   })
   const [inSubmit, setInSubmit] = useState(false)
   const [sentMode, setSentMode] = useState(false)
+  const { show } = useIntercom()
+
   const encode = (data: any) => {
     return Object.keys(data)
       .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
@@ -120,6 +124,15 @@ function Form() {
                 </dd>
               </div>
               */}
+                <div className="mt-6">
+                  <dt className="sr-only">Chat</dt>
+                  <dd className="flex">
+                    <ChatIcon className="flex-shrink-0 h-6 w-6 text-gray-400" />
+                    <button onClick={() => show()} className="ml-3 link text-indigo-600">
+                      Click to Chat Now!
+                    </button>
+                  </dd>
+                </div>
                 <div className="mt-6">
                   <dt className="sr-only">Email</dt>
                   <dd className="flex">
