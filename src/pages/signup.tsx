@@ -34,13 +34,13 @@ interface env {
 }
 
 const envs: env[] = [
-  {
-    id: 'prod',
-    title: 'Production Stage',
-    description: 'Stable, for production use..',
-    icon: CloudIcon,
-    current: true,
-  },
+  // {
+  //   id: 'prod',
+  //   title: 'Production Stage',
+  //   description: 'Stable, for production use..',
+  //   icon: CloudIcon,
+  //   current: true,
+  // },
   {
     id: 'preview',
     title: 'Preview Stage',
