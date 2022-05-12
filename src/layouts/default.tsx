@@ -26,6 +26,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import Logo from '@/components/Logo'
 import { features } from 'features'
+import { useAuth } from '@crossid/crossid-react'
 
 const callsToAction = [
   // { name: 'Watch Demo', href: '#', icon: PlayIcon },
@@ -103,6 +104,8 @@ function Header() {
   const closeMobileMenu = () => {
     document.getElementById('mobileCloseButton')?.click()
   }
+
+  const { loginWithRedirect, logoutWithRedirect, idToken, loading: authLoading } = useAuth()
 
   return (
     <Popover className="relative bg-white">
@@ -369,14 +372,38 @@ function Header() {
                       </button>
                     </div>
                   </form> */}
-                  <Link href="/login">
-                    <a className="text-xs font-bold text-black hover:underline">Login</a>
-                  </Link>
-                  <Link href="/signup">
-                    <button className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                      Try Free
+                  {!idToken && !authLoading && (
+                    <button
+                      className="text-xs font-bold text-black hover:underline"
+                      onClick={() => loginWithRedirect({})}
+                    >
+                      Sign in
                     </button>
-                  </Link>
+                  )}
+                  {idToken && !authLoading && (
+                    <button
+                      className="text-xs font-bold text-black hover:underline"
+                      onClick={() => logoutWithRedirect({})}
+                    >
+                      Sign out
+                    </button>
+                  )}
+                  <a
+                    className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    href="https://manage.crossid.io/cockpit"
+                    target="_blank"
+                  >
+                    Try Free
+                  </a>
+                  {idToken && !authLoading && (
+                    <a
+                      className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      href="https://manage.crossid.io/cockpit"
+                      target="_blank"
+                    >
+                      Manage
+                    </a>
+                  )}
                   <Link href="/contact">
                     <a className="ml-4 inline-flex items-center px-3 py-2 border border-transparent text-xs leading-4 font-bold rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Contact Sales

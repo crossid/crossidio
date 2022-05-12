@@ -10,6 +10,7 @@ import * as gtag from '@/lib/gtag'
 import ProgressBar from '@badrap/bar-of-progress'
 import { IntercomProvider, useIntercom } from 'react-use-intercom'
 const INTERCOM_APP_ID = 'j176kjoq'
+import { AuthProvider } from '@crossid/crossid-react'
 
 const progress = new ProgressBar({
   size: 2,
@@ -31,6 +32,11 @@ Router.events.on('routeChangeComplete', () => {
   window.scrollTo(0, 0)
 })
 Router.events.on('routeChangeError', progress.finish)
+
+const cidTenantId = process.env.NEXT_PUBLIC_CID_TENANT_ID || ''
+const cidClientId = process.env.NEXT_PUBLIC_CID_CLIENT_ID || ''
+const cidRedirectUri = process.env.NEXT_PUBLIC_CID_REDIRECT_URI || ''
+const cidLogoutRedirectUri = process.env.NEXT_PUBLIC_CID_LOGOUT_REDIRECT_URI || ''
 
 export default function App({
   Component,
@@ -85,11 +91,20 @@ export default function App({
          */}
       </Head>
       {/* <ToastProvider> */}
-      <Layout {...layoutProps}>
-        <IntercomProvider appId={INTERCOM_APP_ID} autoBoot>
-          <Component {...pageProps} />
-        </IntercomProvider>
-      </Layout>
+      <AuthProvider
+        tenant_id={cidTenantId}
+        client_id={cidClientId}
+        redirect_uri={cidRedirectUri}
+        post_logout_redirect_uri={cidLogoutRedirectUri}
+        scope={'customer openid email'}
+        cache_type="session_storage"
+      >
+        <Layout {...layoutProps}>
+          <IntercomProvider appId={INTERCOM_APP_ID} autoBoot>
+            <Component {...pageProps} />
+          </IntercomProvider>
+        </Layout>
+      </AuthProvider>
       {/* </ToastProvider> */}
     </>
   )
