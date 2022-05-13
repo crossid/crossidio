@@ -3,7 +3,7 @@ import Footer from '../components/Footer'
 /* This example requires Tailwind CSS v2.0+ */
 import { Fragment, ReactNode, useRef, useState } from 'react'
 import Link from 'next/link'
-import { Popover, Transition } from '@headlessui/react'
+import { Menu, Popover, Transition } from '@headlessui/react'
 import {
   BookmarkAltIcon,
   BriefcaseIcon,
@@ -20,25 +20,19 @@ import {
   DocumentTextIcon,
   AcademicCapIcon,
   DocumentSearchIcon,
-  UserIcon,
 } from '@heroicons/react/outline'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
 import Logo from '@/components/Logo'
 import { features } from 'features'
 import { useAuth } from '@crossid/crossid-react'
+import Avatar from '@/components/Avatar'
 
 const callsToAction = [
   // { name: 'Watch Demo', href: '#', icon: PlayIcon },
   { name: 'Contact Sales', href: 'contact', icon: MailIcon },
 ]
-const company = [
-  { name: 'About', href: '#', icon: InformationCircleIcon },
-  { name: 'Customers', href: '#', icon: OfficeBuildingIcon },
-  { name: 'Press', href: '#', icon: NewspaperIcon },
-  { name: 'Careers', href: '#', icon: BriefcaseIcon },
-  { name: 'Privacy', href: '#', icon: ShieldCheckIcon },
-]
+
 const resources = [
   { name: 'Community', href: '#', icon: UserGroupIcon },
   { name: 'Partners', href: '#', icon: GlobeAltIcon },
@@ -380,14 +374,6 @@ function Header() {
                       Sign in
                     </button>
                   )}
-                  {idToken && !authLoading && (
-                    <button
-                      className="text-xs font-bold text-black hover:underline"
-                      onClick={() => logoutWithRedirect({})}
-                    >
-                      Sign out
-                    </button>
-                  )}
                   {!idToken && !authLoading && (
                     <a
                       className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -411,6 +397,56 @@ function Header() {
                       Contact Sales
                     </a>
                   </Link>
+                  {!!idToken && (
+                    <Menu as="div" className="ml-3 relative">
+                      <div>
+                        <Menu.Button className="bg-white flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                          <span className="sr-only">Open user menu</span>
+                          {/* <img className="h-8 w-8 rounded-full" src="aa" alt="" /> */}
+                          <Avatar name={idToken?.email} size={8} />
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-200"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item key="1">
+                            {({ active }) => (
+                              <a
+                                href="https://manage.crossid.io/cockpit"
+                                target="_blank"
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
+                                )}
+                              >
+                                Manage
+                              </a>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item key="2">
+                            {({ active }) => (
+                              <a
+                                onClick={() => logoutWithRedirect({})}
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
+                                )}
+                              >
+                                Sign out
+                              </a>
+                            )}
+                          </Menu.Item>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  )}
                 </div>
               </div>
             </div>
