@@ -377,7 +377,7 @@ function Header() {
                   {!idToken && !authLoading && (
                     <a
                       className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      href="https://manage.crossid.io/cockpit"
+                      href="https://crossid.us.crossid.io/auth/register"
                       target="_blank"
                     >
                       Try Free
