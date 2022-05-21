@@ -556,22 +556,45 @@ function Header() {
                     </Link>
                   </div>
                   <div className="mt-6">
-                    <a
-                      href="https://crossid.us.crossid.io/auth/register"
-                      className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                    >
-                      Try Free
-                    </a>
-                    <p className="mt-6 text-center text-base font-medium text-gray-500">
-                      Existing customer?{' '}
+                    {!idToken && (
                       <a
-                        href="#"
-                        onClick={() => loginWithRedirect({})}
-                        className="text-indigo-600 hover:text-indigo-500"
+                        href="https://crossid.us.crossid.io/auth/register"
+                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                       >
-                        Login
+                        Try Free
                       </a>
-                    </p>
+                    )}
+                    {idToken && (
+                      <a
+                        href="https://manage.crossid.io/cockpit"
+                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                      >
+                        Manage
+                      </a>
+                    )}
+                    {!idToken && (
+                      <p className="mt-6 text-center text-base font-medium text-gray-500">
+                        Existing customer?{' '}
+                        <a
+                          href="#"
+                          onClick={() => loginWithRedirect({})}
+                          className="text-indigo-600 hover:text-indigo-500"
+                        >
+                          Login
+                        </a>
+                      </p>
+                    )}
+                    {idToken && (
+                      <p className="mt-6 text-center text-base font-medium text-gray-500">
+                        <a
+                          href="#"
+                          onClick={() => logoutWithRedirect({})}
+                          className="text-indigo-600 hover:text-indigo-500"
+                        >
+                          Logout
+                        </a>
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
