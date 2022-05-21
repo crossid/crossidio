@@ -556,18 +556,21 @@ function Header() {
                     </Link>
                   </div>
                   <div className="mt-6">
-                    <Link href="/signup">
-                      <a className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
-                        Try Free
-                      </a>
-                    </Link>
+                    <a
+                      href="https://crossid.us.crossid.io/auth/register"
+                      className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                    >
+                      Try Free
+                    </a>
                     <p className="mt-6 text-center text-base font-medium text-gray-500">
                       Existing customer?{' '}
-                      <Link href="/login">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                          Login
-                        </a>
-                      </Link>
+                      <a
+                        href="#"
+                        onClick={() => loginWithRedirect({})}
+                        className="text-indigo-600 hover:text-indigo-500"
+                      >
+                        Login
+                      </a>
                     </p>
                   </div>
                 </div>
