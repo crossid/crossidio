@@ -5,6 +5,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/outline'
 import { CheckCircleIcon, CloudIcon, CodeIcon } from '@heroicons/react/solid'
 import clsx from 'clsx'
+import { redirect } from 'next/dist/next-server/server/api-utils'
 import { Dispatch, Fragment, SetStateAction, useEffect, useMemo, useState } from 'react'
 import useDisposableList from 'use-disposable-list'
 
@@ -51,6 +52,15 @@ const envs: env[] = [
 ]
 
 function Signup() {
+  useEffect(() => {
+    window.location.href = 'https://crossid.us.crossid.io/auth/register'
+  })
+
+  return null
+}
+
+// SignupPage cannot be used as we don't have a way right now to embed our cid tenant signup page
+function SignupPage() {
   const [signed, setSigned] = useState(false)
 
   return (

@@ -9,11 +9,7 @@ import {
   BriefcaseIcon,
   DesktopComputerIcon,
   GlobeAltIcon,
-  InformationCircleIcon,
   MenuIcon,
-  NewspaperIcon,
-  OfficeBuildingIcon,
-  ShieldCheckIcon,
   UserGroupIcon,
   XIcon,
   MailIcon,
@@ -375,13 +371,11 @@ function Header() {
                     </button>
                   )}
                   {!idToken && !authLoading && (
-                    <a
-                      className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      href="https://crossid.us.crossid.io/auth/register"
-                      target="_blank"
-                    >
-                      Try Free
-                    </a>
+                    <Link href="/signup">
+                      <a className="ml-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 rounded-md font-bold text-black bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Try Free
+                      </a>
+                    </Link>
                   )}
                   {idToken && !authLoading && (
                     <a
@@ -557,12 +551,11 @@ function Header() {
                   </div>
                   <div className="mt-6">
                     {!idToken && (
-                      <a
-                        href="https://crossid.us.crossid.io/auth/register"
-                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-                      >
-                        Try Free
-                      </a>
+                      <Link href="/signup">
+                        <a className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                          Try Free
+                        </a>
+                      </Link>
                     )}
                     {idToken && (
                       <a
