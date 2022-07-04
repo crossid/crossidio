@@ -53,7 +53,7 @@ const envs: env[] = [
 
 function Signup() {
   useEffect(() => {
-    window.location.href = 'https://crossid.us.crossid.io/auth/register'
+    window.location.href = 'https://crossid.us.crossid.io/auth/signup'
   })
 
   return null
