@@ -6,9 +6,9 @@ import type { NextPage } from 'next'
 
 // import 'focus-visible'
 import '@/styles/globals.css'
-import { DocsLayout } from './layouts/DocsLayout'
+import DocsLayout from './layouts/DocsLayout'
 import { ReactElement, ReactNode } from 'react'
-import { DefaultLayout } from './layouts/DefaultLayout'
+import DefaultLayout from './layouts/DefaultLayout'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode

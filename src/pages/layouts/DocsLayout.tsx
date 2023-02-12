@@ -67,16 +67,17 @@ function useTableOfContents(tableOfContents: ITOC[]) {
   return currentSection
 }
 
-export function DocsLayout({
+export default function DocsLayout({
   children,
   title,
-  tableOfContents,
+  tableOfContents = [],
 }: {
   children: ReactElement
   title: string
-  tableOfContents: [ITOC]
+  tableOfContents: ITOC[]
 }) {
   let router = useRouter()
+
   let isHomePage = router.pathname === '/'
   let allLinks = navigation.flatMap((section) => section.links)
   let linkIndex = allLinks.findIndex((link) => link.href === router.pathname)

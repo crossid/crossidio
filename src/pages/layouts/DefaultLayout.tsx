@@ -1,7 +1,7 @@
 import Nav from '@/components/Nav'
 import { ReactNode } from 'react'
 
-export function DefaultLayout({ children }: { children: ReactNode }) {
+export default function DefaultLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Nav />
