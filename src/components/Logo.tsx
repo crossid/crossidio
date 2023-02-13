@@ -12,8 +12,10 @@ export const Logomark = ({
       className={clsx(
         className,
         'rounded-md px-2 text-3xl',
-        kind === 'normal' && 'bg-black text-white',
-        kind === 'grayscale' && 'bg-gray-300 text-white'
+        kind === 'normal' &&
+          'bg-black text-white dark:bg-black dark:text-sky-500',
+        kind === 'grayscale' &&
+          'bg-gray-300 text-white dark:bg-black dark:text-sky-500'
       )}
     >
       C
@@ -26,9 +28,8 @@ export const Logo = ({
   className,
 }: {
   kind?: 'normal' | 'grayscale'
-  className: string
+  className?: string
 }) => {
-  console.log(kind)
   return (
     <p>
       <Logomark kind={kind} className={className} />
@@ -36,7 +37,7 @@ export const Logo = ({
         className={clsx(
           className,
           'font-logo ml-1 rounded-md text-2xl',
-          kind === 'normal' && 'text-indigo-600 dark:text-sky-500',
+          kind === 'normal' && 'text-indigo-600 dark:text-white',
           kind === 'grayscale' && 'text-gray-300'
         )}
       >
