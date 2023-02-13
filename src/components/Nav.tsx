@@ -126,9 +126,6 @@ export default function Nav({ navigation }: { navigation: INav }) {
           />
           <div className="relative z-20">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 sm:py-8 lg:justify-start lg:space-x-10 lg:px-8">
-              <div className="flex lg:hidden">
-                <MobileNavigation navigation={navigation} />
-              </div>
               {/* logo section */}
               <div>
                 <Link href="/" className="flex">
@@ -609,6 +606,11 @@ export default function Nav({ navigation }: { navigation: INav }) {
               </div>
             </Popover.Panel>
           </Transition>
+          {navigation && (
+            <div className="flex lg:hidden">
+              <MobileNavigation navigation={navigation} />
+            </div>
+          )}
         </>
       )}
     </Popover>
