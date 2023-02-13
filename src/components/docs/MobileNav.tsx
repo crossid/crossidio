@@ -61,10 +61,11 @@ export function MobileNavigation({ navigation }: { navigation: INav }) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="relative"
+        className="relative ml-2 inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         aria-label="Open navigation"
       >
-        <MenuIcon className="h-6 w-6 stroke-slate-500" />
+        Docs Menu
+        {/* <MenuIcon className="h-6 w-6 stroke-slate-500" /> */}
       </button>
       <Dialog
         open={isOpen}
