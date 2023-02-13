@@ -13,6 +13,7 @@ import {
   DocumentTextIcon,
   EnvelopeIcon,
   GlobeAltIcon,
+  PencilSquareIcon,
   UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
@@ -31,14 +32,14 @@ const callsToAction = [
 
 const developer = [
   {
-    name: 'Guides',
-    href: '/docs/guides/get-started/preface',
-    icon: AcademicCapIcon,
+    name: 'Docs',
+    href: '/docs',
+    icon: DocumentTextIcon,
   },
   {
     name: 'Blog',
     href: '/blog',
-    icon: DocumentTextIcon,
+    icon: PencilSquareIcon,
   },
   {
     name: 'Reference',
