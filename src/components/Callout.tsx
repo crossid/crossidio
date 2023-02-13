@@ -3,15 +3,22 @@ import clsx from 'clsx'
 import {
   ExclamationTriangleIcon,
   LightBulbIcon,
+  InformationCircleIcon,
 } from '@heroicons/react/24/solid'
 import { ReactNode } from 'react'
 
 const styles = {
-  note: {
+  tip: {
     container:
       'bg-sky-50 dark:bg-slate-800/60 dark:ring-1 dark:ring-slate-300/10',
     title: 'text-sky-900 dark:text-sky-400',
     body: 'text-sky-800 [--tw-prose-background:theme(colors.sky.50)] prose-a:text-sky-900 prose-code:text-sky-900 dark:text-slate-300 dark:prose-code:text-slate-300',
+  },
+  info: {
+    container:
+      'bg-gray-50 dark:bg-slate-800/60 dark:ring-1 dark:ring-slate-300/10',
+    title: 'text-gray-900 dark:text-sky-400',
+    body: 'text-gray-800 [--tw-prose-background:theme(colors.gray.50)] prose-a:text-gray-900 prose-code:text-gray-900 dark:text-slate-300 dark:prose-code:text-slate-300',
   },
   warning: {
     container:
@@ -22,7 +29,13 @@ const styles = {
 }
 
 const icons = {
-  note: (props: any) => (
+  info: (props: any) => (
+    <InformationCircleIcon
+      {...props}
+      className="h-8 w-8 flex-none text-gray-500"
+    />
+  ),
+  tip: (props: any) => (
     <LightBulbIcon {...props} className="h-8 w-8 flex-none text-sky-500" />
   ),
   warning: (props: any) => (
@@ -34,11 +47,11 @@ const icons = {
 }
 
 export function Callout({
-  type = 'note',
+  type = 'info',
   title,
   children,
 }: {
-  type: 'note' | 'warning'
+  type: 'info' | 'warning' | 'tip'
   title: string
   children: ReactNode
 }) {

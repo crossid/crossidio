@@ -10,10 +10,27 @@ import DocsHero from '@/components/docs/Hero'
 
 const navigation: INav = [
   {
-    title: 'Introduction',
+    title: 'Get Started',
     links: [
-      { title: 'Getting started', href: '/docs' },
-      { title: 'Installation', href: '/docs/installation' },
+      { title: 'Preface', href: '/docs/guides/get-started/preface' },
+      {
+        title: 'Sign-Up a tenant',
+        href: '/docs/guides/get-started/signup',
+      },
+      { title: 'Add a Person', href: '/docs/guides/get-started/add-person' },
+      { title: 'Add an App', href: '/docs/guides/get-started/add-app' },
+      {
+        title: 'User Assignment',
+        href: '/docs/guides/get-started/user-assignment',
+      },
+      {
+        title: 'Try to Login',
+        href: '/docs/guides/get-started/try-to-login',
+      },
+      {
+        title: 'Recap',
+        href: '/docs/guides/get-started/recap',
+      },
     ],
   },
 ]

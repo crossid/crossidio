@@ -32,7 +32,7 @@ export default {
 
 ### Notes
 
-{% callout type="note" title="Ye" %}
+{% callout type="info" title="Ye" %}
 Something you should know..
 {% /callout %}
 
