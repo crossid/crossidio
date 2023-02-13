@@ -1,11 +1,6 @@
 import clsx from 'clsx'
-
-import {
-  ExclamationTriangleIcon,
-  LightBulbIcon,
-  InformationCircleIcon,
-} from '@heroicons/react/24/solid'
 import { ReactNode } from 'react'
+import { Icon } from './Icon'
 
 const styles = {
   tip: {
@@ -29,21 +24,9 @@ const styles = {
 }
 
 const icons = {
-  info: (props: any) => (
-    <InformationCircleIcon
-      {...props}
-      className="h-8 w-8 flex-none text-gray-500"
-    />
-  ),
-  tip: (props: any) => (
-    <LightBulbIcon {...props} className="h-8 w-8 flex-none text-sky-500" />
-  ),
-  warning: (props: any) => (
-    <ExclamationTriangleIcon
-      className="h-8 w-8 flex-none text-amber-500"
-      {...props}
-    />
-  ),
+  tip: (props: any) => <Icon icon="lightbulb" {...props} />,
+  info: (props: any) => <Icon {...props} icon="lightbulb" />,
+  warning: (props: any) => <Icon icon="warning" color="amber" {...props} />,
 }
 
 export function Callout({
@@ -59,7 +42,7 @@ export function Callout({
 
   return (
     <div className={clsx('my-8 flex rounded-3xl p-6', styles[type].container)}>
-      <IconComponent />
+      <IconComponent className="h-8 w-8 flex-none" />
       <div className="ml-4 flex-auto">
         <p className={clsx('font-display m-0 text-xl', styles[type].title)}>
           {title}

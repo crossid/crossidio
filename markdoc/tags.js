@@ -2,6 +2,7 @@ import { Tag } from '@markdoc/markdoc'
 import { Callout } from '@/components/Callout'
 import { Tabs, Tab } from '@/components/markdoc/Tabs'
 import { Img } from '@/components/markdoc/Img'
+import { QuickLink, QuickLinks } from '@/components/docs/QuickLinks'
 
 const tags = {
   callout: {
@@ -51,6 +52,19 @@ const tags = {
       height: {
         type: Number,
       },
+    },
+  },
+  'quick-links': {
+    render: QuickLinks,
+  },
+  'quick-link': {
+    selfClosing: true,
+    render: QuickLink,
+    attributes: {
+      title: { type: String },
+      description: { type: String },
+      icon: { type: String },
+      href: { type: String },
     },
   },
 }

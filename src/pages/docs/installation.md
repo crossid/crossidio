@@ -39,3 +39,7 @@ Something you should know..
 {% callout type="warning" title="Oh no!" %}
 Something bad happened!
 {% /callout %}
+
+{% callout type="tip" title="Pst Tip!" %}
+A tip!
+{% /callout %}
