@@ -191,12 +191,12 @@ export default function Footer() {
                 <ul className="mt-4 space-y-4">
                   {navigation.developer.map((item) => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className="text-base text-gray-500 hover:text-gray-900 dark:hover:text-sky-500"
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -210,12 +210,12 @@ export default function Footer() {
                 <ul className="mt-4 space-y-4">
                   {navigation.company.map((item) => (
                     <li key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className="text-base text-gray-500 hover:text-gray-900 dark:hover:text-sky-500"
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
