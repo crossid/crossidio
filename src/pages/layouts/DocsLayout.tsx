@@ -141,7 +141,7 @@ export default function DocsLayout({
             {(title || section) && (
               <header className="mb-9 space-y-1">
                 {section && (
-                  <p className="font-display text-sm font-medium text-sky-500">
+                  <p className="font-display text-sm font-medium text-indigo-500 dark:text-sky-500">
                     {section.title}
                   </p>
                 )}
@@ -205,7 +205,7 @@ export default function DocsLayout({
                           href={`#${section.id}`}
                           className={clsx(
                             isActive(section)
-                              ? 'text-sky-500'
+                              ? 'text-indigo-500 dark:text-sky-500'
                               : 'font-normal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'
                           )}
                         >
@@ -223,7 +223,7 @@ export default function DocsLayout({
                                 href={`#${subSection.id}`}
                                 className={
                                   isActive(subSection)
-                                    ? 'text-sky-500'
+                                    ? 'text-indigo-500 dark:text-sky-500'
                                     : 'hover:text-slate-600 dark:hover:text-slate-300'
                                 }
                               >

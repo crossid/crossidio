@@ -25,7 +25,7 @@ export function Tabs({
               className={clsx(
                 'whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium',
                 label === currentTab
-                  ? 'border-sky-500 text-sky-600'
+                  ? 'border-indigo-500 text-indigo-600 dark:border-sky-500 dark:text-sky-500'
                   : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
               )}
             >
