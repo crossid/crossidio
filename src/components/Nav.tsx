@@ -101,7 +101,7 @@ function MenuItemChevron({ open }: { open: boolean }) {
   )
 }
 
-export default function Nav({ navigation }: { navigation: INav }) {
+export default function Nav({ navigation }: { navigation?: INav }) {
   const featuresButtonRef = useRef<HTMLButtonElement>(null)
   const resourcesButtonRef = useRef<HTMLButtonElement>(null)
   const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
