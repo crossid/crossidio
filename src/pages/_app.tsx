@@ -8,6 +8,7 @@ import { AuthProvider } from '@crossid/crossid-react'
 
 // import 'focus-visible'
 import '@/styles/globals.css'
+import '@/styles/fonts.css'
 import DocsLayout from './layouts/DocsLayout'
 import BlogLayout from './layouts/BlogLayout'
 import { ReactElement, ReactNode } from 'react'
