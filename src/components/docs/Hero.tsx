@@ -54,10 +54,12 @@ export default function DocsHero() {
                 Crossid is the login box that your customers will love.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
-                <Button href="/">Get started</Button>
-                <Button href="/" variant="secondary">
-                  View on GitHub
+                <Button href="/docs/guides/get-started/preface">
+                  Get started
                 </Button>
+                {/* <Button href="/" variant="secondary">
+                  View on GitHub
+                </Button> */}
               </div>
             </div>
           </div>
