@@ -99,7 +99,7 @@ export default function DocsHero() {
                         className={clsx(
                           'flex h-6 rounded-full',
                           tab.isActive
-                            ? 'bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-400 text-sky-300'
+                            ? 'bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-400 dark:text-sky-300'
                             : 'text-slate-500'
                         )}
                       >
