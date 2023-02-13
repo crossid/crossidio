@@ -1,4 +1,4 @@
-import { slugifyWithCounter } from '@sindresorhus/slugify'
+import GithubSlugger from 'github-slugger'
 
 function getNodeText(node) {
   let text = ''
@@ -11,7 +11,7 @@ function getNodeText(node) {
   return text
 }
 
-export function collectHeadings(nodes, slugify = slugifyWithCounter()) {
+export function collectHeadings(nodes, slugger = new GithubSlugger()) {
   let sections = []
 
   if (!Array.isArray(nodes.children)) {
@@ -22,7 +22,7 @@ export function collectHeadings(nodes, slugify = slugifyWithCounter()) {
     if (node.name === 'h2' || node.name === 'h3') {
       let title = getNodeText(node)
       if (title) {
-        let id = slugify(title)
+        let id = slugger.slug(title)
         node.attributes.id = id
         if (node.name === 'h3') {
           if (!sections[sections.length - 1]) {
@@ -40,7 +40,7 @@ export function collectHeadings(nodes, slugify = slugifyWithCounter()) {
       }
     }
 
-    sections.push(...collectHeadings(node.children ?? [], slugify))
+    sections.push(...collectHeadings(node.children ?? [], slugger))
   }
 
   return sections
