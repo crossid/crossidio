@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Logo, Logomark } from '@/components/Logo'
 import { ThemeSelector } from '@/components/ThemeSelector'
+import { MobileNavigation } from './docs/MobileNav'
 
 function GitHubIcon(props: any) {
   return (
@@ -13,7 +14,7 @@ function GitHubIcon(props: any) {
   )
 }
 
-export default function Nav({ navigation }: { navigation?: INav }) {
+export default function Nav({ navigation }: { navigation: INav }) {
   let [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
       )}
     >
       <div className="mr-6 flex lg:hidden">
-        {/* <MobileNavigation navigation={navigation} /> */}
+        <MobileNavigation navigation={navigation} />
       </div>
       <div className="relative flex flex-grow basis-0 items-center">
         <Link href="/" aria-label="Home page">

@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 export default function DefaultLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <Nav />
+      {/* <Nav /> */}
       <div>{children}</div>
     </>
   )
