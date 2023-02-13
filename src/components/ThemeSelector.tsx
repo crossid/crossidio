@@ -53,8 +53,7 @@ function SystemIcon(props: any) {
 }
 
 export function ThemeSelector(props: any) {
-  // TODO this causes: A component is changing from uncontrolled to controlled. This may be caused by the value changing from undefined to a defined value, which should not happen.
-  let [selectedTheme, setSelectedTheme] = useState<IOpt>()
+  let [selectedTheme, setSelectedTheme] = useState<IOpt | null>(null)
 
   useEffect(() => {
     if (selectedTheme) {

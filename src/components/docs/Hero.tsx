@@ -79,8 +79,9 @@ export default function DocsHero() {
                 className="absolute -bottom-40 -right-44"
                 src={blurIndigoImage}
                 alt=""
-                width={567}
-                height={567}
+                // causes warning
+                // width={567}
+                // height={567}
                 unoptimized
                 priority
               />
