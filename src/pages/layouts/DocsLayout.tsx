@@ -7,6 +7,7 @@ import { Prose } from '@/components/Prose'
 import { INav } from '@/types'
 import Nav from '@/components/Nav'
 import DocsHero from '@/components/docs/Hero'
+import Footer from '@/components/Footer'
 
 const navigation: INav = [
   {
@@ -240,6 +241,8 @@ export default function DocsLayout({
           </nav>
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }
