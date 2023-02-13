@@ -6,6 +6,7 @@ import { Navigation } from '@/components/docs/Nav'
 import { Prose } from '@/components/Prose'
 import { INav } from '@/types'
 import Nav from '@/components/Nav'
+import DocsHero from '@/components/docs/Hero'
 
 const navigation: INav = [
   {
@@ -78,7 +79,7 @@ export default function DocsLayout({
 }) {
   let router = useRouter()
 
-  let isHomePage = router.pathname === '/'
+  let isHomePage = router.pathname === '/docs'
   let allLinks = navigation.flatMap((section) => section.links)
   let linkIndex = allLinks.findIndex((link) => link.href === router.pathname)
   let previousPage = allLinks[linkIndex - 1]
@@ -103,8 +104,7 @@ export default function DocsLayout({
     <>
       <Nav navigation={navigation} />
 
-      {/* TODO!!!!! */}
-      {/* {isHomePage && <Hero />} */}
+      {isHomePage && <DocsHero />}
 
       <div className="bgsm:px-2 relative mx-auto flex max-w-8xl justify-center lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">
