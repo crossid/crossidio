@@ -5,6 +5,10 @@ description: Explanation
 
 Quasi sapiente voluptates aut minima non doloribus similique quisquam. In quo expedita ipsum nostrum corrupti incidunt. Et aut eligendi ea perferendis.
 
+# My title {% #custom-id %}
+
+# Another title {% .custom-class-name-here %}
+
 ---
 
 ## Title
@@ -25,3 +29,13 @@ export default {
   },
 }
 ```
+
+### Notes
+
+{% callout type="note" title="Ye" %}
+Something you should know..
+{% /callout %}
+
+{% callout type="warning" title="Oh no!" %}
+Something bad happened!
+{% /callout %}
