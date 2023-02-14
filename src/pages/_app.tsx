@@ -10,7 +10,6 @@ import { AuthProvider } from '@crossid/crossid-react'
 import '@/styles/globals.css'
 import '@/styles/fonts.css'
 import DocsLayout from './layouts/DocsLayout'
-import BlogLayout from './layouts/BlogLayout'
 import { ReactElement, ReactNode } from 'react'
 import DefaultLayout from './layouts/DefaultLayout'
 
@@ -54,33 +53,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
           <DocsLayout title={title} tableOfContents={tableOfContents}>
             <Component {...props} />
           </DocsLayout>
-        </>
-      </WrapApp>
-    )
-  } else if (pageProps.markdoc && pathname.startsWith('/blog')) {
-    let title = pageProps.markdoc?.frontmatter.title
-
-    let pageTitle =
-      pageProps.markdoc?.frontmatter.pageTitle ||
-      `${pageProps.markdoc?.frontmatter.title} - Blog`
-
-    let description = pageProps.markdoc?.frontmatter.description
-
-    let tableOfContents = pageProps.markdoc?.content
-      ? collectHeadings(pageProps.markdoc.content)
-      : []
-
-    const props = pageProps as any
-    AppComp = (
-      <WrapApp>
-        <>
-          <Head>
-            <title>{pageTitle}</title>
-            {description && <meta name="description" content={description} />}
-          </Head>
-          <BlogLayout title={title} tableOfContents={tableOfContents}>
-            <Component {...props} />
-          </BlogLayout>
         </>
       </WrapApp>
     )

@@ -9,3 +9,9 @@ type INavItem = {
 }
 
 export type INav = INavItem[]
+
+export interface ITOC {
+  id: string
+  title: string
+  children: ITOC[]
+}
