@@ -61,7 +61,7 @@ export function MobileNavigation({ navigation }: { navigation: INav }) {
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="relative ml-2 inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="relative ml-2 inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-sky-600 dark:ring-offset-slate-900 dark:hover:bg-sky-700 dark:focus:ring-sky-500"
         aria-label="Open navigation"
       >
         Docs Menu

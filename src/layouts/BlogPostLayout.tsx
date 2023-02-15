@@ -83,7 +83,7 @@ export function BlogPostLayout({
           </picture>
         </div>
       </div>
-      <Nav navigation={[]} />
+      <Nav />
       <Head>
         <title>{title}</title>
         <meta name="og:title" content={title} />
