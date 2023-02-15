@@ -43,6 +43,22 @@ export default function Document() {
     <Html className="antialiased [font-feature-settings:'ss01']" lang="en">
       <Head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.gaTracking}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.gaTracking}', {
+              page_path: window.location.pathname,
+            });
+          `,
+          }}
+        />
       </Head>
       <body className="bg-white text-slate-500 antialiased dark:bg-slate-900 dark:text-slate-400">
         <Main />

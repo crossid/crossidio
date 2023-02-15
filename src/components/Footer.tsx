@@ -34,6 +34,7 @@ const navigation = {
   ],
   company: [
     { name: 'About', href: '/company' },
+    { name: 'Contact', href: '/contact' },
     //   { name: 'Blog', href: '#' },
     //   { name: 'Jobs', href: '#' },
     //   { name: 'Press', href: '#' },

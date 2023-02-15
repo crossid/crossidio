@@ -5,6 +5,7 @@ import { AppProps } from 'next/app'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { AuthProvider } from '@crossid/crossid-react'
+import { IntercomProvider, useIntercom } from 'react-use-intercom'
 
 // import 'focus-visible'
 import '@/styles/globals.css'
@@ -81,7 +82,9 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       scope={'customer openid email'}
       cache_type="session_storage"
     >
-      {children}
+      <IntercomProvider appId={process.env.intercomAppId || ''} autoBoot>
+        {children}
+      </IntercomProvider>
     </AuthProvider>
   )
 }
