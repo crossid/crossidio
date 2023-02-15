@@ -13,17 +13,16 @@ export function Img({
   height: number
 }) {
   const r = useRouter()
-
-  let segment = '/images'
+  let segment = 'images'
   if (r.pathname.startsWith('/docs')) {
     segment += '/docs'
   } else if (r.pathname.startsWith('/blog')) {
-    segment += '/blog'
+    segment += r.asPath
   }
 
   return (
     <Image
-      src={`/images/docs/${name}`}
+      src={`/${segment}/${name}`}
       width={width}
       height={height}
       alt={alt}

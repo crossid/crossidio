@@ -3,6 +3,7 @@ export interface IAuthor {
   title: string
   avatar: string
   twitter: string
+  github: string
 }
 
 export const authors: Record<string, IAuthor> = {
@@ -11,5 +12,6 @@ export const authors: Record<string, IAuthor> = {
     title: 'CEO',
     twitter: 'asaf_sh',
     avatar: '/images/avatars/asafs.jpg',
+    github: 'asaf',
   },
 }

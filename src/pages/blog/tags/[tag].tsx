@@ -70,25 +70,27 @@ const Page = ({ posts, tag }: { posts: Post[]; tag: string }) => {
         </div>
         <div className="mt-6 grid gap-16 pt-10 lg:grid-cols-2 lg:gap-x-5 lg:gap-y-12">
           {posts.map((post) => (
-            <div key={post.frontMatter.title}>
-              <p className="text-sm text-gray-500">
-                {/* <time dateTime={post.datetime}>{post.postMatter.date}</time> */}
-              </p>
-              <Link href={`/blog/${post.slug}`} className="mt-2 block">
-                <p className="text-xl font-semibold text-gray-900 dark:text-slate-200">
-                  {post.frontMatter.title}
+            <div key={post.frontMatter.title} className="group">
+              <div className="p-3 group-hover:bg-slate-50/70 dark:group-hover:bg-slate-800/50 sm:rounded-2xl md:-inset-y-4 md:-inset-x-6">
+                <p className="text-sm text-gray-500">
+                  {/* <time dateTime={post.datetime}>{post.postMatter.date}</time> */}
                 </p>
-                <p className="mt-3 text-base text-gray-500">
-                  {post.frontMatter.description}
-                </p>
-              </Link>
-              <div className="mt-3">
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="text-base font-semibold text-indigo-600 hover:text-indigo-500 dark:text-sky-600 dark:hover:text-sky-500"
-                >
-                  Read
+                <Link href={`/blog/${post.slug}`} className="mt-2 block">
+                  <p className="text-xl font-semibold text-gray-900 dark:text-slate-200">
+                    {post.frontMatter.title}
+                  </p>
+                  <p className="mt-3 text-base text-gray-500">
+                    {post.frontMatter.description}
+                  </p>
                 </Link>
+                <div className="mt-3">
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-base font-semibold text-indigo-600 hover:text-indigo-500 dark:text-sky-600 dark:hover:text-sky-500"
+                  >
+                    Read
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

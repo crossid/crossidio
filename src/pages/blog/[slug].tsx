@@ -1,23 +1,12 @@
 import glob from 'glob-promise'
 import path from 'path'
 import fs from 'fs'
-import Markdoc from '@markdoc/markdoc'
+import Markdoc, { Config } from '@markdoc/markdoc'
 import React, { ReactElement } from 'react'
-import { Prose } from '@/components/Prose'
-import Link from 'next/link'
 import yaml from 'js-yaml'
-import { collectHeadings } from '@/utils/remark'
-import clsx from 'clsx'
 import { authors, IAuthor } from '@/data/authors'
-import Image from 'next/image'
-import Head from 'next/head'
-import Nav from '@/components/Nav'
-import FooterSlim from '@/components/FooterSlim'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
-import { useTableOfContents } from '@/hooks/toc'
-import { ITOC } from '@/types'
 import { BlogPostLayout } from '@/layouts/BlogPostLayout'
-import Footer from '@/components/Footer'
 import { pathToSlug } from '@/utils/fsystem'
 
 // see https://www.docploy.com/blog/how-to-build-a-blog-using-nextjs-and-markdoc
@@ -57,13 +46,39 @@ export const getStaticProps: GetStaticProps<{
   const ast = Markdoc.parse(source)
 
   // TODO
-  const config = {
+  const config: Config = {
     tags: {
-      //   callout,
+      callout: {
+        attributes: {
+          title: { type: String },
+          type: {
+            type: String,
+            default: 'note',
+            matches: ['note', 'warning'],
+            errorLevel: 'critical',
+          },
+        },
+        render: 'Callout',
+      },
+      img: {
+        render: 'Img',
+        attributes: {
+          name: {
+            type: String,
+          },
+          alt: {
+            type: String,
+          },
+          width: {
+            type: Number,
+          },
+          height: {
+            type: Number,
+          },
+        },
+      },
     },
-    nodes: {
-      //   heading,
-    },
+    nodes: {},
     variables: {},
   }
 
@@ -83,16 +98,17 @@ export const getStaticProps: GetStaticProps<{
     props: {
       frontmatter,
       content,
+      slug,
     },
   }
 }
 
 // Create a React component using Markdoc's React renderer and our list of custom components.
 const Page = (props: any) => {
-  const { content, frontmatter } = props
+  const { content, frontmatter, slug } = props
   const parsedContent = JSON.parse(content)
 
-  const { title, description, authors, date, tags } = frontmatter
+  const { title, description, authors, date, tags, card } = frontmatter
   const author = authors[0]
   const d = new Date(date)
 
@@ -102,7 +118,10 @@ const Page = (props: any) => {
       date={d}
       title={title}
       content={parsedContent}
+      description={description}
       tags={tags}
+      slug={slug}
+      card={card}
     />
   )
 }

@@ -5,7 +5,7 @@ import glob from 'glob-promise'
 import matter from 'gray-matter'
 import path from 'path'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
-import { formatDate } from '@/utils/date'
+import { formatDate, timeTagDateFormat } from '@/utils/date'
 import { PostMatter } from '@/utils/fsystem'
 
 export const getStaticProps: GetStaticProps<{ posts: PostMatter[] }> = async (
@@ -83,8 +83,8 @@ const BlogItem = ({
         <dl className="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
           <dt className="sr-only">Date</dt>
           <dd className="whitespace-nowrap text-sm leading-6 dark:text-slate-400">
-            <time dateTime={formatDate(d, '{YYYY}-{Mo}-{DD} {H}:{mm}:{ss}')}>
-              {formatDate(d, '{MM} {DD}, {YYYY}')}
+            <time dateTime={formatDate(d, timeTagDateFormat)}>
+              {formatDate(d, 'MM DD, YYYY')}
             </time>
           </dd>
         </dl>

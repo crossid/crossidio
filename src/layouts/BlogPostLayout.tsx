@@ -1,10 +1,11 @@
+import { Callout } from '@/components/Callout'
 import Nav from '@/components/Nav'
 import { Prose } from '@/components/Prose'
 import { Widont } from '@/components/Widnot'
 import { IAuthor } from '@/data/authors'
 import { useTableOfContents } from '@/hooks/toc'
 import { ITOC } from '@/types'
-import { formatDate } from '@/utils/date'
+import { formatDate, timeTagDateFormat } from '@/utils/date'
 import { collectHeadings } from '@/utils/remark'
 import Markdoc from '@markdoc/markdoc'
 import clsx from 'clsx'
@@ -12,9 +13,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import { Img } from '@/components/markdoc/Img'
 
 // TODO
-const components = {}
+const components = {
+  Callout,
+  Img,
+}
 
 export function BlogPostLayout({
   title,
@@ -22,12 +27,18 @@ export function BlogPostLayout({
   date,
   content,
   tags,
+  description,
+  slug,
+  card,
 }: {
   title: string
   authors: IAuthor[]
   date: Date
   content: string
   tags: string[]
+  description: string
+  slug: string
+  card: string
 }) {
   let tableOfContents = collectHeadings(content)
   let currentSection = useTableOfContents(tableOfContents)
@@ -47,7 +58,35 @@ export function BlogPostLayout({
       <Nav navigation={[]} />
       <Head>
         <title>{title}</title>
-        {/* {description && <meta name="description" content={description} />} */}
+        <meta name="og:title" content={title} />
+        {description && <meta name="description" content={description} />}
+        {description && <meta name="og:description" content={description} />}
+        {/* TODO we don't have domain here as window does not exist in SSR */}
+        <meta name="og:url" content={`https://crossid.io/blog/${slug}`} />
+        {card && (
+          <meta
+            property="og:image"
+            content={`https://crossid.io/public/images/blog/${slug}/${card}`}
+          />
+        )}
+        {card && (
+          <meta
+            property="twitter:image"
+            content={`https://crossid.io/public/images/blog/${slug}/${card}`}
+          />
+        )}
+
+        <meta property="og:type" content="article" />
+        <meta property="article:tag" content={`${tags.join(',')}`} />
+        <meta
+          property="article:author"
+          content={`https://github.com/${authors[0].github}`}
+        />
+        {/* <meta property="article:published_time" content="2018-05-14T00:00:00.000Z"/> */}
+        <meta
+          property="article:published_time"
+          content={formatDate(date, timeTagDateFormat)}
+        />
       </Head>
       <div className="">
         <div className="mx-auto max-w-8xl">
@@ -112,13 +151,8 @@ export function BlogPostLayout({
                       'absolute inset-x-0 top-0 text-slate-700 dark:text-slate-400'
                     )}
                   >
-                    <time
-                      dateTime={formatDate(
-                        date,
-                        '{YYYY}-{Mo}-{DD} {H}:{mm}:{ss}'
-                      )}
-                    >
-                      {formatDate(date, '{dddd}, {MMMM} {DD}, {YYYY}')}
+                    <time dateTime={formatDate(date, timeTagDateFormat)}>
+                      {formatDate(date, 'dddd, MMMM DD, YYYY')}
                     </time>
                   </dd>
                 </dl>

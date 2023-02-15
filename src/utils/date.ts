@@ -1,8 +1,7 @@
-// @ts-ignore
-import tinytime from 'tinytime'
+import dayjs from 'dayjs'
+
+export const timeTagDateFormat = 'YYYY-MM-DDTHH:mm:ssZ'
 
 export function formatDate(date: Date | 'string', format: string) {
-  return tinytime(format, { padMonth: true })
-    .render(typeof date === 'string' ? new Date(date) : date)
-    .replace('Febuary', 'February')
+  return dayjs(date).format(format)
 }
