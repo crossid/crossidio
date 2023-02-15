@@ -45,7 +45,6 @@ export const getStaticProps: GetStaticProps<{
   // Use Markdoc to create a tree of tokens based on the Markdown file
   const ast = Markdoc.parse(source)
 
-  // TODO
   const config: Config = {
     tags: {
       callout: {
@@ -109,7 +108,6 @@ const Page = (props: any) => {
   const parsedContent = JSON.parse(content)
 
   const { title, description, authors, date, tags, card } = frontmatter
-  const author = authors[0]
   const d = new Date(date)
 
   return (
