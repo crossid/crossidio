@@ -19,8 +19,12 @@ const navigation = {
   ],
   developer: [
     {
-      name: 'Guides',
+      name: 'Get Started',
       href: '/docs/guides/get-started/preface',
+    },
+    {
+      name: 'Docs',
+      href: '/docs',
     },
     { name: 'Blog', href: '/blog' },
     {
