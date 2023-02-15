@@ -1,9 +1,3 @@
-// import { Widont } from '@/components/home/common'
-// import { NewsletterForm } from '@/components/NewsletterForm'
-// import { formatDate } from '@/utils/formatDate'
-// import { mdxComponents } from '@/utils/mdxComponents'
-// import { MDXProvider } from '@mdx-js/react'
-import FooterSlim from '@/components/FooterSlim'
 import Nav from '@/components/Nav'
 import { Prose } from '@/components/Prose'
 import { Widont } from '@/components/Widnot'
@@ -17,7 +11,7 @@ import clsx from 'clsx'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { ReactElement } from 'react'
+import React from 'react'
 
 // TODO
 const components = {}
@@ -27,11 +21,13 @@ export function BlogPostLayout({
   authors,
   date,
   content,
+  tags,
 }: {
   title: string
   authors: IAuthor[]
   date: Date
   content: string
+  tags: string[]
 }) {
   let tableOfContents = collectHeadings(content)
   let currentSection = useTableOfContents(tableOfContents)
@@ -99,6 +95,15 @@ export function BlogPostLayout({
               >
                 <Widont>{title}</Widont>
               </h1>
+              <p>
+                {tags.map((t: string) => (
+                  <Link key={t} href={`/blog/tags/${t}`}>
+                    <span className="mr-2 inline-flex items-center rounded bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800 focus:outline-none">
+                      {t.toUpperCase()}
+                    </span>
+                  </Link>
+                ))}
+              </p>
               <div className="text-sm leading-6">
                 <dl>
                   <dt className="sr-only">Date</dt>

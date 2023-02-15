@@ -6,15 +6,9 @@ import matter from 'gray-matter'
 import path from 'path'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { formatDate } from '@/utils/date'
+import { PostMatter } from '@/utils/fsystem'
 
-interface Post {
-  slug: string
-  title: string
-  description: string
-  date: number
-}
-
-export const getStaticProps: GetStaticProps<{ posts: Post[] }> = async (
+export const getStaticProps: GetStaticProps<{ posts: PostMatter[] }> = async (
   context: GetStaticPropsContext<{}>
 ) => {
   // md files are stored in the 'posts' directory
@@ -180,7 +174,7 @@ const Blog = (props: any) => {
       <div className="relative sm:ml-[calc(2rem+1px)] sm:pb-12 md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
         <div className="absolute top-3 bottom-0 right-full mr-7 hidden w-px bg-slate-200 dark:bg-slate-800 sm:block md:mr-[3.25rem]"></div>
         <div className="space-y-16">
-          {posts.map((p: Post) => (
+          {posts.map((p: PostMatter) => (
             <BlogItem
               key={p.slug}
               slug={p.slug}
