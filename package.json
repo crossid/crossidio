@@ -6,7 +6,9 @@
     "dev": "next dev -p 3008",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "copyimages": "node ./copy-images.mjs",
+    "prebuild": "npm run copyimages"
   },
   "dependencies": {
     "@crossid/crossid-react": "^0.2.4",
