@@ -75,6 +75,38 @@ export default function DocsLayout({
 
       {isHomePage && <DocsHero />}
 
+      {!isHomePage && (
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center overflow-hidden">
+          <div className="flex w-[108rem] flex-none justify-end">
+            <picture>
+              <source
+                srcSet={require('@/images/beams/docs@30.avif').default.src}
+                type="image/avif"
+              />
+              <img
+                src={require('@/images/beams/docs@tinypng.png').default.src}
+                alt=""
+                className="w-[71.75rem] max-w-none flex-none dark:hidden"
+                decoding="async"
+              />
+            </picture>
+            <picture>
+              <source
+                srcSet={require('@/images/beams/docs-dark@30.avif').default.src}
+                type="image/avif"
+              />
+              <img
+                src={
+                  require('@/images/beams/docs-dark@tinypng.png').default.src
+                }
+                alt=""
+                className="hidden w-[90rem] max-w-none flex-none dark:block"
+                decoding="async"
+              />
+            </picture>
+          </div>
+        </div>
+      )}
       <div className="bgsm:px-2 relative mx-auto flex max-w-8xl justify-center lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">
           <div className="absolute inset-y-0 right-0 w-[50vw] bg-slate-50 dark:hidden" />

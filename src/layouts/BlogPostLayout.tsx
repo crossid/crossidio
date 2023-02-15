@@ -55,6 +55,34 @@ export function BlogPostLayout({
 
   return (
     <>
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center overflow-hidden">
+        <div className="flex w-[108rem] flex-none justify-end">
+          <picture>
+            <source
+              srcSet={require('@/images/beams/docs@30.avif').default.src}
+              type="image/avif"
+            />
+            <img
+              src={require('@/images/beams/docs@tinypng.png').default.src}
+              alt=""
+              className="w-[71.75rem] max-w-none flex-none dark:hidden"
+              decoding="async"
+            />
+          </picture>
+          <picture>
+            <source
+              srcSet={require('@/images/beams/docs-dark@30.avif').default.src}
+              type="image/avif"
+            />
+            <img
+              src={require('@/images/beams/docs-dark@tinypng.png').default.src}
+              alt=""
+              className="hidden w-[90rem] max-w-none flex-none dark:block"
+              decoding="async"
+            />
+          </picture>
+        </div>
+      </div>
       <Nav navigation={[]} />
       <Head>
         <title>{title}</title>
@@ -63,7 +91,7 @@ export function BlogPostLayout({
         {description && <meta name="og:description" content={description} />}
         {/* TODO we don't have domain here as window does not exist in SSR */}
         <meta name="og:url" content={`https://crossid.io/blog/${slug}`} />
-        {card && (
+        {/* {card && (
           <meta
             property="og:image"
             content={`https://crossid.io/public/images/blog/${slug}/${card}`}
@@ -74,7 +102,7 @@ export function BlogPostLayout({
             property="twitter:image"
             content={`https://crossid.io/public/images/blog/${slug}/${card}`}
           />
-        )}
+        )} */}
 
         <meta property="og:type" content="article" />
         <meta property="article:tag" content={`${tags.join(',')}`} />
@@ -126,77 +154,79 @@ export function BlogPostLayout({
 
           <div className="min-w-0 max-w-2xl flex-auto px-4 py-4 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
             {/* TODO should wrap under <main> as in tailwindcss project? */}
-            <article className="relative pt-10">
-              <h1
-                className={clsx(
-                  'text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 md:text-3xl '
-                )}
-              >
-                <Widont>{title}</Widont>
-              </h1>
-              <p>
-                {tags.map((t: string) => (
-                  <Link key={t} href={`/blog/tags/${t}`}>
-                    <span className="mr-2 inline-flex items-center rounded bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800 focus:outline-none">
-                      {t.toUpperCase()}
-                    </span>
-                  </Link>
-                ))}
-              </p>
-              <div className="text-sm leading-6">
-                <dl>
-                  <dt className="sr-only">Date</dt>
-                  <dd
-                    className={clsx(
-                      'absolute inset-x-0 top-0 text-slate-700 dark:text-slate-400'
-                    )}
-                  >
-                    <time dateTime={formatDate(date, timeTagDateFormat)}>
-                      {formatDate(date, 'dddd, MMMM DD, YYYY')}
-                    </time>
-                  </dd>
-                </dl>
-              </div>
-              <div className="mt-6">
-                <ul
+            <main>
+              <article className="relative pt-10">
+                <h1
                   className={clsx(
-                    '-mx-5 -mt-6 flex flex-wrap text-sm leading-6'
+                    'text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 md:text-3xl '
                   )}
                 >
-                  {authors.map((author) => (
-                    <li
-                      key={author.name}
-                      className="mt-6 flex items-center whitespace-nowrap px-5 font-medium"
-                    >
-                      <Image
-                        src={author.avatar}
-                        alt={author.name}
-                        className="mr-3 h-9 w-9 rounded-full bg-slate-50 dark:bg-slate-800"
-                        decoding="async"
-                        width={32}
-                        height={32}
-                      />
-                      <div className="text-sm leading-4">
-                        <div className="text-slate-900 dark:text-slate-200">
-                          {author.name}
-                        </div>
-                        <div className="mt-1">
-                          <a
-                            href={`https://twitter.com/${author.twitter}`}
-                            className="text-sky-500 hover:text-sky-600 dark:text-sky-400"
-                          >
-                            @{author.twitter}
-                          </a>
-                        </div>
-                      </div>
-                    </li>
+                  <Widont>{title}</Widont>
+                </h1>
+                <p>
+                  {tags.map((t: string) => (
+                    <Link key={t} href={`/blog/tags/${t}`}>
+                      <span className="mr-2 inline-flex items-center rounded bg-sky-100 px-2 py-0.5 text-xs font-medium text-sky-800 focus:outline-none">
+                        {t.toUpperCase()}
+                      </span>
+                    </Link>
                   ))}
-                </ul>
-              </div>
-              <Prose className="pt-10">
-                {Markdoc.renderers.react(content, React, { components })}
-              </Prose>
-            </article>
+                </p>
+                <div className="text-sm leading-6">
+                  <dl>
+                    <dt className="sr-only">Date</dt>
+                    <dd
+                      className={clsx(
+                        'absolute inset-x-0 top-0 text-slate-700 dark:text-slate-400'
+                      )}
+                    >
+                      <time dateTime={formatDate(date, timeTagDateFormat)}>
+                        {formatDate(date, 'dddd, MMMM DD, YYYY')}
+                      </time>
+                    </dd>
+                  </dl>
+                </div>
+                <div className="mt-6">
+                  <ul
+                    className={clsx(
+                      '-mx-5 -mt-6 flex flex-wrap text-sm leading-6'
+                    )}
+                  >
+                    {authors.map((author) => (
+                      <li
+                        key={author.name}
+                        className="mt-6 flex items-center whitespace-nowrap px-5 font-medium"
+                      >
+                        <Image
+                          src={author.avatar}
+                          alt={author.name}
+                          className="mr-3 h-9 w-9 rounded-full bg-slate-50 dark:bg-slate-800"
+                          decoding="async"
+                          width={32}
+                          height={32}
+                        />
+                        <div className="text-sm leading-4">
+                          <div className="text-slate-900 dark:text-slate-200">
+                            {author.name}
+                          </div>
+                          <div className="mt-1">
+                            <a
+                              href={`https://twitter.com/${author.twitter}`}
+                              className="text-sky-500 hover:text-sky-600 dark:text-sky-400"
+                            >
+                              @{author.twitter}
+                            </a>
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <Prose className="pt-10">
+                  {Markdoc.renderers.react(content, React, { components })}
+                </Prose>
+              </article>
+            </main>
             <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800"></dl>
           </div>
           <div className="hidden xl:sticky xl:top-[4.5rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.5rem)] xl:flex-none xl:overflow-y-auto xl:py-16 xl:pr-6">

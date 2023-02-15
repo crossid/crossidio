@@ -7,6 +7,7 @@ import path from 'path'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { formatDate, timeTagDateFormat } from '@/utils/date'
 import { PostMatter } from '@/utils/fsystem'
+import { Prose } from '@/components/Prose'
 
 export const getStaticProps: GetStaticProps<{ posts: PostMatter[] }> = async (
   context: GetStaticPropsContext<{}>
@@ -77,9 +78,9 @@ const BlogItem = ({
         <h3 className="pt-8 text-base font-semibold tracking-tight text-slate-900 dark:text-slate-200 lg:pt-0">
           {title}
         </h3>
-        <div className="dark:prose-dark line-clamp-2 prose prose-slate mt-2 mb-4 prose-a:relative prose-a:z-10">
+        <Prose className="line-clamp-2 mt-2 mb-4">
           <p>{description}</p>
-        </div>
+        </Prose>
         <dl className="absolute left-0 top-0 lg:left-auto lg:right-full lg:mr-[calc(6.5rem+1px)]">
           <dt className="sr-only">Date</dt>
           <dd className="whitespace-nowrap text-sm leading-6 dark:text-slate-400">
@@ -119,22 +120,51 @@ const BlogItem = ({
 const Blog = (props: any) => {
   const { posts } = props
   return (
-    <main className="mx-auto max-w-[52rem] px-4 pb-28 sm:px-6 md:px-8 lg:max-w-6xl xl:px-12">
-      <header className="py-16 sm:text-center">
-        <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-4xl">
-          Latest Updates
-        </h1>
-        <p className="text-lg text-slate-700 dark:text-slate-400">
-          All the latest Crossid news, straight from the&nbsp;team.
-        </p>
-        <section className="mt-3 max-w-sm sm:mx-auto sm:px-4">
-          <h2 className="sr-only">Sign up for our newsletter</h2>
-          <form
-            action="https://app.convertkit.com/forms/3181837/subscriptions"
-            method="post"
-            className="-mx-2 flex flex-wrap"
-          >
-            {/* <div className="mt-3 grow-[9999] basis-64 px-2">
+    <>
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center overflow-hidden">
+        <div className="flex w-[108rem] flex-none justify-end">
+          <picture>
+            <source
+              srcSet={require('@/images/beams/docs@30.avif').default.src}
+              type="image/avif"
+            />
+            <img
+              src={require('@/images/beams/docs@tinypng.png').default.src}
+              alt=""
+              className="w-[71.75rem] max-w-none flex-none dark:hidden"
+              decoding="async"
+            />
+          </picture>
+          <picture>
+            <source
+              srcSet={require('@/images/beams/docs-dark@30.avif').default.src}
+              type="image/avif"
+            />
+            <img
+              src={require('@/images/beams/docs-dark@tinypng.png').default.src}
+              alt=""
+              className="hidden w-[90rem] max-w-none flex-none dark:block"
+              decoding="async"
+            />
+          </picture>
+        </div>
+      </div>
+      <main className="mx-auto max-w-[52rem] px-4 pb-28 sm:px-6 md:px-8 lg:max-w-6xl xl:px-12">
+        <header className="py-16 sm:text-center">
+          <h1 className="mb-4 text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-4xl">
+            Latest Updates
+          </h1>
+          <p className="text-lg text-slate-700 dark:text-slate-400">
+            All the latest Crossid news, straight from the&nbsp;team.
+          </p>
+          <section className="mt-3 max-w-sm sm:mx-auto sm:px-4">
+            <h2 className="sr-only">Sign up for our newsletter</h2>
+            <form
+              action="https://app.convertkit.com/forms/3181837/subscriptions"
+              method="post"
+              className="-mx-2 flex flex-wrap"
+            >
+              {/* <div className="mt-3 grow-[9999] basis-64 px-2">
               <div className="group relative">
                 <svg
                   viewBox="0 0 24 24"
@@ -168,24 +198,25 @@ const Blog = (props: any) => {
                 Subscribe
               </button>
             </div> */}
-          </form>
-        </section>
-      </header>
-      <div className="relative sm:ml-[calc(2rem+1px)] sm:pb-12 md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
-        <div className="absolute top-3 bottom-0 right-full mr-7 hidden w-px bg-slate-200 dark:bg-slate-800 sm:block md:mr-[3.25rem]"></div>
-        <div className="space-y-16">
-          {posts.map((p: PostMatter) => (
-            <BlogItem
-              key={p.slug}
-              slug={p.slug}
-              title={p.title}
-              date={p.date}
-              description={p.description}
-            />
-          ))}
+            </form>
+          </section>
+        </header>
+        <div className="relative sm:ml-[calc(2rem+1px)] sm:pb-12 md:ml-[calc(3.5rem+1px)] lg:ml-[max(calc(14.5rem+1px),calc(100%-48rem))]">
+          <div className="absolute top-3 bottom-0 right-full mr-7 hidden w-px bg-slate-200 dark:bg-slate-800 sm:block md:mr-[3.25rem]"></div>
+          <div className="space-y-16">
+            {posts.map((p: PostMatter) => (
+              <BlogItem
+                key={p.slug}
+                slug={p.slug}
+                title={p.title}
+                date={p.date}
+                description={p.description}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   )
 }
 
