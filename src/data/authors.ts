@@ -1,13 +1,15 @@
-interface IAuthor {
-  displayName: string
+export interface IAuthor {
+  name: string
   title: string
-  thumbnail: string
+  avatar: string
+  twitter: string
 }
 
 export const authors: Record<string, IAuthor> = {
   asaf: {
-    displayName: 'Asaf Shakarzy',
+    name: 'Asaf Shakarzy',
     title: 'CEO',
-    thumbnail: '/images/avatars/asafs.jpg',
+    twitter: 'asaf_sh',
+    avatar: '/images/avatars/asafs.jpg',
   },
 }

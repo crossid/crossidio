@@ -8,7 +8,7 @@ import Link from 'next/link'
 import yaml from 'js-yaml'
 import { collectHeadings } from '@/utils/remark'
 import clsx from 'clsx'
-import { authors } from '@/data/authors'
+import { authors, IAuthor } from '@/data/authors'
 import Image from 'next/image'
 import Head from 'next/head'
 import Nav from '@/components/Nav'
@@ -16,6 +16,8 @@ import FooterSlim from '@/components/FooterSlim'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { useTableOfContents } from '@/hooks/toc'
 import { ITOC } from '@/types'
+import { BlogPostLayout } from '@/layouts/BlogPostLayout'
+import Footer from '@/components/Footer'
 
 // see https://www.docploy.com/blog/how-to-build-a-blog-using-nextjs-and-markdoc
 
@@ -29,7 +31,8 @@ export const getStaticPaths = async () => {
 
   // for each filename, the slug is the filename without the .md extension
   let paths = postPaths.map((postPath) => {
-    const slug = path.basename(postPath, path.extname(postPath))
+    const pathParts = postPath.split(path.sep)
+    const slug = pathParts[pathParts.length - 2]
     return { params: { slug } }
   })
 
@@ -45,7 +48,7 @@ export const getStaticProps: GetStaticProps<{
 
   // generate the local md path from the URL slug
   const slug = context.params?.slug
-  const fullPath = path.join(POSTS_DIR, slug + '.md')
+  const fullPath = path.join(POSTS_DIR, slug + '/index.md')
 
   // read the md file contents
   const source = fs.readFileSync(fullPath, 'utf-8')
@@ -71,7 +74,7 @@ export const getStaticProps: GetStaticProps<{
     string,
     any
   >
-  frontmatter.author = authors[frontmatter.author]
+  frontmatter.authors = frontmatter.authors?.map((a: string) => authors[a])
   frontmatter.date = frontmatter.date.getTime()
 
   // return the content as a prop to the React component,
@@ -91,7 +94,27 @@ const Page = (props: any) => {
   const { content, frontmatter } = props
   const parsedContent = JSON.parse(content)
 
-  const { title, description, author, date, tags } = frontmatter
+  const { title, description, authors, date, tags } = frontmatter
+  const author = authors[0]
+  const d = new Date(date)
+
+  return (
+    <BlogPostLayout
+      authors={authors}
+      date={d}
+      title={title}
+      content={parsedContent}
+    />
+  )
+}
+
+// Create a React component using Markdoc's React renderer and our list of custom components.
+const Page1 = (props: any) => {
+  const { content, frontmatter } = props
+  const parsedContent = JSON.parse(content)
+
+  const { title, description, authors, date, tags } = frontmatter
+  const author = authors[0]
   let tableOfContents = collectHeadings(parsedContent)
   let currentSection = useTableOfContents(tableOfContents)
   const d = new Date(date)
