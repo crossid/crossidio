@@ -32,7 +32,7 @@ const navigation = {
 
 export default function FooterSlim() {
   return (
-    <footer className="bg-white">
+    <footer className="bg-white dark:bg-slate-900">
       <div className="mx-auto max-w-7xl overflow-hidden py-4 px-6 sm:py-8 lg:px-8">
         <nav
           className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
