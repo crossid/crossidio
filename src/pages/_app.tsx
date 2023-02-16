@@ -82,7 +82,10 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       scope={'customer openid email'}
       cache_type="session_storage"
     >
-      <IntercomProvider appId={process.env.intercomAppId || ''} autoBoot>
+      <IntercomProvider
+        appId={process.env.intercomAppId || ''}
+        autoBoot={process.env.NODE_ENV === 'production'}
+      >
         {children}
       </IntercomProvider>
     </AuthProvider>
