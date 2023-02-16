@@ -1,5 +1,4 @@
 import Link from 'next/link'
-// import { format } from 'date-fns';
 import fs from 'fs'
 import glob from 'glob-promise'
 import matter from 'gray-matter'

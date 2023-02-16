@@ -75,7 +75,9 @@ function Notifications({
   )
 }
 
-const Notification: React.FC = ({ children }: { children: ReactElement }) => {
+const Notification: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return (
     <h1 className="flex flex-1 items-center text-3xl font-semibold text-gray-900">
       {children}

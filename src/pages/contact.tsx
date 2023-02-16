@@ -14,7 +14,7 @@ const Hero = () => (
       </h1>
       <p className="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
         We are here to help you with your identity challenges, let us know how
-        and we'll get back to you.
+        and we&apos;ll get back to you.
       </p>
     </div>
   </div>
@@ -93,10 +93,11 @@ function Form() {
           <div className="py-16 px-4 sm:px-6 lg:col-span-2 lg:px-8 lg:py-24 xl:pr-12">
             <div className="mx-auto max-w-lg">
               <h2 className="text-2xl font-extrabold tracking-tight text-indigo-600 dark:text-sky-600 sm:text-3xl">
-                Let's Talk
+                Let&apos;s Talk
               </h2>
               <p className="mt-3 text-lg leading-6 text-gray-500">
-                Contact us directly or fill the form and we'll get back to you.
+                Contact us directly or fill the form and we&apos;ll get back to
+                you.
               </p>
               <dl className="mt-8 text-base text-gray-500">
                 <div>

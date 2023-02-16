@@ -37,9 +37,9 @@
     "use-disposable-list": "^0.2.2"
   },
   "devDependencies": {
+    "@types/gtag.js": "^0.0.12",
     "@types/js-yaml": "^4.0.5",
     "autoprefixer": "^10.4.13",
-    "date-fns": "^2.29.3",
     "fs-extra": "^11.1.0",
     "glob-promise": "^6.0.2",
     "gray-matter": "^4.0.3",
