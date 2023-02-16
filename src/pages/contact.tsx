@@ -189,7 +189,7 @@ function Form() {
                       name="fullName"
                       id="fullName"
                       autoComplete="name"
-                      className="block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:focus:border-sky-500 dark:focus:ring-sky-500"
+                      className="form-input block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500"
                       placeholder="Full name"
                       required
                       value={form.fullName}
@@ -205,7 +205,7 @@ function Form() {
                       name="emailAddress"
                       type="email"
                       autoComplete="email"
-                      className="block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:focus:border-sky-500 dark:focus:ring-sky-500"
+                      className="form-input block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500"
                       placeholder="Email"
                       required
                       value={form.emailAddress}
@@ -221,7 +221,7 @@ function Form() {
                       name="phone"
                       id="phone"
                       autoComplete="tel"
-                      className="block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:focus:border-sky-500 dark:focus:ring-sky-500"
+                      className="form-input block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500"
                       placeholder="Phone"
                       value={form.phone}
                       onChange={handleChange}
@@ -235,7 +235,7 @@ function Form() {
                       id="message"
                       name="message"
                       rows={4}
-                      className="block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:focus:border-sky-500 dark:focus:ring-sky-500"
+                      className="form-textarea block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500"
                       placeholder="Message"
                       required
                       value={form.message}
