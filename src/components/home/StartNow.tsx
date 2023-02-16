@@ -62,7 +62,7 @@ export const StartNow = () => {
         <div className="mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:py-12 lg:px-8">
           {!sentMode && (
             <>
-              <h2 className="inline text-3xl font-normal tracking-tight text-gray-900 sm:block sm:text-6xl dark:text-slate-100">
+              <h2 className="inline text-3xl font-normal tracking-tight text-gray-900 dark:text-slate-100 sm:block sm:text-6xl">
                 Start building for free
               </h2>
               <form
@@ -91,7 +91,7 @@ export const StartNow = () => {
                   <button
                     disabled={inSubmit}
                     type="submit"
-                    className="flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-60 dark:bg-sky-600 lg:py-5 lg:text-2xl"
+                    className="flex w-full items-center justify-center rounded-lg border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-60 dark:bg-sky-600 dark:ring-offset-slate-900 dark:focus:ring-sky-500 lg:py-5 lg:text-2xl"
                   >
                     Get Started
                   </button>

@@ -47,7 +47,7 @@ export default function DocsHero() {
               priority
             />
             <div className="relative">
-              <p className="font-display inline bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text text-5xl tracking-tight text-transparent">
+              <p className="font-display to inline bg-gradient-to-r from-indigo-400 via-indigo-800 to-indigo-400 bg-clip-text text-5xl tracking-tight text-transparent dark:from-sky-200 dark:via-sky-400 dark:to-sky-200">
                 Your login box
               </p>
               <p className="mt-3 text-2xl tracking-tight text-slate-400">
