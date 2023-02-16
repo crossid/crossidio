@@ -174,7 +174,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                 <Link
                                   key={item.id}
                                   href={item.href}
-                                  className="-m-3 flex flex-col justify-between rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-slate-800"
+                                  className="dark:t -m-3 flex flex-col justify-between rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-slate-800"
                                   onClick={() =>
                                     featuresButtonRef?.current?.click()
                                   }
@@ -475,7 +475,9 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                 <div className="px-5 pt-5 pb-6 sm:pb-8">
                   <div className="flex items-center justify-between">
                     <div>
-                      <Logo kind="normal" />
+                      <Link href="/" onClick={closeMobileMenu}>
+                        <Logo kind="normal" />
+                      </Link>
                     </div>
                     <div className="-mr-2">
                       <Popover.Button
@@ -487,25 +489,26 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                       </Popover.Button>
                     </div>
                   </div>
+                  {/* mobile menu */}
                   <div className="mt-6 sm:mt-8">
                     <nav>
                       <div className="grid gap-7 sm:grid-cols-2 sm:gap-y-8 sm:gap-x-4">
                         {features.map((item) => (
-                          <a
+                          <Link
                             key={item.id}
                             href={item.href}
-                            className="-m-3 flex items-center rounded-lg p-3 hover:bg-gray-50"
+                            className="dark:hover-slate-800 -m-3 flex items-center rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-slate-700"
                           >
-                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-black text-white sm:h-12 sm:w-12">
+                            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-black text-white dark:bg-slate-800 dark:text-slate-400 sm:h-12 sm:w-12">
                               <item.icon
                                 className="h-6 w-6"
                                 aria-hidden="true"
                               />
                             </div>
-                            <div className="ml-4 text-base font-medium text-gray-900">
+                            <div className="ml-4 text-base font-medium text-gray-900 dark:text-slate-400">
                               {item.title}
                             </div>
-                          </a>
+                          </Link>
                         ))}
                       </div>
                       <div className="mt-8 text-base">
