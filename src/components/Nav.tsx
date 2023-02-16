@@ -43,7 +43,7 @@ const developer = [
   },
   {
     name: 'Reference',
-    href: 'https://developer.crossid.io/docs/reference/api',
+    href: 'https://developer.crossid.io/api/v1/',
     icon: DocumentMagnifyingGlassIcon,
   },
 ]
@@ -126,7 +126,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
             aria-hidden="true"
           />
           <div className="relative z-20">
-            <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 sm:py-8 lg:justify-start lg:space-x-10 lg:px-8">
+            <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1 sm:px-6 sm:py-2 lg:justify-start lg:space-x-10 lg:px-8">
               {/* logo section */}
               <div>
                 <Link href="/" className="flex">
