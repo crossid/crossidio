@@ -75,7 +75,7 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       client_id={process.env.NEXT_PUBLIC_CID_AUTH_CLIENT_ID || ''}
       redirect_uri={process.env.NEXT_PUBLIC_CID_AUTH_REDIRECT_URI || ''}
       // @ts-ignore TODO
-      region={'us.dev'}
+      region={process.env.NEXT_PUBLIC_CID_AUTH_REGION}
       post_logout_redirect_uri={
         process.env.NEXT_PUBLIC_CID_AUTH_LOGOUT_REDIRECT_URI || ''
       }
