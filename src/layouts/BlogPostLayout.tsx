@@ -7,6 +7,7 @@ import { useTableOfContents } from '@/hooks/toc'
 import { ITOC } from '@/types'
 import { formatDate, timeTagDateFormat } from '@/utils/date'
 import { collectHeadings } from '@/utils/remark'
+import { Fence } from '@/components/Fence'
 import Markdoc from '@markdoc/markdoc'
 import clsx from 'clsx'
 import Head from 'next/head'
@@ -19,6 +20,7 @@ import { Img } from '@/components/markdoc/Img'
 const components = {
   Callout,
   Img,
+  Fence,
 }
 
 export function BlogPostLayout({
