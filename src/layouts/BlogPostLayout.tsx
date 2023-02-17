@@ -225,6 +225,7 @@ export function BlogPostLayout({
                   </ul>
                 </div>
                 <Prose className="pt-10">
+                  <p className="lead">{description}</p>
                   {Markdoc.renderers.react(content, React, { components })}
                 </Prose>
               </article>
