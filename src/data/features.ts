@@ -11,10 +11,10 @@ export interface feature {
 
 export const features: feature[] = [
   {
-    id: 'store',
-    title: 'Identity Store',
+    id: 'user-management',
+    title: 'User Management',
     description: 'Manage users, groups and devices at scale.',
-    href: '/store',
+    href: '/user-management',
     icon: UserIcon,
   },
   // {
