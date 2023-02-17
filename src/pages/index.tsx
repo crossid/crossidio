@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { StartNow } from '@/components/home/StartNow'
 import ReadyToTry from '@/components/home/ReadyToTry'
 import Footer from '@/components/Footer'
+import { Frameworks } from '@/components/home/Frameworks'
 
 function Header() {
   return (
@@ -112,6 +113,7 @@ const Page: NextPageWithLayout = () => {
         </section>
       </div>
       <div className="mb-20 flex flex-col gap-y-20 overflow-hidden pt-20 sm:mb-32 sm:gap-y-32 sm:pt-32 md:mb-40 md:gap-y-40 md:pt-40">
+        <Frameworks />
         <ReadyToTry />
         <StartNow />
       </div>

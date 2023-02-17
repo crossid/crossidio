@@ -1,6 +1,4 @@
-import { ReactNode, useEffect, useRef, useState } from 'react'
-
-const TRANSITION = { duration: 0.5 }
+import { ReactNode } from 'react'
 
 export function Hero() {
   return (

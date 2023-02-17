@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function ReadyToTry() {
   return (
-    <div className="">
+    <div className="z-10">
       <div className="py-16 px-6 sm:px-6 sm:py-24 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-4xl font-bold tracking-tight  text-slate-900 dark:text-white sm:text-6xl">
