@@ -12,12 +12,12 @@ const userm = features.filter((f) => f.id == 'user-management')[0]
 
 const Hero = () => {
   return (
-    <div className={`bg-white`}>
+    <div>
       <div className="mx-auto max-w-7xl py-16">
         <div className="overflow-hidden lg:grid lg:grid-cols-2 lg:gap-4">
           <div className="px-6 pt-10 pb-12 sm:px-16 sm:pt-16 lg:py-16 lg:pr-0 xl:py-20 xl:px-20">
             <div className="lg:self-center">
-              <h2 className="text-4xl font-extrabold text-black sm:text-5xl">
+              <h2 className="text-4xl font-extrabold text-black dark:text-slate-300 sm:text-5xl">
                 <span className="block">Manage Users</span>
               </h2>
               <p className={`mt-8 text-lg leading-6`}>
@@ -48,7 +48,7 @@ const FeatureItem = ({
 }) => (
   <div className="flex">
     <svg
-      className="h-6 w-6 flex-shrink-0"
+      className="h-6 w-6 flex-shrink-0 dark:text-sky-400"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -63,7 +63,9 @@ const FeatureItem = ({
       />
     </svg>
     <div className="ml-3">
-      <dt className="text-lg font-medium leading-6 text-gray-900">{title}</dt>
+      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">
+        {title}
+      </dt>
       <dd className="mt-2 text-base">{description}</dd>
     </div>
   </div>
@@ -71,15 +73,15 @@ const FeatureItem = ({
 
 const StoreSection = () => (
   <>
-    <div className="bg-white" id="store">
+    <div className="" id="store">
       <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:py-24 lg:px-8">
         <div>
           <h2
-            className={`text-base font-semibold uppercase tracking-wide text-indigo-600`}
+            className={`text-base font-semibold uppercase tracking-wide text-indigo-600 dark:text-sky-500`}
           >
             Securely store anything
           </h2>
-          <p className="mt-2 text-3xl font-extrabold text-black">
+          <p className="mt-2 text-3xl font-extrabold text-gray-900 dark:text-slate-300">
             Unified Store
           </p>
           <p className="mt-4 text-lg">
@@ -124,7 +126,7 @@ const StoreSection = () => (
         </div>
       </div>
     </div>
-    <div className="bg-white"></div>
+    <div className=""></div>
   </>
 )
 
@@ -146,7 +148,9 @@ const RuleItem = ({ label, text }: { label: string; text: string }) => (
       />
     </svg>
     <div className="ml-3">
-      <dt className="text-lg font-medium leading-6 text-gray-900">{label}</dt>
+      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">
+        {label}
+      </dt>
       <dd className="mt-2 text-base">{text}</dd>
     </div>
   </div>
@@ -164,13 +168,15 @@ const RoleItem = ({
   <div className="flex">
     <div className="flex-shrink-0">
       <div
-        className={`flex h-12 w-12 items-center justify-center rounded-md bg-indigo-600 text-white`}
+        className={`flex h-12 w-12 items-center justify-center rounded-md bg-indigo-600 text-white dark:bg-sky-600`}
       >
         {children}
       </div>
     </div>
     <div className="ml-4">
-      <dt className="text-lg font-medium leading-6 text-gray-900">{label}</dt>
+      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">
+        {label}
+      </dt>
       <dd className="mt-2 text-base">{text}</dd>
     </div>
   </div>
@@ -188,7 +194,7 @@ const AccessControlSection = () => (
           <div className="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-24 lg:px-8">
             <div>
               <div>
-                <h1 className="text-4xl font-extrabold tracking-tight text-black sm:text-5xl">
+                <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-slate-300 sm:text-5xl">
                   Simple, yet powerful dynamic rules.
                 </h1>
               </div>
@@ -230,7 +236,7 @@ const AccessControlSection = () => (
                         y="0"
                         width="4"
                         height="4"
-                        className="text-gray-200"
+                        className="text-gray-200 dark:text-slate-800"
                         fill="currentColor"
                       />
                     </pattern>
@@ -255,7 +261,6 @@ const AccessControlSection = () => (
         className="absolute right-full hidden translate-x-1/2 translate-y-12 transform lg:block"
         width="404"
         height="784"
-        fill="none"
         viewBox="0 0 404 784"
         aria-hidden="true"
       >
@@ -273,7 +278,7 @@ const AccessControlSection = () => (
               y="0"
               width="4"
               height="4"
-              className="text-gray-200"
+              className="text-gray-200 dark:text-slate-800"
               fill="currentColor"
             />
           </pattern>
@@ -288,7 +293,7 @@ const AccessControlSection = () => (
       <div className="relative mx-auto mt-12 px-4 sm:mt-16 sm:px-6 lg:mt-24 lg:max-w-7xl lg:px-8">
         <div className="lg:grid lg:grid-flow-row-dense lg:grid-cols-2 lg:items-center lg:gap-8">
           <div className="lg:col-start-2">
-            <h3 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
+            <h3 className="text-2xl font-extrabold tracking-tight text-gray-900 dark:text-slate-300 sm:text-3xl">
               Lightweight Groups
             </h3>
             <p className="mt-3 text-lg">
@@ -410,13 +415,13 @@ export default function Store() {
         <title>{userm.title}</title>
         <meta name="description" content={userm.description} />
       </Head>
-      <div className="bg-white">
+      <div className="bg-white dark:bg-slate-900">
         <main className="antialiased">
           <Hero />
           {/* <Map /> */}
           <StoreSection />
           <AccessControlSection />
-          <div className="relative bg-white py-16 sm:py-24 lg:py-36"></div>
+          <div className="relative py-16 sm:py-24 lg:py-36"></div>
         </main>
       </div>
     </>
