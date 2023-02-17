@@ -33,7 +33,7 @@ function TrafficLightsIcon(props: any) {
 
 export default function DocsHero() {
   return (
-    <div className="overflow-hidden bg-slate-100 dark:-mb-32 dark:mt-[-4.5rem] dark:bg-slate-900 dark:pb-32 dark:pt-[4.5rem] dark:lg:mt-[-4.75rem] dark:lg:pt-[4.75rem]">
+    <div className="overflow-hidden  bg-slate-900 dark:-mb-32 dark:mt-[-4.5rem] dark:pb-32 dark:pt-[4.5rem] dark:lg:mt-[-4.75rem] dark:lg:pt-[4.75rem]">
       <div className="py-16 sm:px-2 lg:relative lg:py-20 lg:px-0">
         <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-y-16 gap-x-8 px-4 lg:max-w-8xl lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
           <div className="relative z-10 md:text-center lg:text-left">
@@ -50,7 +50,7 @@ export default function DocsHero() {
               <p className="font-display to inline bg-gradient-to-r from-indigo-400 via-indigo-800 to-indigo-400 bg-clip-text text-5xl tracking-tight text-transparent dark:from-sky-200 dark:via-sky-400 dark:to-sky-200">
                 Your login box
               </p>
-              <p className="mt-3 text-2xl tracking-tight text-slate-400">
+              <p className="mt-3 text-2xl tracking-tight text-gray-500 dark:text-slate-400">
                 Crossid is the login box that your customers will love.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
@@ -89,7 +89,7 @@ export default function DocsHero() {
               />
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-sky-300 via-sky-300/70 to-blue-300 opacity-10 blur-lg" />
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-sky-300 via-sky-300/70 to-blue-300 opacity-10" />
-              <div className="relative rounded-2xl ring-1 ring-white/10 backdrop-blur dark:bg-[#0A101F]/80">
+              <div className="relative rounded-2xl bg-[#0A101F]/80 ring-1 ring-white/10 backdrop-blur">
                 <div className="absolute -top-px left-20 right-11 h-px bg-gradient-to-r from-sky-300/0 via-sky-300/70 to-sky-300/0" />
                 <div className="absolute -bottom-px left-11 right-20 h-px bg-gradient-to-r from-blue-400/0 via-blue-400 to-blue-400/0" />
                 <div className="pl-4 pt-4">
@@ -101,14 +101,14 @@ export default function DocsHero() {
                         className={clsx(
                           'flex h-6 rounded-full',
                           tab.isActive
-                            ? 'bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-400 dark:text-sky-300'
+                            ? 'bg-gradient-to-r from-sky-400/30 via-sky-400 to-sky-400/30 p-px font-medium text-sky-300'
                             : 'text-slate-500'
                         )}
                       >
                         <div
                           className={clsx(
                             'flex items-center rounded-full px-2.5',
-                            tab.isActive && 'bg-white dark:bg-slate-800'
+                            tab.isActive && 'bg-slate-800'
                           )}
                         >
                           {tab.name}
@@ -178,7 +178,7 @@ export default function DocsHero() {
 
 const styles = {
   primary:
-    'rounded-full bg-sky-300 py-2 px-4 text-sm font-semibold text-slate-900 hover:bg-sky-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/50 active:bg-sky-500',
+    'rounded-full bg-indigo-500 dark:bg-sky-300 py-2 px-4 text-sm font-semibold text-gray-100 dark:text-slate-900 hover:bg-indigo-600 dark:hover:bg-sky-200 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300/50 active:bg-sky-500',
   secondary:
     'rounded-full bg-slate-800 py-2 px-4 text-sm font-medium text-white hover:bg-slate-700 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 active:text-slate-400',
 }
