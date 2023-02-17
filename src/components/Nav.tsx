@@ -56,22 +56,22 @@ const resources = [
 ]
 
 const blogPosts = [
-  {
-    id: 1,
-    name: 'Deploy identity-aware Monorepo on DigitalOcean.',
-    href: 'https://developer.crossid.io/blog/do-crossid-monorepo',
-    preview:
-      'See how you can deploy frontend and backend components with identity-awareness on DigitalOcean in minutes.',
-    imageUrl: '/todo',
-  },
-  {
-    id: 2,
-    name: 'Echo with OAuth2.',
-    href: 'https://developer.crossid.io/blog/echo-with-oauth2',
-    preview:
-      'Show to protect Echo endpoints with access token issued by Crossid OAuth2 auth server.',
-    imageUrl: '/todo',
-  },
+  // {
+  //   id: 1,
+  //   name: 'Deploy identity-aware Monorepo on DigitalOcean.',
+  //   href: 'https://developer.crossid.io/blog/do-crossid-monorepo',
+  //   preview:
+  //     'See how you can deploy frontend and backend components with identity-awareness on DigitalOcean in minutes.',
+  //   imageUrl: '/todo',
+  // },
+  // {
+  //   id: 2,
+  //   name: 'Echo with OAuth2.',
+  //   href: 'https://developer.crossid.io/blog/echo-with-oauth2',
+  //   preview:
+  //     'Show to protect Echo endpoints with access token issued by Crossid OAuth2 auth server.',
+  //   imageUrl: '/todo',
+  // },
   // {
   //   id: 3,
   //   name: 'Oauth2-Proxy with Crossid.',
@@ -79,14 +79,15 @@ const blogPosts = [
   //   preview: 'Protect your apps and files using oauth2-proxy identity awareness proxy.',
   //   imageUrl: 'https://oauth2-proxy.github.io/oauth2-proxy/img/logos/OAuth2_Proxy_icon.svg',
   // },
-  // {
-  //   id: 2,
-  //   name: 'What is SCIM.',
-  //   href: 'https://developer.crossid.io/blog/what-is-scim',
-  //   preview:
-  //     'The protocol to manage user identity in cloud-based applications and services in a standardized way.',
-  //   imageUrl: 'https://www.thousandeyes.com/dA/ffba0ead06/Featured-Image-SCIM-Blog.png',
-  // },
+  {
+    id: 2,
+    name: 'What is SCIM.',
+    href: '/blog/what-is-scim',
+    preview:
+      'The protocol to manage user identity in cloud-based applications and services in a standardized way.',
+    // imageUrl:
+    //   'https://www.thousandeyes.com/dA/ffba0ead06/Featured-Image-SCIM-Blog.png',
+  },
 ]
 
 function MenuItemChevron({ open }: { open: boolean }) {
@@ -297,7 +298,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                   <ul className="mt-5 space-y-6">
                                     {resources.map((item) => (
                                       <li key={item.name} className="flow-root">
-                                        <a
+                                        <Link
                                           href={item.href}
                                           className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50"
                                         >
@@ -308,7 +309,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                           <span className="ml-4">
                                             {item.name}
                                           </span>
-                                        </a>
+                                        </Link>
                                       </li>
                                     ))}
                                   </ul>
@@ -322,18 +323,20 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                   <ul className="mt-6 space-y-6">
                                     {blogPosts.map((post) => (
                                       <li key={post.id} className="flow-root">
-                                        <a
+                                        <Link
                                           href={post.href}
                                           className="-m-3 flex rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-slate-900"
                                         >
                                           <div className="hidden flex-shrink-0 sm:block">
-                                            <Image
+                                            {/* <Image
                                               className="h-20 w-20 rounded-md object-cover"
                                               width={500}
                                               height={500}
-                                              src={post.imageUrl}
+                                              // src={post.imageUrl}
+                                              src={}
                                               alt=""
-                                            />
+                                            /> */}
+                                            <BlogPostSvg className="h-18 w-18 text-gray-400" />
                                           </div>
                                           <div className="w-0 flex-1 sm:ml-8">
                                             <h4 className="truncate text-base font-medium text-gray-900 dark:text-slate-100">
@@ -343,20 +346,20 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                               {post.preview}
                                             </p>
                                           </div>
-                                        </a>
+                                        </Link>
                                       </li>
                                     ))}
                                   </ul>
                                 </div>
                                 <div className="mt-6 text-sm font-medium">
-                                  <a
-                                    href="https://developer.crossid.io/blog"
+                                  <Link
+                                    href="/blog"
                                     className="text-indigo-600 hover:text-indigo-500 dark:text-sky-600 dark:hover:text-sky-500"
                                   >
                                     {' '}
                                     View all posts{' '}
                                     <span aria-hidden="true">&rarr;</span>
-                                  </a>
+                                  </Link>
                                 </div>
                               </div>
                             </div>
@@ -618,5 +621,19 @@ export default function Nav({ navigation }: { navigation?: INav }) {
         </>
       )}
     </Popover>
+  )
+}
+
+function BlogPostSvg({ className }: { className: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="currentColor"
+      className={className}
+      viewBox="0 0 24 24"
+    >
+      <path d="M22 7.662l1-1V18h-7v4.745L11.255 18H1V2h16.763l-1 1H2v14h9.668L15 20.331V17h7zm1.657-5.192a.965.965 0 0 1 .03 1.385l-9.325 9.324-4.097 1.755a.371.371 0 0 1-.487-.487l1.755-4.097 9.31-9.309a.98.98 0 0 1 1.385 0zm-10.1 9.965l-1.28-1.28-.961 2.24zm7.243-7.11l-1.414-1.413-6.469 6.47 1.414 1.413zm1.865-2.445l-.804-.838a.42.42 0 0 0-.6-.006l-1.168 1.168 1.414 1.415 1.152-1.152a.42.42 0 0 0 .006-.587z" />
+      <path fill="none" d="M0 0h24v24H0z" />
+    </svg>
   )
 }
