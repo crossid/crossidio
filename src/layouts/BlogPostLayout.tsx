@@ -213,10 +213,10 @@ export function BlogPostLayout({
                           </div>
                           <div className="mt-1">
                             <a
-                              href={`https://twitter.com/${author.twitter}`}
+                              href={`https://github.com/${authors[0].github}`}
                               className="text-sky-500 hover:text-sky-600 dark:text-sky-400"
                             >
-                              @{author.twitter}
+                              @{author.github}
                             </a>
                           </div>
                         </div>
