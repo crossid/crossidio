@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { CrossidAuthProvider as AuthProvider } from "@crossid/crossid-react";
-import ProtectedRoute from "./ProtectedRoute.tsx";
-import AuthButton from "./AuthButton.tsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
+import AuthButton from "./AuthButton.jsx";
 
 const redirectTo = window.location.origin +"/"
 const App = () => {
