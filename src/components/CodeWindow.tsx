@@ -1,5 +1,13 @@
 import clsx from 'clsx'
-import { forwardRef, Fragment, ReactNode } from 'react'
+import {
+  forwardRef,
+  Fragment,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react'
 
 export interface Line {
   types: string[]
@@ -126,3 +134,36 @@ CodeWindow.Code2 = forwardRef<HTMLDivElement, Code2Props>(function Code(
     </div>
   )
 })
+
+export const ComponentLink: React.FC<{
+  children: React.ReactNode
+  onClick: MouseEventHandler<HTMLButtonElement>
+}> = ({ onClick, children }): JSX.Element => {
+  const [active, setActive] = useState(false)
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const modifier = e.ctrlKey || e.shiftKey || e.altKey || e.metaKey
+      if (!active && modifier) {
+        setActive(true)
+      } else if (active && !modifier) {
+        setActive(false)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('keyup', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('keyup', onKey)
+    }
+  }, [active])
+
+  return active ? (
+    <button type="button" className="hover:underline" onClick={onClick}>
+      {children}
+    </button>
+  ) : (
+    // TODO not sure if this is correct
+    (children as ReactElement)
+  )
+}

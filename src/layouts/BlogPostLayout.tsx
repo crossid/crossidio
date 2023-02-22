@@ -15,12 +15,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { Img } from '@/components/markdoc/Img'
+import Mermaid from '@/components/markdoc/Mermaid'
+import AddIntegration from '@/components/markdoc/AddIntegration'
 
 // TODO
 const components = {
   Callout,
   Img,
   Fence,
+  Mermaid,
+  AddIntegration,
 }
 
 export function BlogPostLayout({
