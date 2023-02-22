@@ -29,7 +29,7 @@ function Header() {
             }}
           />
         </div>
-        <div className="relative items-center justify-between text-sm leading-6 text-slate-700 dark:text-slate-200">
+        <div className="relative items-center justify-between pt-6 text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200 lg:pt-8">
           <Nav />
         </div>
         <div className="relative mx-auto max-w-5xl pt-20 sm:pt-24 lg:pt-32">
