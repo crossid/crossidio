@@ -30,7 +30,7 @@ export const Logo = ({
 }: {
   kind?: 'normal' | 'grayscale'
   className?: string
-  hideTextInMobile: boolean
+  hideTextInMobile?: boolean
 }) => {
   return (
     <p>
