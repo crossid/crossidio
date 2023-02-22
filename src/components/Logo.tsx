@@ -25,10 +25,12 @@ export const Logomark = ({
 
 export const Logo = ({
   kind = 'normal',
+  hideTextInMobile = true,
   className,
 }: {
   kind?: 'normal' | 'grayscale'
   className?: string
+  hideTextInMobile: boolean
 }) => {
   return (
     <p>
@@ -36,6 +38,7 @@ export const Logo = ({
       <span
         className={clsx(
           className,
+          hideTextInMobile && 'hidden lg:inline-flex',
           'ml-1 rounded-md font-logo text-2xl',
           kind === 'normal' && 'text-indigo-600 dark:text-white',
           kind === 'grayscale' && 'text-slate-500'
