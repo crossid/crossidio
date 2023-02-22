@@ -4,7 +4,7 @@ import fs from 'fs'
 import Markdoc, { Config } from '@markdoc/markdoc'
 import React, { ReactElement } from 'react'
 import yaml from 'js-yaml'
-import { authors, IAuthor } from '@/data/authors'
+import { authors } from '@/data/authors'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { BlogPostLayout } from '@/layouts/BlogPostLayout'
 import { pathToSlug } from '@/utils/fsystem'
@@ -75,6 +75,10 @@ export const getStaticProps: GetStaticProps<{
             type: Number,
           },
         },
+      },
+      mermaid: {
+        render: 'Mermaid',
+        attributes: {},
       },
     },
     nodes: {
