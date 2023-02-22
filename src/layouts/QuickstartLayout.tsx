@@ -1,0 +1,484 @@
+import {
+  CodeWindow,
+  ComponentLink,
+  getClassNameForToken,
+} from '@/components/CodeWindow'
+import { Prose } from '@/components/Prose'
+import { useActiveElement } from '@/hooks/useActiveElement'
+import { IProps, ICode } from '@/pages/docs/quickstarts/[framework]'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
+import Markdoc from '@markdoc/markdoc'
+import clsx from 'clsx'
+import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect'
+import FooterSlim from '@/components/FooterSlim'
+import Nav from '@/components/Nav'
+import Link from 'next/link'
+import { Disclosure, Menu, Popover, Transition } from '@headlessui/react'
+import {
+  Bars3Icon,
+  ChevronDownIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { Logo } from '@/components/Logo'
+import { IFramework } from '@/types'
+import { useScrollPosition } from '@/hooks/usePositionScroll'
+import { AnimatePresence, motion } from 'framer-motion'
+
+const Heading: React.FC<
+  {
+    tag: keyof JSX.IntrinsicElements
+    level: number
+  } & React.HTMLAttributes<HTMLOrSVGElement>
+> = ({ tag: Head, level, ...rest }) => {
+  if (level === 1) {
+    Head = 'h1'
+  } else if (level === 2) {
+    Head = 'h2'
+  } else if (level === 3) {
+    Head = 'h3'
+  }
+
+  let classes
+  if (level === 1) {
+    classes = '[counter-reset:h2counter]'
+  } else if (level === 2) {
+    classes =
+      '[counter-increment:h2counter] before:content-[counter(h2counter)] before:inline-flex dark:before:bg-sky-500 before:mr-2 before:rounded-md before:bg-indigo-600 before:px-2 before:py-1 before:font-bold before:leading-none before:text-white'
+  }
+
+  return <Head {...rest} className={classes} />
+}
+
+// TODO we need to share the same components as with other markdoc renderers
+const components = {
+  Heading,
+}
+
+type Comp = 'code' | 'configure-app'
+
+export default function Layout(props: IProps) {
+  const {
+    articleContent,
+    codes,
+    frameworkMeta,
+    framework,
+    articleFrontmatter,
+  } = props
+  const scrollerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const parsedContent = JSON.parse(articleContent)
+  const [activeElement] = useActiveElement('h2', containerRef, scrollerRef, 80)
+  const comp = activeElement?.getAttribute('component') as Comp
+  const data = activeElement?.getAttribute('data')
+  const scrollPos = useScrollPosition()
+
+  return (
+    <>
+      <Nav />
+      <AnimatePresence initial={false} mode="wait">
+        {scrollPos > 60 && (
+          <motion.div
+            key={framework}
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="sticky top-0 z-10"
+          >
+            <NavBar
+              scrollerRef={scrollerRef}
+              containerRef={containerRef}
+              activeElementId={activeElement?.id || ''}
+              frameworkMeta={frameworkMeta}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <div className="bgsm:px-2 relative mx-auto mt-8 flex max-w-8xl justify-center scroll-smooth lg:px-8 xl:px-12">
+        <div className="grid grid-cols-1 items-start gap-4 lg:gap-8 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 lg:col-span-1">
+            <article>
+              <header className="mb-9 space-y-1">
+                <p className="font-display text-sm font-medium text-indigo-500 dark:text-sky-500">
+                  {articleFrontmatter.title}
+                </p>
+                <h1 className="font-display text-2xl tracking-tight text-slate-600 dark:text-white">
+                  {articleFrontmatter.description}
+                </h1>
+              </header>
+              <Prose>
+                <div id="container" ref={containerRef}>
+                  {Markdoc.renderers.react(parsedContent, React, {
+                    components,
+                  })}
+                </div>
+              </Prose>
+            </article>
+          </div>
+          <div className="sticky top-40 hidden grid-cols-1 gap-4 xl:grid	">
+            {comp === 'code' && (
+              <Code codes={codes} currentFileName={data || ''} />
+            )}
+            {comp === 'configure-app' && <ConfigureApp />}
+          </div>
+        </div>
+      </div>
+      <FooterSlim />
+    </>
+  )
+}
+
+function Code({
+  codes,
+  currentFileName,
+}: {
+  codes: ICode[]
+  currentFileName: string
+}) {
+  const [activeFilename, setActiveFilename] = useState<string | undefined>(
+    currentFileName
+  )
+  const [lines, setLines] = useState<ILines>([])
+
+  const filenames = codes.map((c) => c.frontmatter.name)
+  let singleCode: ICode
+
+  useIsomorphicLayoutEffect(() => {
+    setActiveFilename(currentFileName)
+  }, [currentFileName])
+
+  useIsomorphicLayoutEffect(() => {
+    singleCode = codes.filter((c) => c.frontmatter.name === activeFilename)[0]
+    setLines(JSON.parse(singleCode.lines))
+  }, [activeFilename])
+
+  return (
+    <CodeWindow border={false}>
+      <div className="relative min-w-full flex-none px-1">
+        <ul className="flex text-sm leading-6 text-slate-400">
+          {filenames.map((tab) => (
+            <li key={tab} className="flex-none">
+              <button
+                type="button"
+                className={clsx(
+                  'relative py-2 px-3',
+                  tab === activeFilename
+                    ? 'text-sky-300'
+                    : 'hover:text-slate-300'
+                )}
+                onClick={() => setActiveFilename(tab)}
+              >
+                {tab}
+                {tab === activeFilename && (
+                  <span className="absolute inset-x-3 bottom-0 z-10 h-px bg-sky-300" />
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <div className="absolute inset-x-0 bottom-0 h-px bg-slate-500/30" />
+      </div>
+      <div className="flex min-h-0 w-full flex-auto">
+        <CodeWindow.Code2 lines={lines.length}>
+          {lines.map((tokens, lineIndex) => (
+            <Fragment key={lineIndex}>
+              {tokens.map((token: ILine, tokenIndex: number) => {
+                if (
+                  (token.types[token.types.length - 1] === 'class-name' ||
+                    (token.types[token.types.length - 1] === 'tag' &&
+                      /^([A-Z]|x-)/.test(token.content))) &&
+                  tokens[tokenIndex - 1]?.types[
+                    tokens[tokenIndex - 1].types.length - 1
+                  ] === 'punctuation' &&
+                  (tokens[tokenIndex - 1]?.content === '<' ||
+                    tokens[tokenIndex - 1].content === '</')
+                ) {
+                  return (
+                    <span
+                      key={tokenIndex}
+                      className={getClassNameForToken(token)}
+                    >
+                      <ComponentLink
+                        onClick={() =>
+                          setActiveFilename(
+                            filenames.find((x) =>
+                              x.startsWith(
+                                `${token.content.replace(/^x-/, '')}.`
+                              )
+                            )
+                          )
+                        }
+                      >
+                        {token.content}
+                      </ComponentLink>
+                    </span>
+                  )
+                }
+
+                if (
+                  token.types[token.types.length - 1] === 'string' &&
+                  /^(['"`])\.\/.*?\.(js|vue|jsx|tsx)\1$/.test(token.content)
+                ) {
+                  const tab = token.content.substr(3, token.content.length - 4)
+                  return (
+                    <span
+                      key={tokenIndex}
+                      className={getClassNameForToken(token)}
+                    >
+                      {token.content.substr(0, 1)}
+                      <button
+                        type="button"
+                        className="underline"
+                        onClick={() =>
+                          setActiveFilename(
+                            // Object.keys(filenames[framework]).indexOf(tab)
+                            'TODO'
+                          )
+                        }
+                      >
+                        ./{tab}
+                      </button>
+                      {token.content.substr(0, 1)}
+                    </span>
+                  )
+                }
+
+                return (
+                  <span
+                    key={tokenIndex}
+                    className={getClassNameForToken(token)}
+                  >
+                    {token.content}
+                  </span>
+                )
+              })}
+              {'\n'}
+            </Fragment>
+          ))}
+        </CodeWindow.Code2>
+      </div>
+    </CodeWindow>
+  )
+}
+
+function ConfigureApp() {
+  return (
+    <div className="py-24 px-6 sm:px-6 sm:py-32 lg:px-8">
+      <div className="mx-auto max-w-xl text-center">
+        <h3 className="text-3xl font-normal tracking-tight">
+          <Link href="/login" className="text-indigo-500 dark:text-sky-500">
+            Login
+          </Link>{' '}
+          your account or{' '}
+          <Link href="/signup" className="text-indigo-500 dark:text-sky-500">
+            signup
+          </Link>{' '}
+          a new account to configure your app directly from this tour.
+        </h3>
+        <div className="mt-10 flex items-center justify-center gap-x-6">
+          <Link
+            href="/signup"
+            className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-sky-600 dark:hover:bg-sky-700"
+          >
+            Signup
+          </Link>
+          <a
+            href="#"
+            className="text-base font-semibold leading-7 text-gray-900"
+          >
+            Login
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+interface ISection {
+  id: string
+  title: string
+}
+
+function NavBar({
+  activeElementId,
+  containerRef,
+  scrollerRef,
+  frameworkMeta,
+}: {
+  activeElementId: string
+  containerRef: React.RefObject<HTMLDivElement>
+  scrollerRef: React.RefObject<HTMLDivElement>
+  frameworkMeta: IFramework
+}) {
+  const [sections, setSections] = useState<ISection[]>([])
+  useEffect(() => {
+    const sections: ISection[] = []
+    const elements = containerRef.current?.querySelectorAll('h2')
+    if (!elements) return
+    for (let i = 0; i < elements.length; i++) {
+      sections.push({ id: elements[i].id, title: elements[i].innerHTML })
+    }
+    setSections(sections)
+  }, [containerRef])
+
+  const activeSection = sections.filter((s) => s.id === activeElementId)[0]
+
+  return (
+    <Disclosure as="nav" className="bg-white dark:bg-slate-900">
+      {({ open }) => (
+        <>
+          <div
+            ref={scrollerRef}
+            className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+          >
+            <div className="flex h-16 justify-between">
+              <div className="flex">
+                <div className="flex flex-shrink-0 items-center">
+                  <Logo />
+                </div>
+                <div className="hidden sm:ml-6 sm:flex sm:items-center">
+                  <Menu
+                    as="div"
+                    className="relative  items-center px-1 pt-1 text-sm font-medium"
+                  >
+                    <div>
+                      <Menu.Button className="inline-flex text-lg font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-white dark:ring-offset-slate-900 dark:focus:ring-sky-500">
+                        <span className="sr-only">Open sections</span>
+                        {activeSection?.title}
+                        <ChevronDownIcon
+                          className="ml-2 -mr-1 h-7 w-7 text-violet-200 hover:text-violet-100"
+                          aria-hidden="true"
+                        />
+                      </Menu.Button>
+                    </div>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-200"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute right-0 z-10 mt-2  w-96 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-900">
+                        {sections.map((section, sectionIndex) => (
+                          <Menu.Item key={section.id}>
+                            {({ active }) => (
+                              <a
+                                href={`#${section.id}`}
+                                className={clsx(
+                                  active ? 'bg-gray-100 dark:bg-slate-800' : '',
+                                  ' block px-4 py-2 text-lg text-gray-600 dark:text-slate-300'
+                                )}
+                              >
+                                <div className="item-center flex">
+                                  {/* <span className="mr-2 inline-flex rounded-full bg-indigo-600 px-3 py-1 font-bold text-white before:leading-none dark:before:bg-sky-500">
+                                    {sectionIndex + 1}
+                                  </span> */}
+                                  <span className="mr-2 inline-flex items-center justify-center rounded-full bg-indigo-600 px-2 py-1 text-xs font-bold leading-none text-white dark:bg-sky-500 dark:text-white dark:before:bg-sky-500">
+                                    {sectionIndex + 1}
+                                  </span>
+                                  {section.title}
+                                </div>
+                              </a>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </Menu.Items>
+                    </Transition>
+                  </Menu>
+                </div>
+              </div>
+              <div className="hidden sm:ml-6 sm:flex sm:items-center">
+                <div className="flex-shrink-0">
+                  <a
+                    href={frameworkMeta.sample_repo.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    type="button"
+                    className="mr-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:ring-offset-slate-900 dark:focus:ring-sky-500"
+                  >
+                    <GithubIcon className="-ml-1 mr-2 h-5 w-5" />
+                    <span>Repo</span>
+                  </a>
+                  {/* <button
+                    type="button"
+                    className="relative inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-sky-500 dark:ring-offset-slate-900 dark:hover:bg-sky-700 dark:focus:ring-sky-500"
+                  >
+                    <ArrowDownTrayIcon
+                      className="-ml-1 mr-2 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    <span>Download Sample</span>
+                  </button> */}
+                </div>
+              </div>
+              <div className="-mr-2 flex items-center sm:hidden">
+                {/* Mobile menu button */}
+                <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 dark:hover:bg-slate-800 dark:focus:ring-sky-500">
+                  <span className="sr-only">Open main menu</span>
+                  {open ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              </div>
+            </div>
+          </div>
+
+          <Disclosure.Panel className="sm:hidden">
+            <div className="space-y-1 pt-2 pb-3">
+              {sections.map((section) => (
+                <Disclosure.Button
+                  key={section.id}
+                  as="a"
+                  href={`#${section.id}`}
+                  className={clsx(
+                    'block border-l-4 py-2 pl-3 pr-4 text-base font-medium text-gray-500  dark:bg-slate-900 dark:text-slate-400',
+                    section.id === activeElementId
+                      ? 'border-indigo-500 dark:border-sky-500'
+                      : 'border-gray-300 dark:border-slate-800'
+                  )}
+                >
+                  {section.title}
+                </Disclosure.Button>
+              ))}
+            </div>
+            <div className="border-t border-gray-200 pt-4 pb-3">
+              <div className="mt-3 space-y-1">
+                <Disclosure.Button
+                  as="a"
+                  href={frameworkMeta.sample_repo.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                >
+                  Repo
+                </Disclosure.Button>
+                {/* <Disclosure.Button
+                  as="a"
+                  href="#"
+                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                >
+                  Download Sample
+                </Disclosure.Button> */}
+              </div>
+            </div>
+          </Disclosure.Panel>
+        </>
+      )}
+    </Disclosure>
+  )
+}
+
+function GithubIcon(props: any) {
+  return (
+    <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+      <path
+        fillRule="evenodd"
+        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+        clipRule="evenodd"
+      />
+    </svg>
+  )
+}

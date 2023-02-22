@@ -33,45 +33,12 @@ import { lines as vueCompUnprotectedSample } from '@/samples/vue/components/Unpr
 // javascript
 import { lines as jsIndexSample } from '@/samples/javascript/index.html?highlight'
 
-import { CodeWindow, getClassNameForToken } from '../CodeWindow'
+import { CodeWindow, ComponentLink, getClassNameForToken } from '../CodeWindow'
 import clsx from 'clsx'
 import { GridLockup } from './GridLockup'
 import { ArrowLeftOnRectangleIcon } from '@heroicons/react/24/outline'
 
 type FrameworkType = 'React' | 'Vue' | 'Javascript'
-
-const ComponentLink: React.FC<{
-  children: React.ReactNode
-  onClick: MouseEventHandler<HTMLButtonElement>
-}> = ({ onClick, children }): JSX.Element => {
-  const [active, setActive] = useState(false)
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      const modifier = e.ctrlKey || e.shiftKey || e.altKey || e.metaKey
-      if (!active && modifier) {
-        setActive(true)
-      } else if (active && !modifier) {
-        setActive(false)
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    window.addEventListener('keyup', onKey)
-    return () => {
-      window.removeEventListener('keydown', onKey)
-      window.removeEventListener('keyup', onKey)
-    }
-  }, [active])
-
-  return active ? (
-    <button type="button" className="hover:underline" onClick={onClick}>
-      {children}
-    </button>
-  ) : (
-    // TODO not sure if this is correct
-    (children as ReactElement)
-  )
-}
 
 export function Frameworks() {
   const [framework, setFramework] = useState<FrameworkType>('React')
@@ -292,7 +259,7 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
 
                   if (
                     token.types[token.types.length - 1] === 'string' &&
-                    /^(['"`])\.\/.*?\.(js|vue)\1$/.test(token.content)
+                    /^(['"`])\.\/.*?\.(js|vue|jsx|tsx)\1$/.test(token.content)
                   ) {
                     const tab = token.content.substr(
                       3,
@@ -344,7 +311,7 @@ function AppSample() {
   console.log(selectedItem)
 
   return (
-    <div className="relative z-10 my-auto divide-y divide-slate-100 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 dark:divide-slate-200/5 dark:bg-slate-800 dark:highlight-white/10 xl:mt-18">
+    <div className="relative z-10 my-auto hidden divide-y divide-slate-100 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 dark:divide-slate-200/5 dark:bg-slate-800 dark:highlight-white/10 lg:block xl:mt-18">
       <section className="space-y-4 px-4 pt-4 pb-4 sm:px-6 sm:pb-6 lg:px-4 lg:pb-4 xl:px-6 xl:pb-6">
         <header className="flex items-center justify-between">
           <nav className="p-4 text-sm font-medium">
