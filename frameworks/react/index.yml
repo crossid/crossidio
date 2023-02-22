@@ -1,0 +1,23 @@
+title: React
+logo: react
+aliases:
+  - reactjs
+tags:
+  - javascript
+  - spa
+languages:
+  - javascript
+framework_repo:
+  name: react
+  url: https://github.com/facebook/react
+  branch: main
+sdk_repo:
+  name: react-sdk
+  url: https://github.com/crossid/crossid-react
+  branch: main
+sample_repo:
+  name: react-sample
+  url: https://github.com/crossid/react-sample
+  branch: master
+requirements:
+  - react > 18.2.0
