@@ -25,10 +25,12 @@ interface IRepo {
 }
 
 export interface IFramework {
-  // the unique name of the framework, e.g., "react"
-  name: string
   // the title of the tech, e.g., "React"
   title: string
+  // framework tags (e.g., 'javascript', 'spa')
+  tags: string[]
+  // the logo of the framework
+  logo: string
   // the repo of the framework
   framework_repo: IRepo
   // the code of the sdk

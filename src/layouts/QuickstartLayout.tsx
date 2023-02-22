@@ -5,7 +5,7 @@ import {
 } from '@/components/CodeWindow'
 import { Prose } from '@/components/Prose'
 import { useActiveElement } from '@/hooks/useActiveElement'
-import { IProps, ICode } from '@/pages/docs/quickstarts/[framework]'
+import { ICode, IProps } from '@/pages/docs/frameworks/[framework]'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import Markdoc from '@markdoc/markdoc'
 import clsx from 'clsx'
@@ -13,7 +13,7 @@ import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect'
 import FooterSlim from '@/components/FooterSlim'
 import Nav from '@/components/Nav'
 import Link from 'next/link'
-import { Disclosure, Menu, Popover, Transition } from '@headlessui/react'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
   ChevronDownIcon,
@@ -108,7 +108,7 @@ export default function Layout(props: IProps) {
                 },
                 {
                   title: frameworkMeta.title,
-                  href: `/docs/frameworks/${framework}`,
+                  href: `/${framework}`,
                   current: true,
                 },
               ]}

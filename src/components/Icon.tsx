@@ -126,11 +126,9 @@ export function LightMode({
   )
 }
 
-const DarkMode: React.FC<{ children: React.ReactNode; className: String }> = ({
-  children,
-  className,
-  ...props
-}) => {
+const DarkMode: React.FC<
+  JSX.IntrinsicElements['g'] & { children: React.ReactNode; className?: String }
+> = ({ children, className, ...props }) => {
   return (
     <g className={clsx('hidden dark:inline', className)} {...props}>
       {children}
