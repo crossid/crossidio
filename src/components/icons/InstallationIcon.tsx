@@ -5,7 +5,7 @@ export function InstallationIcon({
   color,
 }: {
   id: string
-  color: 'amber' | 'blue'
+  color: 'amber' | 'blue' | 'gray'
 }) {
   return (
     <>

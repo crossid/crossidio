@@ -5,7 +5,7 @@ export function LightbulbIcon({
   color,
 }: {
   id: string
-  color: 'blue' | 'amber'
+  color: 'blue' | 'amber' | 'gray'
 }) {
   return (
     <>

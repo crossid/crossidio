@@ -5,7 +5,7 @@ export function WarningIcon({
   color,
 }: {
   id: string
-  color: 'blue' | 'amber'
+  color: 'blue' | 'amber' | 'gray'
 }) {
   return (
     <>
