@@ -1,7 +1,6 @@
-export const integrationsTreeSha = '4f80b97b1b20cb9d1db538f823a86dd725fad0b2'
+const integrationsTreeName = 'integrations'
 const githubApiUrlPrefix = `https://api.github.com/repos/crossid/icatalog/git`
 
-// TODO: this has to be a long lasting key
 const apiKey = process.env.GITHUB_API_KEY
 
 const headers = {
@@ -38,8 +37,10 @@ export type GithubFile = {
   node_id: string
   size: number
   url: string
-  // base64 content
+  // content
   content: string
+  // content's encoding
+  encoding: BufferEncoding
   // decoded content
   json: Integration
 }
@@ -59,17 +60,23 @@ type GithubFolder = {
   tree: fileObj[]
 }
 
-export async function getFolder(sha: string): Promise<GithubFolder> {
-  const url = `${githubApiUrlPrefix}/trees/${sha}`
+export async function getFolder(folderName: string): Promise<GithubFolder> {
+  const url = `${githubApiUrlPrefix}/trees/main`
   const response = await fetch(url, { headers })
-  const responseJson = await response.json()
-  return responseJson
+  const { tree } = await response.json()
+  const folder = tree.find((n: fileObj) => n.path === folderName)
+  if (!folder) {
+    return { tree: [], sha: '', url: '' }
+  }
+  const folderResponse = await fetch(folder.url, { headers })
+  const folderRespJson = await folderResponse.json()
+  return folderRespJson
 }
 
 export async function getFileWithContentByName(
   filename: string
 ): Promise<GithubFile | null> {
-  const { tree } = await getFolder(integrationsTreeSha)
+  const { tree } = await getFolder(integrationsTreeName)
   const fileToFetch = tree.find(
     (f) =>
       f.path === filename || f.path.split('.')[0] === filename.split('.')[0]
@@ -92,14 +99,14 @@ async function getFileWithContent(
   path?: string
 ): Promise<GithubFile> {
   const gFile = await getFile(fileUrl)
-  let buff = Buffer.from(gFile.content, 'base64')
+  let buff = Buffer.from(gFile.content, gFile.encoding)
   gFile.json = JSON.parse(buff.toString('utf-8'))
   gFile.filename = path || ''
   return gFile
 }
 
 export async function getAllIntegrations(): Promise<GithubFile[]> {
-  const { tree } = await getFolder(integrationsTreeSha)
+  const { tree } = await getFolder(integrationsTreeName)
   const fileContents: Promise<GithubFile>[] = []
   for (let fileObj of tree) {
     const fileContent = getFileWithContent(fileObj.url, fileObj.path)
