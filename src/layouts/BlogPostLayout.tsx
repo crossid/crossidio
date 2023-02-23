@@ -88,7 +88,9 @@ export function BlogPostLayout({
           </picture>
         </div>
       </div>
-      <Nav />
+      <div className="relative items-center justify-between pt-6 text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200 lg:pt-8">
+        <Nav />
+      </div>
       <Head>
         <title>{title}</title>
         <meta name="og:title" content={title} />

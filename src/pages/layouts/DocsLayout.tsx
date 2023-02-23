@@ -71,7 +71,9 @@ export default function DocsLayout({
 
   return (
     <>
-      <Nav navigation={navigation} />
+      <div className="relative items-center justify-between pt-6 text-sm font-semibold leading-6 text-slate-700 dark:text-slate-200 lg:pt-8">
+        <Nav navigation={navigation} />
+      </div>
 
       {isHomePage && <DocsHero />}
 
