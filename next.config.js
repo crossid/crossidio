@@ -15,6 +15,16 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  // TODO we better store all images in our project
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'github.githubassets.com',
+        pathname: '/images/modules/logos_page/*',
+      },
+    ],
+  },
   env: {
     intercomAppId: 'j176kjoq',
     gaTracking: 'UA-157001541-1',

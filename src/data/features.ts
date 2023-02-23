@@ -1,4 +1,4 @@
-import { UserIcon } from '@heroicons/react/24/outline'
+import { PuzzlePieceIcon, UserIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 
 export interface feature {
@@ -16,6 +16,13 @@ export const features: feature[] = [
     description: 'Manage users, groups and devices at scale.',
     href: '/user-management',
     icon: UserIcon,
+  },
+  {
+    id: 'integrations',
+    title: 'Integrations',
+    description: 'Third party integrations.',
+    href: '/integrations',
+    icon: PuzzlePieceIcon,
   },
   // {
   //   name: 'Authentication',

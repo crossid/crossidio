@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     extend: {
       fontSize: {
-        xxs: '0.7rem',
+        xxs: '0.6rem',
       },
       maxWidth: {
         '8xl': '100rem',

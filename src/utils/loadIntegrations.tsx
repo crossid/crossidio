@@ -9,14 +9,26 @@ const headers = {
   Accept: `application/vnd.github+json`,
 }
 
-type integration = {
+interface ICollector {
+  id: string
+  title: string
+  description: string
+  type: 'info'
+}
+
+export interface ICollectorInfo extends ICollector {
+  content: string
+}
+
+interface Integration {
   id: string
   displayName: string
   version: string
   keywords: string[]
   description: string
   logoURL: string
-  collectors: Record<string, any>[]
+  poweredBy: string
+  collectors: ICollector[]
   provisioning: Record<string, any>[]
 }
 
@@ -29,7 +41,7 @@ export type GithubFile = {
   // base64 content
   content: string
   // decoded content
-  json: integration
+  json: Integration
 }
 
 type fileObj = {
@@ -95,4 +107,13 @@ export async function getAllIntegrations(): Promise<GithubFile[]> {
   }
 
   return Promise.all(fileContents)
+}
+
+export function filterByKeywords(tags: string[]) {
+  return function (f: GithubFile) {
+    const filteredArray = f.json.keywords.filter((value) =>
+      tags.includes(value)
+    )
+    return filteredArray.length > 0
+  }
 }

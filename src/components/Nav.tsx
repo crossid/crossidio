@@ -368,6 +368,12 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                       </>
                     )}
                   </Popover>
+                  <Link
+                    href="/integrations"
+                    className='className="group dark:focus-sky-500 inline-flex items-center rounded-md text-base font-bold text-black focus:outline-none focus:ring-2 focus:ring-indigo-500  focus:ring-offset-2 dark:text-white dark:ring-offset-slate-900 dark:focus:ring-sky-500'
+                  >
+                    Integrations
+                  </Link>
                 </Popover.Group>
                 <div className="flex items-center">
                   <ThemeSelector className="relative z-10" />
