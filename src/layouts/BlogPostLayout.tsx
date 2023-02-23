@@ -5,7 +5,7 @@ import { Widont } from '@/components/Widnot'
 import { IAuthor } from '@/data/authors'
 import { useTableOfContents } from '@/hooks/toc'
 import { ITOC } from '@/types'
-import { formatDate, timeTagDateFormat } from '@/utils/date'
+import { formatDate, MACHINE_FORMAT } from '@/utils/date'
 import { collectHeadings } from '@/utils/remark'
 import { Fence } from '@/components/Fence'
 import Markdoc from '@markdoc/markdoc'
@@ -16,6 +16,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Img } from '@/components/markdoc/Img'
 import Mermaid from '@/components/markdoc/Mermaid'
+import Time from '@/components/Time'
 
 // TODO
 const components = {
@@ -117,7 +118,7 @@ export function BlogPostLayout({
         {/* <meta property="article:published_time" content="2018-05-14T00:00:00.000Z"/> */}
         <meta
           property="article:published_time"
-          content={formatDate(date, timeTagDateFormat)}
+          content={formatDate(date, MACHINE_FORMAT)}
         />
       </Head>
       <div className="">
@@ -184,9 +185,7 @@ export function BlogPostLayout({
                         'absolute inset-x-0 top-0 text-slate-700 dark:text-slate-400'
                       )}
                     >
-                      <time dateTime={formatDate(date, timeTagDateFormat)}>
-                        {formatDate(date, 'dddd, MMMM DD, YYYY')}
-                      </time>
+                      <Time date={date} />
                     </dd>
                   </dl>
                 </div>
