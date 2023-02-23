@@ -102,11 +102,9 @@ const Page: NextPageWithLayout = () => {
           <figure>
             <blockquote>
               <p className="mx-auto mt-6 max-w-3xl text-lg">
-                Lorem ipsum dolor sit amet. Et illum iure eos aperiam fugit in
-                dolorum eaque 33 voluptas dolores et voluptate impedit aut fuga
-                consequuntur ea neque libero. Et nesciunt suscipit sed dolorem
-                culpa At dolorum labore qui laudantium nihil! Nam ullam animi
-                aut temporibus assumenda quo voluptates voluptate.
+                Managing users and authentication flows securely is a big
+                challenge, we have built it for you, so you can spend your time
+                focusing on building your business logic.
               </p>
             </blockquote>
           </figure>

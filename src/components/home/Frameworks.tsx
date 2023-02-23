@@ -62,7 +62,7 @@ export function Frameworks() {
           you use <InlineCode>React</InlineCode>, <InlineCode>Vue</InlineCode>{' '}
           or plain <InlineCode>javascript</InlineCode>, we got you covered.
         </Paragraph>
-        <Link href="/docs" color="sky" darkColor="gray">
+        <Link href="/docs/frameworks" color="sky" darkColor="gray">
           Learn more<span className="sr-only">, reusing styles</span>
         </Link>
         <div className="mt-10">
