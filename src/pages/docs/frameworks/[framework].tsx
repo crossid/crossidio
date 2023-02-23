@@ -61,6 +61,7 @@ export interface ICode {
   frontmatter: ICodeFrontmatter
   tokens: string
   lines: string
+  content: string
   code: string
   highlitedCode: string
 }
@@ -137,7 +138,8 @@ export const getStaticProps: GetStaticProps<IProps> = async (
       frontmatter,
       tokens: tokensStr,
       lines: linesStr,
-      code: codeStr,
+      content: codeStr,
+      code,
       highlitedCode: highligtedCodeStr,
     }
   })

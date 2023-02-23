@@ -18,6 +18,7 @@ import {
   Bars3Icon,
   ChevronDownIcon,
   ChevronRightIcon,
+  DocumentDuplicateIcon,
   HomeIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
@@ -155,6 +156,7 @@ function Code({
     currentFileName
   )
   const [lines, setLines] = useState<ILines>([])
+  const [code, setCode] = useState<string>()
 
   const filenames = codes.map((c) => c.frontmatter.name)
   let singleCode: ICode
@@ -166,11 +168,13 @@ function Code({
   useIsomorphicLayoutEffect(() => {
     singleCode = codes.filter((c) => c.frontmatter.name === activeFilename)[0]
     setLines(JSON.parse(singleCode.lines))
+    setCode(singleCode.code)
   }, [activeFilename])
 
   return (
     <CodeWindow border={false}>
-      <div className="relative min-w-full flex-none px-1">
+      {/* <div className="relative min-w-full flex-none px-1"> */}
+      <div className="flex justify-between px-1">
         <ul className="flex text-sm leading-6 text-slate-400">
           {filenames.map((tab) => (
             <li key={tab} className="flex-none">
@@ -192,6 +196,19 @@ function Code({
             </li>
           ))}
         </ul>
+        <button
+          type="button"
+          className="mr-3 inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-900 dark:hover:bg-slate-800 dark:focus:ring-sky-500"
+          onClick={() => {
+            if (code) navigator.clipboard.writeText(code)
+          }}
+        >
+          <DocumentDuplicateIcon
+            className="-ml-0.5 mr-2 h-4 w-4"
+            aria-hidden="true"
+          />
+          Copy
+        </button>
         <div className="absolute inset-x-0 bottom-0 h-px bg-slate-500/30" />
       </div>
       <div className="flex min-h-0 w-full flex-auto">
