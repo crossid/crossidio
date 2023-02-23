@@ -8,6 +8,7 @@ import { authors } from '@/data/authors'
 import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { BlogPostLayout } from '@/layouts/BlogPostLayout'
 import { pathToSlug } from '@/utils/fsystem'
+import { getHost } from '@/utils/location'
 
 // see https://www.docploy.com/blog/how-to-build-a-blog-using-nextjs-and-markdoc
 
@@ -111,13 +112,14 @@ export const getStaticProps: GetStaticProps<{
       frontmatter,
       content,
       slug,
+      host: getHost({ protocol: true }),
     },
   }
 }
 
 // Create a React component using Markdoc's React renderer and our list of custom components.
 const Page = (props: any) => {
-  const { content, frontmatter, slug } = props
+  const { content, frontmatter, slug, host } = props
   const parsedContent = JSON.parse(content)
 
   const { title, description, authors, date, tags, card } = frontmatter
@@ -133,6 +135,7 @@ const Page = (props: any) => {
       tags={tags}
       slug={slug}
       card={card}
+      host={host}
     />
   )
 }

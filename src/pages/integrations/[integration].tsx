@@ -8,6 +8,7 @@ import {
 } from '@/utils/loadIntegrations'
 import IntegrationLayout from '../layouts/IntegrationLayout'
 import Markdoc from '@markdoc/markdoc'
+import { getHost } from '@/utils/location'
 
 export const getStaticPaths = async () => {
   const integrations = await getAllIntegrations()
@@ -31,6 +32,7 @@ export const getStaticPaths = async () => {
 export interface IIntegrationProps {
   content: GithubFile | null
   integration: string
+  host: string
 }
 export const getStaticProps: GetStaticProps<IIntegrationProps> = async (
   context: GetStaticPropsContext<{ integration?: string }>
@@ -57,6 +59,7 @@ export const getStaticProps: GetStaticProps<IIntegrationProps> = async (
     props: {
       content,
       integration: context.params?.integration || '',
+      host: getHost({ protocol: true }) || '',
     },
   }
 }

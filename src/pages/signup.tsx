@@ -1,8 +1,10 @@
+import { useAuth } from '@crossid/crossid-react'
 import { useEffect } from 'react'
 
 export default function Signup() {
+  const { signupWithRedirect } = useAuth()
   useEffect(() => {
-    window.location.href = 'https://crossid.us.crossid.io/auth/signup'
+    signupWithRedirect({ redirect_uri: '/' })
   })
 
   return null

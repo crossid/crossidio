@@ -1,12 +1,7 @@
 import { Prose } from '@/components/Prose'
 import Time from '@/components/Time'
-import { GithubFile, ICollectorInfo } from '@/utils/loadIntegrations'
-import {
-  CalendarIcon,
-  ChevronRightIcon,
-  LockOpenIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline'
+import { ICollectorInfo } from '@/utils/loadIntegrations'
+import { ChevronRightIcon, LockOpenIcon } from '@heroicons/react/24/outline'
 import Markdoc from '@markdoc/markdoc'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -17,6 +12,7 @@ import { IIntegrationProps } from '../integrations/[integration]'
 export default function IntegrationLayout({
   integration,
   content,
+  host,
 }: IIntegrationProps) {
   if (!content) return null
   const {
@@ -42,10 +38,7 @@ export default function IntegrationLayout({
         {description && <meta name="description" content={description} />}
         {description && <meta name="og:description" content={description} />}
         {/* TODO we don't have domain here as window does not exist in SSR */}
-        <meta
-          name="og:url"
-          content={`https://crossid.io/integrations/${integration}`}
-        />
+        <meta name="og:url" content={`${host}/integrations/${integration}`} />
       </Head>
       <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8 lg:py-18">
         <div className="md:flex md:items-center md:justify-between md:space-x-5">

@@ -35,6 +35,7 @@ export function BlogPostLayout({
   description,
   slug,
   card,
+  host,
 }: {
   title: string
   authors: IAuthor[]
@@ -44,6 +45,7 @@ export function BlogPostLayout({
   description: string
   slug: string
   card: string
+  host: string
 }) {
   let tableOfContents = collectHeadings(content)
   let currentSection = useTableOfContents(tableOfContents)
@@ -97,17 +99,17 @@ export function BlogPostLayout({
         {description && <meta name="description" content={description} />}
         {description && <meta name="og:description" content={description} />}
         {/* TODO we don't have domain here as window does not exist in SSR */}
-        <meta name="og:url" content={`https://crossid.io/blog/${slug}`} />
+        <meta name="og:url" content={`${host}/blog/${slug}`} />
         {/* {card && (
           <meta
             property="og:image"
-            content={`https://crossid.io/public/images/blog/${slug}/${card}`}
+            content={`${host}/public/images/blog/${slug}/${card}`}
           />
         )}
         {card && (
           <meta
             property="twitter:image"
-            content={`https://crossid.io/public/images/blog/${slug}/${card}`}
+            content={`${host}/public/images/blog/${slug}/${card}`}
           />
         )} */}
 

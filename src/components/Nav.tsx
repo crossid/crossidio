@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { Logo } from './Logo'
 import { useAuth } from '@crossid/crossid-react'
 import {
-  AcademicCapIcon,
   Bars3Icon,
   BookmarkSquareIcon,
   ChevronDownIcon,
@@ -19,11 +18,13 @@ import {
 } from '@heroicons/react/24/outline'
 import { clsx } from 'clsx'
 import { features } from '@/data/features'
-import Image from 'next/image'
 import Avatar from './Avatar'
 import { ThemeSelector } from './ThemeSelector'
 import { INav } from '@/types'
 import { MobileNavigation } from './docs/MobileNav'
+import { getCrossidManagementHost } from '@/utils/location'
+
+const mgmtHost = getCrossidManagementHost({ protocol: true })
 
 const callsToAction = [
   // { name: 'Watch Demo', href: '#', icon: PlayIcon },
@@ -43,7 +44,7 @@ const developer = [
   },
   {
     name: 'Reference',
-    href: 'https://developer.crossid.io/api/v1/',
+    href: `https://developer.crossid.io/api/v1/`,
     icon: DocumentMagnifyingGlassIcon,
   },
 ]
@@ -397,7 +398,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                     <a
                       className="ml-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-bold leading-4 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                       rel="noreferrer"
-                      href="https://manage.crossid.io/cockpit"
+                      href={`${mgmtHost}/cockpit`}
                       target="_blank"
                     >
                       Manage
@@ -431,7 +432,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                           <Menu.Item key="1">
                             {({ active }) => (
                               <a
-                                href="https://manage.crossid.io/cockpit"
+                                href={`${mgmtHost}/cockpit`}
                                 rel="noreferrer"
                                 target="_blank"
                                 className={clsx(
@@ -585,7 +586,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                     )}
                     {idToken && (
                       <a
-                        href="https://manage.crossid.io/cockpit"
+                        href={`${mgmtHost}/cockpit`}
                         className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 dark:bg-sky-600 dark:hover:bg-sky-700"
                       >
                         Manage
