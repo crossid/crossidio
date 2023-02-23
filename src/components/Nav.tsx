@@ -1,4 +1,4 @@
-import { useRef, Fragment, ReactNode } from 'react'
+import { useRef, Fragment } from 'react'
 import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { Logo } from './Logo'
@@ -23,6 +23,7 @@ import { ThemeSelector } from './ThemeSelector'
 import { INav } from '@/types'
 import { MobileNavigation } from './docs/MobileNav'
 import { getCrossidManagementHost } from '@/utils/location'
+import TenantDropdown from './TenantDropdown'
 
 const mgmtHost = getCrossidManagementHost()
 
@@ -396,7 +397,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                   )}
                   {idToken && !authLoading && (
                     <a
-                      className="ml-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-bold leading-4 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="ml-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-bold leading-4 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-sky-500 dark:focus:ring-offset-slate-900"
                       rel="noreferrer"
                       href={`${mgmtHost}/cockpit`}
                       target="_blank"
@@ -404,6 +405,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                       Manage
                     </a>
                   )}
+                  {idToken && !authLoading && <TenantDropdown />}
                   <Link
                     href="/contact"
                     className="ml-4 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-xs font-bold leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-sky-500 dark:ring-offset-slate-900 dark:hover:bg-sky-700 dark:focus:ring-sky-500"

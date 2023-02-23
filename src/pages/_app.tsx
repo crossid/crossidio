@@ -13,6 +13,7 @@ import '@/styles/fonts.css'
 import DocsLayout from './layouts/DocsLayout'
 import { ReactElement, ReactNode } from 'react'
 import DefaultLayout from './layouts/DefaultLayout'
+import { TenantProvider } from '@/hooks/tenant'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -77,15 +78,17 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       post_logout_redirect_uri={
         process.env.NEXT_PUBLIC_CID_AUTH_LOGOUT_REDIRECT_URI || ''
       }
-      scope={'customer openid email'}
+      scope={'owner openid email'}
       cache_type="session_storage"
     >
-      <IntercomProvider
-        appId={process.env.intercomAppId || ''}
-        autoBoot={process.env.NODE_ENV === 'production'}
-      >
-        {children}
-      </IntercomProvider>
+      <TenantProvider>
+        <IntercomProvider
+          appId={process.env.intercomAppId || ''}
+          autoBoot={process.env.NODE_ENV === 'production'}
+        >
+          {children}
+        </IntercomProvider>
+      </TenantProvider>
     </AuthProvider>
   )
 }

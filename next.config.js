@@ -9,6 +9,14 @@ const { highlight } = require('./src/utils/prism/highlight')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://manage.local.crossid.io/api/:path*', // proxy to management
+      },
+    ]
+  },
   reactStrictMode: true,
   pageExtensions: ['jsx', 'js', 'tsx', 'ts', 'md'],
   experimental: {
@@ -54,6 +62,14 @@ const nextConfig = {
     })
 
     return config
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://manage.local.crossid.io/api/:path*', // Proxy to Backend
+      },
+    ]
   },
 }
 
