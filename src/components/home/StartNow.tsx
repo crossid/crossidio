@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Notifications, { NotificationDef } from '../Notifications'
 import useDisposableList from 'use-disposable-list'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import * as gtag from '@/utils/gtag'
 
@@ -11,6 +12,7 @@ export const StartNow = () => {
   const [form, setForm] = useState({ emailAddress: '' })
   const [inSubmit, setInSubmit] = useState(false)
   const [sentMode, setSentMode] = useState(false)
+  const router = useRouter()
 
   const encode = (data: any) => {
     return Object.keys(data)
@@ -41,6 +43,7 @@ export const StartNow = () => {
     })
       .then(() => {
         setSentMode(true)
+        router.push('/docs/frameworks')
       })
       .catch((error) =>
         addNotif({
@@ -104,10 +107,10 @@ export const StartNow = () => {
           )}
           {sentMode && (
             <>
-              <h2 className="inline text-3xl font-normal tracking-tight text-gray-900 sm:block sm:text-6xl">
+              <h2 className="dark:slate-300 inline text-3xl font-normal tracking-tight text-gray-900 sm:block sm:text-6xl">
                 Thank you for reaching out!
               </h2>
-              <p className="mt-2 max-w-md text-base text-gray-500 sm:text-lg md:mt-3 md:max-w-3xl md:text-xl">
+              <p className="dark:slate-500 mt-2 max-w-md text-base text-gray-500 sm:text-lg md:mt-3 md:max-w-3xl md:text-xl">
                 We will get back to you as soon as we can.
               </p>
             </>
