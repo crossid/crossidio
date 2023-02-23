@@ -21,6 +21,7 @@ import QuickstartLayout from '@/layouts/QuickstartLayout'
 import { Tag } from '@markdoc/markdoc'
 import { ReactElement } from 'react'
 import { IFramework } from '@/types'
+import { getHost } from '@/utils/location'
 
 const FW_DIR_NAME = 'frameworks'
 const PARTIALS_DIR = path.join(process.cwd()) + '/partials'
@@ -50,6 +51,8 @@ export interface IProps {
   articleFrontmatter: Record<string, any>
   // parsed code files relevant for this article
   codes: ICode[]
+  // server's host name
+  host: string
 }
 
 interface ICodeFrontmatter {
@@ -103,6 +106,7 @@ export const getStaticProps: GetStaticProps<IProps> = async (
     any
   >
   frontmatter.authors = frontmatter.authors?.map((a: string) => authors[a])
+  frontmatter.date = frontmatter.date.getTime()
 
   // load the raframework metadata
   //
@@ -151,6 +155,7 @@ export const getStaticProps: GetStaticProps<IProps> = async (
       articleContent,
       articleFrontmatter: frontmatter,
       codes,
+      host: getHost({ protocol: true }),
     },
   }
 }

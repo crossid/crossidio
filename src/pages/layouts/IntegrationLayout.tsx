@@ -37,7 +37,6 @@ export default function IntegrationLayout({
         />
         {description && <meta name="description" content={description} />}
         {description && <meta name="og:description" content={description} />}
-        {/* TODO we don't have domain here as window does not exist in SSR */}
         <meta name="og:url" content={`${host}/integrations/${integration}`} />
       </Head>
       <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8 lg:py-18">

@@ -98,7 +98,6 @@ export function BlogPostLayout({
         <meta name="og:title" content={title} />
         {description && <meta name="description" content={description} />}
         {description && <meta name="og:description" content={description} />}
-        {/* TODO we don't have domain here as window does not exist in SSR */}
         <meta name="og:url" content={`${host}/blog/${slug}`} />
         {/* {card && (
           <meta

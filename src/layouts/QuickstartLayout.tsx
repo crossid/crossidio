@@ -27,6 +27,8 @@ import { IFramework } from '@/types'
 import { useScrollPosition } from '@/hooks/usePositionScroll'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Icon } from '@/components/Icon'
+import Head from 'next/head'
+import { formatDate, MACHINE_FORMAT } from '@/utils/date'
 
 const Heading: React.FC<
   {
@@ -67,6 +69,7 @@ export default function Layout(props: IProps) {
     frameworkMeta,
     framework,
     articleFrontmatter,
+    host,
   } = props
   const scrollerRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -78,6 +81,36 @@ export default function Layout(props: IProps) {
 
   return (
     <>
+      <Head>
+        <title>{frameworkMeta.title}</title>
+        <meta name="og:title" content={articleFrontmatter.title} />
+        {articleFrontmatter.description && (
+          <meta name="description" content={articleFrontmatter.description} />
+        )}
+        {articleFrontmatter.description && (
+          <meta
+            name="og:description"
+            content={articleFrontmatter.description}
+          />
+        )}
+        <meta name="og:url" content={`${host}/docs/frameworks/${framework}`} />
+        {/*TODO og:image and twitter:image */}
+        <meta property="og:type" content="article" />
+        <meta
+          property="article:tag"
+          content={`${articleFrontmatter.tags.join(',')}`}
+        />
+        <meta
+          property="article:author"
+          content={`https://github.com/${articleFrontmatter.authors[0].github}`}
+        />
+        {articleFrontmatter.date && (
+          <meta
+            property="article:published_time"
+            content={formatDate(articleFrontmatter.date, MACHINE_FORMAT)}
+          />
+        )}
+      </Head>
       <Nav />
       <AnimatePresence initial={false} mode="wait">
         {scrollPos > 60 && (
