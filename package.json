@@ -11,7 +11,7 @@
     "prebuild": "npm run copyimages"
   },
   "dependencies": {
-    "@crossid/crossid-react": "^0.2.4",
+    "@crossid/crossid-react": "^0.2.5",
     "@headlessui/react": "^1.7.10",
     "@heroicons/react": "^2.0.15",
     "@markdoc/markdoc": "^0.2.2",

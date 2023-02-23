@@ -71,11 +71,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 function WrapApp({ children, ...props }: { children: ReactElement }) {
   return (
     <AuthProvider
-      tenant_id={process.env.NEXT_PUBLIC_CID_AUTH_TENANT_ID || ''}
+      domain={process.env.NEXT_PUBLIC_CID_AUTH_DOMAIN || ''}
       client_id={process.env.NEXT_PUBLIC_CID_AUTH_CLIENT_ID || ''}
       redirect_uri={process.env.NEXT_PUBLIC_CID_AUTH_REDIRECT_URI || ''}
-      // @ts-ignore TODO
-      region={process.env.NEXT_PUBLIC_CID_AUTH_REGION}
       post_logout_redirect_uri={
         process.env.NEXT_PUBLIC_CID_AUTH_LOGOUT_REDIRECT_URI || ''
       }
