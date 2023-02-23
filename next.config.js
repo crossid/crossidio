@@ -15,13 +15,14 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
-  // TODO we better store all images in our project
+  // TODO we better store all images in our projec
   images: {
     remotePatterns: [
+      // required for  google integration logo
       {
         protocol: 'https',
-        hostname: 'github.githubassets.com',
-        pathname: '/images/modules/logos_page/*',
+        hostname: 'upload.wikimedia.org',
+        pathname: '/wikipedia/commons/thumb/5/53/**',
       },
     ],
   },
