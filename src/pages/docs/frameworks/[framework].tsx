@@ -155,7 +155,7 @@ export const getStaticProps: GetStaticProps<IProps> = async (
       articleContent,
       articleFrontmatter: frontmatter,
       codes,
-      host: getHost({ protocol: true }),
+      host: getHost({ protocol: true }) || '',
     },
   }
 }

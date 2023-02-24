@@ -24,7 +24,7 @@ import { INav } from '@/types'
 import { MobileNavigation } from './docs/MobileNav'
 import { getCrossidManagementHost } from '@/utils/location'
 
-const mgmtHost = getCrossidManagementHost({ protocol: true })
+const mgmtHost = getCrossidManagementHost()
 
 const callsToAction = [
   // { name: 'Watch Demo', href: '#', icon: PlayIcon },
