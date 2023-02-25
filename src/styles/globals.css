@@ -1,11 +1,12 @@
-@tailwind base;
-@tailwind components;
-@import './prism.css';
-@import "./utilities.css";
+@import 'base.css';
+@import 'components.css';
 
-  
+/*! purgecss start ignore */
+@import 'prism.css';
+/*! purgecss end ignore */
+@import 'utilities.css';
+
 .prose :where(code):not(:where([class~="not-prose"] *))::before,
 .prose :where(code):not(:where([class~="not-prose"] *))::after {
   content: "";
 }
-  
