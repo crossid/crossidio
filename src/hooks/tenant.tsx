@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { useAuth } from '@crossid/crossid-react'
+import { IApp } from '@/components/ConfigureApp'
 
 type provisioningStatus = 'completed' | 'fatal' | 'started'
 export type TenantRegion = 'US' | 'EU' | 'JP' | 'AU' | 'local'
@@ -66,11 +67,14 @@ export default function useTenant(): {
 
 type TenantContextProps = {
   tenant?: Tenant
+  app?: IApp
   setTenant: Function
+  setApp: (app?: IApp) => void
 }
 
 export const TenantContext = createContext<TenantContextProps>({
   setTenant: () => {},
+  setApp: () => {},
 })
 
 const TENANT_LOCALSTORAGE_KEY = '__tenant__'
@@ -89,8 +93,12 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
     setTenant(tenant)
   }
 
+  const [app, setApp] = useState<IApp | undefined>()
+
   return (
-    <TenantContext.Provider value={{ tenant, setTenant: _setTenant }}>
+    <TenantContext.Provider
+      value={{ tenant, setTenant: _setTenant, setApp, app }}
+    >
       {children}
     </TenantContext.Provider>
   )

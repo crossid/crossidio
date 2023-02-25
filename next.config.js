@@ -69,6 +69,10 @@ const nextConfig = {
         source: '/api/:path*',
         destination: 'https://manage.local.crossid.io/api/:path*', // Proxy to Backend
       },
+      {
+        source: '/:tenantId/api/:path*',
+        destination: 'https://manage.local.crossid.io/:tenantId/api/:path*', // Proxy to Backend
+      },
     ]
   },
 }

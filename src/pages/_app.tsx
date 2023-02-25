@@ -11,7 +11,7 @@ import { IntercomProvider, useIntercom } from 'react-use-intercom'
 import '@/styles/globals.css'
 import '@/styles/fonts.css'
 import DocsLayout from './layouts/DocsLayout'
-import { ReactElement, ReactNode, useContext } from 'react'
+import { ReactElement, ReactNode, useContext, useMemo } from 'react'
 import DefaultLayout from './layouts/DefaultLayout'
 import { TenantContext, TenantProvider } from '@/hooks/tenant'
 import { FieldProvider } from '@/hooks/useFieldsContext'
@@ -77,6 +77,16 @@ function onRedTo(state: any) {
 }
 
 function WrapApp({ children, ...props }: { children: ReactElement }) {
+  const { audience } = useMemo(() => {
+    const audience = ['management']
+    // if (!!tenant) {
+    //   audience.push(tenant.id)
+    //   //`https://${tId}.${region}.${tenantsDomain()}/oauth2/token`
+    //   audience.push(`https://${tenant.id}.us.local.crossid.io/oauth2/token`)
+    // }
+    return { audience }
+  }, [])
+
   return (
     <AuthProvider
       domain={process.env.NEXT_PUBLIC_CID_AUTH_DOMAIN || ''}
@@ -88,6 +98,11 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       scope={'owner openid email'}
       cache_type="session_storage"
       onRedirectTo={onRedTo}
+      audience={[
+        'crossid',
+        'management',
+        'https://crossid.us.local.crossid.io/oauth2/token',
+      ]}
     >
       <TenantProvider>
         <IntercomProvider
