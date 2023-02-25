@@ -10,13 +10,7 @@ import {
   TabType,
 } from '@/components/home/Common'
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect'
-import {
-  Fragment,
-  MouseEventHandler,
-  ReactElement,
-  useEffect,
-  useState,
-} from 'react'
+import { Fragment, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 // react
@@ -153,7 +147,7 @@ const tabItems: Record<FrameworkType, TabType> = {
   ),
 }
 
-const tabs: Record<FrameworkType, Record<string, ILines>> = {
+const tabs: Record<FrameworkType, Record<string, IToken[][]>> = {
   React: {
     'Login.jsx': reactLoginSample,
     'ProtectedRoute.jsx': reactProtectedRouteSample,
@@ -224,7 +218,7 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
           <CodeWindow.Code2 lines={lines.length}>
             {lines.map((tokens, lineIndex) => (
               <Fragment key={framework + activeTab + lineIndex}>
-                {tokens.map((token: ILine, tokenIndex: number) => {
+                {tokens.map((token: IToken, tokenIndex: number) => {
                   if (
                     (token.types[token.types.length - 1] === 'class-name' ||
                       (token.types[token.types.length - 1] === 'tag' &&
@@ -308,7 +302,6 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
 
 function AppSample() {
   const [selectedItem, setSelectedItem] = useState('')
-  console.log(selectedItem)
 
   return (
     <div className="relative z-10 my-auto hidden divide-y divide-slate-100 rounded-xl bg-white shadow-xl ring-1 ring-slate-900/5 dark:divide-slate-200/5 dark:bg-slate-800 dark:highlight-white/10 lg:block xl:mt-18">

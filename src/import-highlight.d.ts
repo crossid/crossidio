@@ -1,15 +1,10 @@
-type ILines = ILineArr[]
-type ILineArr = ILine[]
-
-interface ILine {
+interface IToken {
   content: string
   types: string[]
-  //   I've never seen this field in token but getClassNameForToken uses this
-  empty: boolean
+  empty?: boolean
 }
 
 declare module '*?highlight' {
-  const lines: ILines
-
-  export const lines
+  export const lines: IToken[][]
+  export const highlightedCode: string
 }

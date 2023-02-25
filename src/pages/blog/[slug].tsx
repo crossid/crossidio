@@ -1,7 +1,7 @@
 import glob from 'glob-promise'
 import path from 'path'
 import fs from 'fs'
-import Markdoc, { Config } from '@markdoc/markdoc'
+import Markdoc, { Config, Tag } from '@markdoc/markdoc'
 import React, { ReactElement } from 'react'
 import yaml from 'js-yaml'
 import { authors } from '@/data/authors'
@@ -9,6 +9,7 @@ import { GetStaticProps, GetStaticPropsContext } from 'next'
 import { BlogPostLayout } from '@/layouts/BlogPostLayout'
 import { pathToSlug } from '@/utils/fsystem'
 import { getHost } from '@/utils/location'
+import { highlightedCode } from '@/utils/prism/highlight'
 
 // see https://www.docploy.com/blog/how-to-build-a-blog-using-nextjs-and-markdoc
 
@@ -89,6 +90,21 @@ export const getStaticProps: GetStaticProps<{
           language: {
             type: String,
           },
+        },
+        transform(node, config) {
+          const attributes = node.transformAttributes(config)
+          const children = node.transformChildren(config)
+          const code = children.toString().trimEnd()
+          const { lines, highlights } = highlightedCode(
+            code,
+            attributes.language
+          )
+
+          return new Tag(
+            this.render,
+            { ...attributes, lines, highlights },
+            children
+          )
         },
       },
     },

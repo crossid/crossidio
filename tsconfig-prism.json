@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "declaration": false
+  },
+  "include": ["./src/utils/prism/*.ts", "./src/import-highlight.d.ts"],
+  "exclude": ["node_modules"]
+}

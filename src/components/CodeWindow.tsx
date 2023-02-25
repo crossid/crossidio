@@ -9,12 +9,6 @@ import {
   useState,
 } from 'react'
 
-export interface Line {
-  types: string[]
-  content: string
-  empty: boolean
-}
-
 export function CodeWindow({
   children,
   className,
@@ -53,7 +47,7 @@ export function CodeWindow({
   )
 }
 
-export function getClassNameForToken({ types, empty }: ILine) {
+export function getClassNameForToken({ types, empty }: IToken) {
   const typesSize = types.length
   if (typesSize === 1 && types[0] === 'plain') {
     return empty ? 'inline-block' : undefined

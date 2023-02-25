@@ -1,12 +1,11 @@
 const withMarkdoc = require('@markdoc/next.js')
 const { createLoader } = require('simple-functional-loader')
-const Prism = require('prismjs')
 const {
-  highlightCode,
-  fixSelectorEscapeTokens,
+  tokenizeCode,
   simplifyToken,
   normalizeTokens,
-} = require('./src/utils/tokens')
+} = require('./src/utils/prism/token')
+const { highlight } = require('./src/utils/prism/highlight')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -15,7 +14,7 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
-  // TODO we better store all images in our projec
+  // TODO we better store all images in our project
   images: {
     remotePatterns: [
       // required for  google integration logo
@@ -39,29 +38,16 @@ const nextConfig = {
           let lang =
             new URLSearchParams(this.resourceQuery).get('highlight') ||
             this.resourcePath.split('.').pop()
-          let isDiff = lang.startsWith('diff-')
-          let prismLang = isDiff ? lang.substr(5) : lang
 
-          // TODO this is a hack until we'll have a syntax for vue
-          // https://github.com/PrismJS/prism/issues/1665
-          if (prismLang === 'vue') {
-            prismLang = 'html'
-          }
-
-          let grammar = Prism.languages[isDiff ? 'diff' : prismLang]
-          let tokens = Prism.tokenize(source, grammar, lang)
-
-          if (lang === 'css') {
-            fixSelectorEscapeTokens(tokens)
-          }
+          const tokens = tokenizeCode(source, lang)
 
           return `
             export const tokens = ${JSON.stringify(tokens.map(simplifyToken))}
             export const lines = ${JSON.stringify(normalizeTokens(tokens))}
             export const code = ${JSON.stringify(source)}
             export const highlightedCode = ${JSON.stringify(
-              highlightCode(source, lang)
-            )}
+              highlight(source, lang)
+            )}  
           `
         }),
       ],

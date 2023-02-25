@@ -8,7 +8,9 @@
     "start": "next start -p 3008",
     "lint": "next lint",
     "copyimages": "node ./copy-images.mjs",
-    "prebuild": "npm run copyimages"
+    "ts2js": "tsc -p ./tsconfig-prism.json",
+    "predev": "npm run ts2js",
+    "prebuild": "npm run copyimages ; npm run ts2js"
   },
   "dependencies": {
     "@crossid/crossid-react": "^0.2.5",
@@ -44,6 +46,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/gtag.js": "^0.0.12",
     "@types/js-yaml": "^4.0.5",
+    "@types/prismjs": "^1.26.0",
     "autoprefixer": "^10.4.13",
     "fs-extra": "^11.1.0",
     "glob-promise": "^6.0.2",

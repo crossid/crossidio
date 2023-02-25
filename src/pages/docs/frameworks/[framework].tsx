@@ -10,18 +10,19 @@ import {
 import Markdoc, { Config, RenderableTreeNode } from '@markdoc/markdoc'
 import yaml from 'js-yaml'
 import { authors } from '@/data/authors'
-const Prism = require('prismjs')
-const {
-  highlightCode,
-  fixSelectorEscapeTokens,
-  simplifyToken,
-  normalizeTokens,
-} = require('@/utils/tokens')
 import QuickstartLayout from '@/layouts/QuickstartLayout'
 import { Tag } from '@markdoc/markdoc'
 import { ReactElement } from 'react'
 import { IFramework } from '@/types'
 import { getHost } from '@/utils/location'
+import {
+  fixSelectorEscapeTokens,
+  normalizeTokens,
+  simplifyToken,
+  tokenizeCode,
+} from '@/utils/prism/token'
+import { ICodeLang } from '@/utils/prism/types'
+import { highlight } from '@/utils/prism/highlight'
 
 const FW_DIR_NAME = 'frameworks'
 const PARTIALS_DIR = path.join(process.cwd()) + '/partials'
@@ -57,7 +58,7 @@ export interface IProps {
 
 interface ICodeFrontmatter {
   name: string
-  lang: string
+  lang: ICodeLang
 }
 
 export interface ICode {
@@ -127,16 +128,14 @@ export const getStaticProps: GetStaticProps<IProps> = async (
     const { lang } = frontmatter
     const code = ast.children[0].attributes.content
 
-    // note: this code is a dup of next.config.js
-    let grammar = Prism.languages[lang]
-    let tokens = Prism.tokenize(code, grammar, lang)
-    if (lang === 'css') {
-      fixSelectorEscapeTokens(tokens)
+    const tokens = tokenizeCode(code, lang)
+    if (!tokens) {
+      throw 'no tokens'
     }
-    const tokensStr = JSON.stringify(tokens.map(simplifyToken))
+    const tokensStr = JSON.stringify(tokens?.map(simplifyToken))
     const linesStr = JSON.stringify(normalizeTokens(tokens))
-    const codeStr = JSON.stringify(source)
-    const highligtedCodeStr = JSON.stringify(highlightCode(source, lang))
+    const codeStr = JSON.stringify(code)
+    const highligtedCodeStr = JSON.stringify(highlight(code, lang))
 
     return {
       frontmatter,

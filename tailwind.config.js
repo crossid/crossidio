@@ -27,6 +27,26 @@ module.exports = {
         '23px': '1.4375rem',
         full: '100%',
       },
+      colors: {
+        code: {
+          highlight: 'rgb(125 211 252 / 0.1)',
+        },
+      },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            pre: {
+              color: theme('colors.slate.50'),
+              borderRadius: theme('borderRadius.xl'),
+              padding: theme('padding.5'),
+              boxShadow: theme('boxShadow.md'),
+              display: 'flex',
+              marginTop: `${20 / 14}em`,
+              marginBottom: `${32 / 14}em`,
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [

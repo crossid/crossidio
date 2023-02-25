@@ -188,7 +188,7 @@ function Code({
   const [activeFilename, setActiveFilename] = useState<string | undefined>(
     currentFileName
   )
-  const [lines, setLines] = useState<ILines>([])
+  const [lines, setLines] = useState<IToken[][]>([])
   const [code, setCode] = useState<string>()
 
   const filenames = codes.map((c) => c.frontmatter.name)
@@ -248,7 +248,7 @@ function Code({
         <CodeWindow.Code2 lines={lines.length}>
           {lines.map((tokens, lineIndex) => (
             <Fragment key={lineIndex}>
-              {tokens.map((token: ILine, tokenIndex: number) => {
+              {tokens.map((token: IToken, tokenIndex: number) => {
                 if (
                   (token.types[token.types.length - 1] === 'class-name' ||
                     (token.types[token.types.length - 1] === 'tag' &&

@@ -37,3 +37,6 @@ next-env.d.ts
 
 # published by build
 /public/images/blog
+
+# generated
+/src/utils/prism/*.js
