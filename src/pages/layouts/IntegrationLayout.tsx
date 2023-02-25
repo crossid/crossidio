@@ -43,7 +43,7 @@ export default function IntegrationLayout({
         <div className="md:flex md:items-center md:justify-between md:space-x-5">
           <div className="flex items-start space-x-5">
             <div className="flex-shrink-0">
-              <div className="relative border border-gray-300 p-4 dark:border-sky-500">
+              <div className="relative border border-gray-300 p-4 dark:border-sky-500 dark:bg-slate-300">
                 <Image
                   className="h-20 w-20"
                   src={logoURL}
