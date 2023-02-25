@@ -165,7 +165,7 @@ const tabs: Record<FrameworkType, Record<string, IToken[][]>> = {
 }
 function ComponentExample({ framework }: { framework: FrameworkType }) {
   const [activeTab, setActiveTab] = useState(0)
-  const lines = tabs[framework][Object.keys(tabs[framework])[activeTab]]
+  const lines = tabs[framework][Object.keys(tabs[framework])[activeTab]] || []
 
   useIsomorphicLayoutEffect(() => {
     setActiveTab(0)
@@ -173,7 +173,7 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
 
   return (
     <CodeWindow border={false}>
-      <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence initial={false} mode="popLayout">
         <motion.div
           key={framework}
           initial={{ opacity: 0 }}
@@ -207,7 +207,7 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
           </div>
         </motion.div>
       </AnimatePresence>
-      <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence initial={false} mode="popLayout">
         <motion.div
           key={framework + activeTab}
           className="flex min-h-0 w-full flex-auto"
