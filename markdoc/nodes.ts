@@ -1,11 +1,11 @@
-import { Fence } from '@/components/Fence'
+import { FenceClient } from '@/components/Fence'
 import { LinkNode } from '@/components/markdoc/Link'
 import { ImageNode } from '@/components/markdoc/Image'
 import { nodes as mdnodes } from '@markdoc/markdoc'
 
 const nodes = {
   fence: {
-    render: Fence,
+    render: FenceClient,
     attributes: {
       language: {
         type: String,

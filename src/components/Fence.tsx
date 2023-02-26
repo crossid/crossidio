@@ -4,6 +4,7 @@ import { ICodeLang } from '@/utils/prism/types'
 import clsx from 'clsx'
 import { Fragment } from 'react'
 import { getClassNameForToken } from './CodeWindow'
+import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 
 export function Fence({
   lines,
@@ -89,5 +90,39 @@ export function Fence({
         </pre>
       </div>
     </div>
+  )
+}
+
+export function FenceClient({
+  children,
+  language,
+}: {
+  children: string
+  language: ICodeLang
+}) {
+  return (
+    <Highlight
+      {...defaultProps}
+      code={children?.trimEnd()}
+      language={language as Language}
+      theme={undefined}
+    >
+      {({ className, style, tokens, getTokenProps }) => (
+        <pre className={className} style={style}>
+          <code>
+            {tokens.map((line, lineIndex) => (
+              <Fragment key={lineIndex}>
+                {line
+                  .filter((token) => !token.empty)
+                  .map((token, tokenIndex) => (
+                    <span key={tokenIndex} {...getTokenProps({ token })} />
+                  ))}
+                {'\n'}
+              </Fragment>
+            ))}
+          </code>
+        </pre>
+      )}
+    </Highlight>
   )
 }
