@@ -1,12 +1,18 @@
 import { Prose } from '@/components/Prose'
 import Time from '@/components/Time'
+import { TenantContext } from '@/hooks/tenant'
 import { ICollectorInfo } from '@/utils/loadIntegrations'
-import { ChevronRightIcon, LockOpenIcon } from '@heroicons/react/24/outline'
+import { getCrossidManagementHost } from '@/utils/location'
+import {
+  ChevronRightIcon,
+  LockOpenIcon,
+  PlusIcon,
+} from '@heroicons/react/24/outline'
 import Markdoc from '@markdoc/markdoc'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useContext } from 'react'
 import { IIntegrationProps } from '../integrations/[integration]'
 
 export default function IntegrationLayout({
@@ -14,8 +20,11 @@ export default function IntegrationLayout({
   content,
   host,
 }: IIntegrationProps) {
+  const { tenant } = useContext(TenantContext)
   if (!content) return null
+
   const {
+    id,
     displayName,
     description,
     logoURL,
@@ -23,7 +32,7 @@ export default function IntegrationLayout({
     poweredBy = 'Crossid',
     collectors,
   } = content?.json
-
+  const mgmtHost = getCrossidManagementHost()
   // TODO this is not safe
   const infoCollector = collectors[0] as ICollectorInfo
 
@@ -43,7 +52,7 @@ export default function IntegrationLayout({
         <div className="md:flex md:items-center md:justify-between md:space-x-5">
           <div className="flex items-start space-x-5">
             <div className="flex-shrink-0">
-              <div className="relative border border-gray-300 p-4 dark:border-sky-500 dark:bg-slate-300">
+              <div className="dark:bg-slate-00 relative border border-gray-300 p-4 dark:border-sky-500">
                 <Image
                   className="h-20 w-20"
                   src={logoURL}
@@ -64,19 +73,21 @@ export default function IntegrationLayout({
               </p>
             </div>
           </div>
-          {/* TODO: enable add integration if user is logged in and take the user directly to the integration itself in the webadmin */}
-          {/* <div className="justify-stretch mt-6 flex flex-col-reverse space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-y-0 sm:space-x-3 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
-          <Link
-            href="/foo"
-            role="button"
-            className="inline-flex items-center rounded-md border border-indigo-600 bg-white px-4 py-2 text-base font-medium uppercase text-indigo-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            <PlusIcon className="-ml-1 mr-3 h-5 w-5" />
-            Add Integration
-          </Link>
-        </div> */}
+          {tenant && (
+            <div className="justify-stretch mt-6 flex flex-col-reverse space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-y-0 sm:space-x-3 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3">
+              <Link
+                href={`${mgmtHost}/admin/${
+                  tenant.id
+                }/${tenant.regionCode.toLocaleLowerCase()}/marketplace/${id}/add`}
+                role="button"
+                className="inline-flex items-center rounded-md border border-indigo-600 bg-white px-4 py-2 text-base font-medium uppercase text-indigo-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-sky-600 dark:bg-slate-800  dark:text-slate-400 dark:hover:bg-slate-900 dark:focus:ring-sky-500 dark:focus:ring-offset-slate-900"
+              >
+                <PlusIcon className="-ml-1 mr-3 h-5 w-5" />
+                Add Integration
+              </Link>
+            </div>
+          )}
         </div>
-
         <main className="relative flex-1 overflow-y-auto focus:outline-none">
           <div className="py-8 xl:py-10">
             <div className="max-w-3xl xl:grid xl:max-w-5xl xl:grid-cols-3">
