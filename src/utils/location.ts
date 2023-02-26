@@ -7,5 +7,5 @@ export function getHost({ protocol = true }: { protocol: boolean }) {
 }
 
 export function getCrossidManagementHost() {
-  return process.env.NEXT_CID_MANAGEMENT
+  return process.env.NEXT_PUBLIC_CID_MANAGEMENT
 }
