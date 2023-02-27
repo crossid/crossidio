@@ -10,6 +10,9 @@ const nodes = {
       language: {
         type: String,
       },
+      resolve: {
+        type: Boolean,
+      },
     },
   },
   link: {

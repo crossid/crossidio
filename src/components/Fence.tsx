@@ -2,9 +2,10 @@ import { IHighlightedLines } from '@/utils/prism/types'
 import { codeStyles } from '@/utils/prism/styles'
 import { ICodeLang } from '@/utils/prism/types'
 import clsx from 'clsx'
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
 import { getClassNameForToken } from './CodeWindow'
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
+import { FieldsContext } from '@/hooks/useFieldsContext'
 
 export function Fence({
   lines,
@@ -96,14 +97,27 @@ export function Fence({
 export function FenceClient({
   children,
   language,
+  resolve = false,
 }: {
   children: string
   language: ICodeLang
+  resolve?: boolean
 }) {
+  const { fields } = useContext(FieldsContext)
+  let code = children?.trimEnd()
+
+  if (resolve && fields) {
+    const vars = Array.from(code.matchAll(/(<)([\w.\[\]]*)(>)/g))
+    vars.forEach((v) => {
+      const fv = fields[v[2]]
+      if (fv) code = code.replace(v[0], fv)
+    })
+  }
+
   return (
     <Highlight
       {...defaultProps}
-      code={children?.trimEnd()}
+      code={code}
       language={language as Language}
       theme={undefined}
     >

@@ -29,6 +29,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Icon } from '@/components/Icon'
 import Head from 'next/head'
 import { formatDate, MACHINE_FORMAT } from '@/utils/date'
+import { useAuth } from '@crossid/crossid-react'
+import { FieldProvider, FieldsContext } from '@/hooks/useFieldsContext'
 
 const Heading: React.FC<
   {
@@ -71,6 +73,7 @@ export default function Layout(props: IProps) {
     articleFrontmatter,
     host,
   } = props
+  const { loginWithRedirect, signupWithRedirect, idToken } = useAuth()
   const scrollerRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const parsedContent = JSON.parse(articleContent)
@@ -169,7 +172,18 @@ export default function Layout(props: IProps) {
             {comp === 'code' && (
               <Code codes={codes} currentFileName={data || ''} />
             )}
-            {comp === 'configure-app' && <ConfigureApp />}
+            {/* {comp === 'configure-app' && <ConfigureApp />} */}
+            {comp === 'configure-app' && (
+              <>
+                {!idToken && (
+                  <LoginOrSignup
+                    loginFunc={loginWithRedirect}
+                    signupFunc={signupWithRedirect}
+                  />
+                )}
+                {idToken && <div>CONFIGURE APP</div>}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -327,18 +341,30 @@ function Code({
   )
 }
 
-function ConfigureApp() {
+function LoginOrSignup({
+  loginFunc,
+  signupFunc,
+}: {
+  loginFunc: (opts: any) => void
+  signupFunc: (opts: any) => void
+}) {
   return (
     <div className="py-24 px-6 sm:px-6 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-xl text-center">
         <h3 className="text-3xl font-normal tracking-tight">
-          <Link href="/login" className="text-indigo-500 dark:text-sky-500">
+          <button
+            onClick={() => loginFunc({})}
+            className="text-indigo-500 dark:text-sky-500"
+          >
             Login
-          </Link>{' '}
+          </button>{' '}
           your account or{' '}
-          <Link href="/signup" className="text-indigo-500 dark:text-sky-500">
+          <button
+            onClick={() => signupFunc({})}
+            className="text-indigo-500 dark:text-sky-500"
+          >
             signup
-          </Link>{' '}
+          </button>{' '}
           a new account to configure your app directly from this tour.
         </h3>
         <div className="mt-10 flex items-center justify-center gap-x-6">

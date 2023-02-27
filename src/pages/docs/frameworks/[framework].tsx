@@ -10,7 +10,7 @@ import {
 import Markdoc, { Config, RenderableTreeNode } from '@markdoc/markdoc'
 import yaml from 'js-yaml'
 import { authors } from '@/data/authors'
-import QuickstartLayout from '@/layouts/QuickstartLayout'
+import FrameworkLayout from '@/layouts/FrameworkLayout'
 import { Tag } from '@markdoc/markdoc'
 import { ReactElement } from 'react'
 import { IFramework } from '@/types'
@@ -201,7 +201,7 @@ async function createConfig(): Promise<Config> {
 export default function Page(
   props: InferGetStaticPropsType<typeof getStaticProps>
 ) {
-  return <QuickstartLayout {...props} />
+  return <FrameworkLayout {...props} />
 }
 
 // Markdoc.renderers.react renders directly into the page so not sure how to use the layout

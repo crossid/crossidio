@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react'
+import { ReactElement, useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import clsx from 'clsx'
@@ -9,32 +9,65 @@ import Nav from '@/components/Nav'
 import DocsHero from '@/components/docs/Hero'
 import FooterSlim from '@/components/FooterSlim'
 import { useTableOfContents } from '@/hooks/toc'
+import { TenantContext } from '@/hooks/tenant'
+import { FieldsContext } from '@/hooks/useFieldsContext'
 
 const navigation: INav = [
   {
-    title: 'Get Started',
+    title: 'Integration',
     links: [
-      { title: 'Preface', href: '/docs/guides/get-started/preface' },
       {
-        title: 'Sign-Up a tenant',
-        href: '/docs/guides/get-started/signup',
-      },
-      { title: 'Add a Person', href: '/docs/guides/get-started/add-person' },
-      { title: 'Add an App', href: '/docs/guides/get-started/add-app' },
-      {
-        title: 'User Assignment',
-        href: '/docs/guides/get-started/user-assignment',
-      },
-      {
-        title: 'Try to Login',
-        href: '/docs/guides/get-started/try-to-login',
-      },
-      {
-        title: 'Recap',
-        href: '/docs/guides/get-started/recap',
+        title: 'Frameworks',
+        href: '/docs/frameworks',
       },
     ],
   },
+  {
+    title: 'How To',
+    links: [
+      {
+        title: 'Machine to Machine',
+        href: '/docs/howto/machine-to-machine',
+      },
+      {
+        title: 'Custom Domain',
+        href: '/docs/howto/custom-domain',
+      },
+    ],
+  },
+  {
+    title: 'Concepts',
+    links: [
+      { title: 'Application', href: '/docs/concepts/application' },
+      { title: 'Tenant', href: '/docs/concepts/tenant' },
+      { title: 'User', href: '/docs/concepts/user' },
+      { title: 'Custom Domain', href: '/docs/concepts/custom-domain' },
+    ],
+  },
+  // {
+  //   title: 'Get Started',
+  //   links: [
+  //     { title: 'Preface', href: '/docs/guides/get-started/preface' },
+  //     {
+  //       title: 'Sign-Up a tenant',
+  //       href: '/docs/guides/get-started/signup',
+  //     },
+  //     { title: 'Add a Person', href: '/docs/guides/get-started/add-person' },
+  //     { title: 'Add an App', href: '/docs/guides/get-started/add-app' },
+  //     {
+  //       title: 'User Assignment',
+  //       href: '/docs/guides/get-started/user-assignment',
+  //     },
+  //     {
+  //       title: 'Try to Login',
+  //       href: '/docs/guides/get-started/try-to-login',
+  //     },
+  //     {
+  //       title: 'Recap',
+  //       href: '/docs/guides/get-started/recap',
+  //     },
+  //   ],
+  // },
 ]
 
 export default function DocsLayout({
@@ -47,7 +80,8 @@ export default function DocsLayout({
   tableOfContents: ITOC[]
 }) {
   let router = useRouter()
-
+  const { tenant } = useContext(TenantContext)
+  const { setField } = useContext(FieldsContext)
   let isHomePage = router.pathname === '/docs'
   let allLinks = navigation.flatMap((section) => section.links)
   let linkIndex = allLinks.findIndex((link) => link.href === router.pathname)
@@ -68,6 +102,11 @@ export default function DocsLayout({
     }
     return section.children.findIndex(isActive) > -1
   }
+
+  useEffect(() => {
+    setField('tenant', tenant)
+    setField('tenant_domain', tenant?.domains[0])
+  }, [tenant])
 
   return (
     <>
@@ -126,7 +165,7 @@ export default function DocsLayout({
             {(title || section) && (
               <header className="mb-9 space-y-1">
                 {section && (
-                  <p className="font-display text-sm font-medium text-indigo-500 dark:text-sky-500">
+                  <p className="font-display text-sm font-medium text-indigo-500 dark:text-sky-400">
                     {section.title}
                   </p>
                 )}

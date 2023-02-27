@@ -3,8 +3,24 @@ import { Callout } from '@/components/Callout'
 import { Tabs, Tab } from '@/components/markdoc/Tabs'
 import { Img } from '@/components/markdoc/Img'
 import { QuickLink, QuickLinks } from '@/components/docs/QuickLinks'
+import { InlineField, Field } from '@/components/markdoc/InlineInput'
 
 const tags = {
+  inlineField: {
+    render: InlineField,
+    attributes: {
+      name: String,
+      text: String,
+      placeholder: String,
+      type: String,
+    },
+  },
+  field: {
+    render: Field,
+    attributes: {
+      path: String,
+    },
+  },
   callout: {
     attributes: {
       title: { type: String },

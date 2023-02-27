@@ -1,7 +1,6 @@
 ---
 id: application
 title: Application
-sidebar_label: Application
 slug: /concepts/application
 description: What is an Application
 ---

@@ -15,6 +15,7 @@ export interface Tenant {
   clusterId: string
   regionCode: TenantRegion
   environmentTag: TenantEnv
+  domains: string[]
 }
 
 export default function useTenant(): {
@@ -40,6 +41,12 @@ export default function useTenant(): {
             },
           })
           const respJson = await resp.json()
+
+          // TODO: remove this after resolving ticket https://github.com/crossid/backend/issues/562
+          respJson.Resources.forEach(
+            (t: Tenant) =>
+              (t.domains = [`${t.id}.${t.regionCode.toLowerCase()}.crossid.io`])
+          )
           setList(respJson.Resources)
         }
       } catch (err: any) {

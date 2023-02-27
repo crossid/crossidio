@@ -11,9 +11,10 @@ import { IntercomProvider, useIntercom } from 'react-use-intercom'
 import '@/styles/globals.css'
 import '@/styles/fonts.css'
 import DocsLayout from './layouts/DocsLayout'
-import { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, useContext } from 'react'
 import DefaultLayout from './layouts/DefaultLayout'
-import { TenantProvider } from '@/hooks/tenant'
+import { TenantContext, TenantProvider } from '@/hooks/tenant'
+import { FieldProvider } from '@/hooks/useFieldsContext'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -31,7 +32,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const pathname = useRouter().pathname
   let AppComp
 
-  if (pageProps.markdoc && pathname.startsWith('/docs')) {
+  if (!Component.getLayout && pathname.startsWith('/docs')) {
     let title = pageProps.markdoc?.frontmatter.title
 
     let pageTitle =
@@ -52,9 +53,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             <title>{pageTitle}</title>
             {description && <meta name="description" content={description} />}
           </Head>
-          <DocsLayout title={title} tableOfContents={tableOfContents}>
-            <Component {...props} />
-          </DocsLayout>
+          <FieldProvider>
+            <DocsLayout title={title} tableOfContents={tableOfContents}>
+              <Component {...props} />
+            </DocsLayout>
+          </FieldProvider>
         </>
       </WrapApp>
     )
