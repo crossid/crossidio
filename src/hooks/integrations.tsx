@@ -6,7 +6,7 @@ import { TenantContext } from './tenant'
 export function useIntegrations(
   filter: string = 'id in ["singlePageApp", "webApp"]'
 ) {
-  const [data, setData] = useState<Integration[] | undefined>()
+  const [data, setData] = useState<Integration[] | undefined>(undefined)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
 
@@ -31,6 +31,11 @@ export function useIntegrations(
             authorization: `Bearer ${act}`,
           },
         })
+
+        if (resp.status > 299) {
+          throw await resp.json()
+        }
+
         const { Resources: integrationsList } = await resp.json()
 
         setData(integrationsList)
@@ -43,7 +48,7 @@ export function useIntegrations(
     [getAccessToken, tenant]
   )
 
-  if (!data && !loading) {
+  if (!data && !loading && !error) {
     listIntegrations(filter)
   }
 

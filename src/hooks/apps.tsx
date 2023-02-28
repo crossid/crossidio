@@ -32,6 +32,10 @@ export function useApps() {
       },
     })
 
+    if (resp.status > 299) {
+      throw await resp.json()
+    }
+
     const { Resources } = await resp.json()
     return Resources
   },
@@ -50,6 +54,10 @@ export function useApps() {
         authorization: `Bearer ${act}`,
       },
     })
+
+    if (resp.status > 299) {
+      throw await resp.json()
+    }
 
     const { Resources } = await resp.json()
     return Resources
@@ -74,6 +82,11 @@ export function useApps() {
             authorization: `Bearer ${act}`,
           },
         })
+
+        if (resp.status > 299) {
+          throw await resp.json()
+        }
+
         const { Resources: appsList } = await resp.json()
         const clientLinkIds: string[] = []
         appsList.forEach((app: App) => {
@@ -120,7 +133,7 @@ export function useApps() {
     [getAccessToken, getClientLinks, getClients, tenant]
   )
 
-  if (!data && !loading) {
+  if (!data && !loading && !error) {
     listApps()
   }
 
