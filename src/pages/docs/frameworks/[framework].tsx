@@ -23,6 +23,7 @@ import {
 import { ICodeLang } from '@/utils/prism/types'
 import { highlight } from '@/utils/prism/highlight'
 import { FieldProvider } from '@/hooks/useFieldsContext'
+import { readingTime } from '@/utils/content'
 
 const FW_DIR_NAME = 'frameworks'
 const PARTIALS_DIR = path.join(process.cwd()) + '/partials'
@@ -54,6 +55,8 @@ export interface IProps {
   codes: ICode[]
   // server's host name
   host: string
+  // estimated minutes to read
+  timeToRead: number
 }
 
 interface ICodeFrontmatter {
@@ -155,6 +158,7 @@ export const getStaticProps: GetStaticProps<IProps> = async (
       articleFrontmatter: frontmatter,
       codes,
       host: getHost({ protocol: true }) || '',
+      timeToRead: readingTime(source),
     },
   }
 }

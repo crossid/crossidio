@@ -36,6 +36,7 @@ export function BlogPostLayout({
   slug,
   card,
   host,
+  timeToRead,
 }: {
   title: string
   authors: IAuthor[]
@@ -46,6 +47,7 @@ export function BlogPostLayout({
   slug: string
   card: string
   host: string
+  timeToRead: number
 }) {
   let tableOfContents = collectHeadings(content)
   let currentSection = useTableOfContents(tableOfContents)
@@ -179,6 +181,9 @@ export function BlogPostLayout({
                       </span>
                     </Link>
                   ))}
+                </p>
+                <p className="py-1 text-sm text-slate-600 dark:text-slate-500">
+                  {timeToRead} minutes reading
                 </p>
                 <div className="text-sm leading-6">
                   <dl>

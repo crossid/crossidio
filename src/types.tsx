@@ -27,6 +27,8 @@ interface IRepo {
 export interface IFramework {
   // the title of the tech, e.g., "React"
   title: string
+  // a concise description of the framework. e.g., "A JavaScript library for building user interfaces."
+  description: string
   // framework tags (e.g., 'javascript', 'spa')
   tags: string[]
   // the logo of the framework

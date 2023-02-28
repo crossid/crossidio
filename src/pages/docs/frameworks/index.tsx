@@ -90,7 +90,6 @@ const Framework = (props: ISingleFw) => {
   const { framework, frameworkMeta } = props
   const { title, tags } = frameworkMeta
   const logo = frameworkMeta.logo as iconTypes
-  const description = 'text explaining the framework goes here...'
 
   return (
     <li key={title} className="relative flex flex-row-reverse">
@@ -117,7 +116,7 @@ const Framework = (props: ISingleFw) => {
           </Link>
         </h4>
         <p className="text-sm leading-6 text-slate-700 dark:text-slate-400">
-          {description}
+          {frameworkMeta.description}
         </p>
       </div>
       <div className="flex h-14 w-14 flex-none items-center justify-center overflow-hidden rounded-md bg-white shadow ring-1 ring-slate-900/5 dark:bg-slate-800 dark:highlight-white/5">

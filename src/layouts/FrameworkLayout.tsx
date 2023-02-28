@@ -73,6 +73,7 @@ export default function Layout(props: IProps) {
     framework,
     articleFrontmatter,
     host,
+    timeToRead,
   } = props
   const { loginWithRedirect, signupWithRedirect, idToken } = useAuth()
   const { fields, setField, setFields } = useContext(FieldsContext)
@@ -167,6 +168,9 @@ export default function Layout(props: IProps) {
                 <h1 className="font-display text-2xl tracking-tight text-slate-600 dark:text-white">
                   {articleFrontmatter.description}
                 </h1>
+                <p className="py-1 text-sm text-slate-600 dark:text-slate-500">
+                  {timeToRead} minutes reading
+                </p>
               </header>
               <Prose>
                 <div id="container" ref={containerRef}>

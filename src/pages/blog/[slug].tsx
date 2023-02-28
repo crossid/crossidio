@@ -10,6 +10,7 @@ import { BlogPostLayout } from '@/layouts/BlogPostLayout'
 import { pathToSlug } from '@/utils/fsystem'
 import { getHost } from '@/utils/location'
 import { highlightedCode } from '@/utils/prism/highlight'
+import { readingTime } from '@/utils/content'
 
 // see https://www.docploy.com/blog/how-to-build-a-blog-using-nextjs-and-markdoc
 
@@ -33,6 +34,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps<{
   frontmatter: Record<string, any>
   content: string
+  timeToRead: number
 }> = async (context: GetStaticPropsContext<{ slug?: string }>) => {
   // md files are stored in the 'posts' directory
   const POSTS_DIR = path.join(process.cwd(), 'posts')
@@ -127,6 +129,7 @@ export const getStaticProps: GetStaticProps<{
     props: {
       frontmatter,
       content,
+      timeToRead: readingTime(source),
       slug,
       host: getHost({ protocol: true }),
     },
@@ -135,7 +138,7 @@ export const getStaticProps: GetStaticProps<{
 
 // Create a React component using Markdoc's React renderer and our list of custom components.
 const Page = (props: any) => {
-  const { content, frontmatter, slug, host } = props
+  const { content, frontmatter, slug, host, timeToRead } = props
   const parsedContent = JSON.parse(content)
 
   const { title, description, authors, date, tags, card } = frontmatter
@@ -152,6 +155,7 @@ const Page = (props: any) => {
       slug={slug}
       card={card}
       host={host}
+      timeToRead={timeToRead}
     />
   )
 }
