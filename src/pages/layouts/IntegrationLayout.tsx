@@ -1,5 +1,5 @@
+import { Breadcrumb } from '@/components/Breadcrumb'
 import { Prose } from '@/components/Prose'
-import Time from '@/components/Time'
 import { TenantContext } from '@/hooks/tenant'
 import { ICollectorInfo } from '@/utils/loadIntegrations'
 import { getCrossidManagementHost } from '@/utils/location'
@@ -49,6 +49,21 @@ export default function IntegrationLayout({
         <meta name="og:url" content={`${host}/integrations/${integration}`} />
       </Head>
       <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8 lg:py-18">
+        <Breadcrumb
+          className="pb-4"
+          pages={[
+            {
+              title: 'Integrations',
+              href: '/integrations',
+              current: false,
+            },
+            {
+              title: displayName,
+              href: `/integrations/${id}`,
+              current: true,
+            },
+          ]}
+        />
         <div className="md:flex md:items-center md:justify-between md:space-x-5">
           <div className="flex items-start space-x-5">
             <div className="flex-shrink-0">

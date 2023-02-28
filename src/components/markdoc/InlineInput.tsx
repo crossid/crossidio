@@ -1,6 +1,7 @@
 import { FieldsContext } from '@/hooks/useFieldsContext'
 import { HTMLInputTypeAttribute, ReactNode, useContext } from 'react'
 import InlineEdit from '../InlineInput'
+import get from 'lodash.get'
 
 export function InlineFields({ children }: { children: ReactNode }) {
   return <div className="grid grid-cols-2">{children}</div>
@@ -38,6 +39,5 @@ export function Field({ path }: { path: string; children: ReactNode }) {
     return null
   }
 
-  console.log("@@@@@@@", path, fields[path], fields)
-  return <span>{fields[path]}</span>
+  return <span>{get(fields, path)}</span>
 }

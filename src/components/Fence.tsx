@@ -6,6 +6,7 @@ import { Fragment, useContext } from 'react'
 import { getClassNameForToken } from './CodeWindow'
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import { FieldsContext } from '@/hooks/useFieldsContext'
+import { resolveCode } from '@/utils/code'
 
 export function Fence({
   lines,
@@ -107,11 +108,7 @@ export function FenceClient({
   let code = children?.trimEnd()
 
   if (resolve && fields) {
-    const vars = Array.from(code.matchAll(/(<)([\w.\[\]]*)(>)/g))
-    vars.forEach((v) => {
-      const fv = fields[v[2]]
-      if (fv) code = code.replace(v[0], fv)
-    })
+    code = resolveCode(code, fields)
   }
 
   return (

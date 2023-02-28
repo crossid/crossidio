@@ -1,12 +1,8 @@
-import {
-  CodeWindow,
-  ComponentLink,
-  getClassNameForToken,
-} from '@/components/CodeWindow'
+import { CodeWindow } from '@/components/CodeWindow'
 import { Prose } from '@/components/Prose'
 import { useActiveElement } from '@/hooks/useActiveElement'
 import { ICode, IProps } from '@/pages/docs/frameworks/[framework]'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useContext, useEffect, useRef, useState } from 'react'
 import Markdoc from '@markdoc/markdoc'
 import clsx from 'clsx'
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect'
@@ -17,9 +13,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
   ChevronDownIcon,
-  ChevronRightIcon,
   DocumentDuplicateIcon,
-  HomeIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { Logo } from '@/components/Logo'
@@ -30,7 +24,13 @@ import { Icon } from '@/components/Icon'
 import Head from 'next/head'
 import { formatDate, MACHINE_FORMAT } from '@/utils/date'
 import { useAuth } from '@crossid/crossid-react'
-import { FieldProvider, FieldsContext } from '@/hooks/useFieldsContext'
+import AppSelector, { IApp } from '@/components/AppSelector'
+import { FieldsContext } from '@/hooks/useFieldsContext'
+import { Field } from '@/components/markdoc/InlineInput'
+import Highlight, { defaultProps } from 'prism-react-renderer'
+import { resolveCode } from '@/utils/code'
+import { TenantContext } from '@/hooks/tenant'
+import { Breadcrumb } from '@/components/Breadcrumb'
 
 const Heading: React.FC<
   {
@@ -60,6 +60,7 @@ const Heading: React.FC<
 // TODO we need to share the same components as with other markdoc renderers
 const components = {
   Heading,
+  Field,
 }
 
 type Comp = 'code' | 'configure-app'
@@ -74,6 +75,8 @@ export default function Layout(props: IProps) {
     host,
   } = props
   const { loginWithRedirect, signupWithRedirect, idToken } = useAuth()
+  const { fields, setField, setFields } = useContext(FieldsContext)
+  const { tenant } = useContext(TenantContext)
   const scrollerRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const parsedContent = JSON.parse(articleContent)
@@ -81,6 +84,12 @@ export default function Layout(props: IProps) {
   const comp = activeElement?.getAttribute('component') as Comp
   const data = activeElement?.getAttribute('data')
   const scrollPos = useScrollPosition()
+  const [app, setApp] = useState<IApp>()
+
+  useEffect(() => {
+    setField('tenant', tenant)
+    setField('tenant_domain', tenant?.domains[0])
+  }, [tenant])
 
   return (
     <>
@@ -151,7 +160,7 @@ export default function Layout(props: IProps) {
               ]}
             />
             <article>
-              <header className="mb-9 space-y-1">
+              <header className="mb-9 space-y-1 py-8">
                 <p className="font-display text-sm font-medium text-indigo-500 dark:text-sky-500">
                   {articleFrontmatter.title}
                 </p>
@@ -170,19 +179,31 @@ export default function Layout(props: IProps) {
           </div>
           <div className="sticky top-40 hidden grid-cols-1 gap-4 xl:grid	">
             {comp === 'code' && (
-              <Code codes={codes} currentFileName={data || ''} />
+              <Code
+                codes={codes}
+                currentFileName={data || ''}
+                fields={fields || {}}
+              />
             )}
             {/* {comp === 'configure-app' && <ConfigureApp />} */}
-            {comp === 'configure-app' && (
-              <>
-                {!idToken && (
-                  <LoginOrSignup
-                    loginFunc={loginWithRedirect}
-                    signupFunc={signupWithRedirect}
-                  />
-                )}
-                {idToken && <div>CONFIGURE APP</div>}
-              </>
+            {!idToken && (
+              <LoginOrSignup
+                loginFunc={loginWithRedirect}
+                signupFunc={signupWithRedirect}
+              />
+            )}
+            {idToken && (
+              <AppSelector
+                onChange={(app: IApp) => {
+                  setFields({
+                    app: app,
+                    client_id: app.oauth2Client.clientId,
+                    login_redirect_uri: app.oauth2Client.redirectUrls[0],
+                    logout_redirect_uri: app.oauth2Client.logoutUrls[0],
+                  })
+                  setApp(app)
+                }}
+              />
             )}
           </div>
         </div>
@@ -195,15 +216,17 @@ export default function Layout(props: IProps) {
 function Code({
   codes,
   currentFileName,
+  fields,
 }: {
   codes: ICode[]
   currentFileName: string
+  fields: Record<string, any>
 }) {
   const [activeFilename, setActiveFilename] = useState<string | undefined>(
     currentFileName
   )
-  const [lines, setLines] = useState<IToken[][]>([])
-  const [code, setCode] = useState<string>()
+  const [code, setCode] = useState<ICode>()
+  const [resolvedCode, setResolvedCode] = useState('')
 
   const filenames = codes.map((c) => c.frontmatter.name)
   let singleCode: ICode
@@ -214,10 +237,15 @@ function Code({
 
   useIsomorphicLayoutEffect(() => {
     singleCode = codes.filter((c) => c.frontmatter.name === activeFilename)[0]
-    setLines(JSON.parse(singleCode.lines))
-    setCode(singleCode.code)
-  }, [activeFilename])
+    setCode(singleCode)
+    setResolvedCode(resolve(singleCode, fields))
+  }, [activeFilename, fields.client_id])
 
+  const resolve = (code: ICode, fields: Record<string, any>) => {
+    return resolveCode(code.code, fields)
+  }
+
+  if (!code) return null
   return (
     <CodeWindow border={false}>
       {/* <div className="relative min-w-full flex-none px-1"> */}
@@ -247,7 +275,7 @@ function Code({
           type="button"
           className="mr-3 inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-900 dark:hover:bg-slate-800 dark:focus:ring-sky-500"
           onClick={() => {
-            if (code) navigator.clipboard.writeText(code)
+            if (code) navigator.clipboard.writeText(code.code)
           }}
         >
           <DocumentDuplicateIcon
@@ -259,83 +287,115 @@ function Code({
         <div className="absolute inset-x-0 bottom-0 h-px bg-slate-500/30" />
       </div>
       <div className="flex min-h-0 w-full flex-auto">
-        <CodeWindow.Code2 lines={lines.length}>
-          {lines.map((tokens, lineIndex) => (
-            <Fragment key={lineIndex}>
-              {tokens.map((token: IToken, tokenIndex: number) => {
-                if (
-                  (token.types[token.types.length - 1] === 'class-name' ||
-                    (token.types[token.types.length - 1] === 'tag' &&
-                      /^([A-Z]|x-)/.test(token.content))) &&
-                  tokens[tokenIndex - 1]?.types[
-                    tokens[tokenIndex - 1].types.length - 1
-                  ] === 'punctuation' &&
-                  (tokens[tokenIndex - 1]?.content === '<' ||
-                    tokens[tokenIndex - 1].content === '</')
-                ) {
-                  return (
-                    <span
-                      key={tokenIndex}
-                      className={getClassNameForToken(token)}
-                    >
-                      <ComponentLink
-                        onClick={() =>
-                          setActiveFilename(
-                            filenames.find((x) =>
-                              x.startsWith(
-                                `${token.content.replace(/^x-/, '')}.`
+        {resolvedCode && (
+          <Highlight
+            {...defaultProps}
+            code={resolvedCode}
+            theme={undefined}
+            // language={code.frontmatter.lang as Language}
+            language={'jsx'}
+          >
+            {({ className, style, tokens, getLineProps, getTokenProps }) => (
+              <pre
+                className={clsx(className, 'flex overflow-x-auto pb-6')}
+                style={style}
+              >
+                <code className="px-4">
+                  {tokens.map((line, lineIndex) => (
+                    <div key={lineIndex} {...getLineProps({ line })}>
+                      {line.map((token, tokenIndex) => (
+                        <span key={tokenIndex} {...getTokenProps({ token })} />
+                      ))}
+                    </div>
+                  ))}
+                </code>
+              </pre>
+            )}
+          </Highlight>
+        )}
+        {/* <CodeWindow.Code2 lines={lines.length}>
+          {lines.map((tokens, lineIndex) => {
+            tokens = resolveLine(tokens)
+            return (
+              <Fragment key={lineIndex}>
+                {tokens.map((token: IToken, tokenIndex: number) => {
+                  if (
+                    (token.types[token.types.length - 1] === 'class-name' ||
+                      (token.types[token.types.length - 1] === 'tag' &&
+                        /^([A-Z]|x-)/.test(token.content))) &&
+                    tokens[tokenIndex - 1]?.types[
+                      tokens[tokenIndex - 1].types.length - 1
+                    ] === 'punctuation' &&
+                    (tokens[tokenIndex - 1]?.content === '<' ||
+                      tokens[tokenIndex - 1].content === '</')
+                  ) {
+                    return (
+                      <span
+                        key={tokenIndex}
+                        className={getClassNameForToken(token)}
+                      >
+                        <ComponentLink
+                          onClick={() =>
+                            setActiveFilename(
+                              filenames.find((x) =>
+                                x.startsWith(
+                                  `${token.content.replace(/^x-/, '')}.`
+                                )
                               )
                             )
-                          )
-                        }
-                      >
-                        {token.content}
-                      </ComponentLink>
-                    </span>
-                  )
-                }
+                          }
+                        >
+                          {token.content}
+                        </ComponentLink>
+                      </span>
+                    )
+                  }
 
-                if (
-                  token.types[token.types.length - 1] === 'string' &&
-                  /^(['"`])\.\/.*?\.(js|vue|jsx|tsx)\1$/.test(token.content)
-                ) {
-                  const tab = token.content.substr(3, token.content.length - 4)
+                  if (
+                    token.types[token.types.length - 1] === 'string' &&
+                    /^(['"`])\.\/.*?\.(js|vue|jsx|tsx)\1$/.test(token.content)
+                  ) {
+                    const tab = token.content.substr(
+                      3,
+                      token.content.length - 4
+                    )
+                    return (
+                      <span
+                        key={tokenIndex}
+                        className={getClassNameForToken(token)}
+                      >
+                        {token.content.substr(0, 1)}
+                        <button
+                          type="button"
+                          className="underline"
+                          onClick={() =>
+                            setActiveFilename(
+                              // Object.keys(filenames[framework]).indexOf(tab)
+                              'TODO'
+                            )
+                          }
+                        >
+                          ./{tab}
+                        </button>
+                        {token.content.substr(0, 1)}
+                      </span>
+                    )
+                  }
+
                   return (
                     <span
                       key={tokenIndex}
                       className={getClassNameForToken(token)}
                     >
-                      {token.content.substr(0, 1)}
-                      <button
-                        type="button"
-                        className="underline"
-                        onClick={() =>
-                          setActiveFilename(
-                            // Object.keys(filenames[framework]).indexOf(tab)
-                            'TODO'
-                          )
-                        }
-                      >
-                        ./{tab}
-                      </button>
-                      {token.content.substr(0, 1)}
+                      {token.content}
                     </span>
                   )
-                }
-
-                return (
-                  <span
-                    key={tokenIndex}
-                    className={getClassNameForToken(token)}
-                  >
-                    {token.content}
-                  </span>
-                )
-              })}
-              {'\n'}
-            </Fragment>
-          ))}
-        </CodeWindow.Code2>
+                })}
+                {'\n'}
+              </Fragment>
+            )
+          })}
+        </CodeWindow.Code2> */}
       </div>
     </CodeWindow>
   )
@@ -565,45 +625,5 @@ function NavBar({
         </>
       )}
     </Disclosure>
-  )
-}
-
-interface IPage {
-  title: string
-  href: string
-  current: boolean
-}
-
-export function Breadcrumb({ pages }: { pages: IPage[] }) {
-  return (
-    <nav className="flex" aria-label="Breadcrumb">
-      <ol role="list" className="flex items-center space-x-4">
-        <li>
-          <div>
-            <a href="#" className="text-gray-400 hover:text-gray-500">
-              <HomeIcon className="h-5 w-5 flex-shrink-0" aria-hidden="true" />
-              <span className="sr-only">Home</span>
-            </a>
-          </div>
-        </li>
-        {pages.map((page) => (
-          <li key={page.title}>
-            <div className="flex items-center">
-              <ChevronRightIcon
-                className="h-5 w-5 flex-shrink-0 text-gray-400 dark:text-sky-500"
-                aria-hidden="true"
-              />
-              <Link
-                href={page.href}
-                className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700 dark:text-slate-300"
-                aria-current={page.current ? 'page' : undefined}
-              >
-                {page.title}
-              </Link>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </nav>
   )
 }

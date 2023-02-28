@@ -23,6 +23,7 @@ import {
 } from '@/utils/prism/token'
 import { ICodeLang } from '@/utils/prism/types'
 import { highlight } from '@/utils/prism/highlight'
+import { FieldProvider } from '@/hooks/useFieldsContext'
 
 const FW_DIR_NAME = 'frameworks'
 const PARTIALS_DIR = path.join(process.cwd()) + '/partials'
@@ -170,6 +171,14 @@ async function createConfig(): Promise<Config> {
 
   const config: Config = {
     partials,
+    tags: {
+      field: {
+        render: 'Field',
+        attributes: {
+          path: { type: String },
+        },
+      },
+    },
     nodes: {
       heading: {
         ...Markdoc.nodes.heading,
@@ -201,7 +210,11 @@ async function createConfig(): Promise<Config> {
 export default function Page(
   props: InferGetStaticPropsType<typeof getStaticProps>
 ) {
-  return <FrameworkLayout {...props} />
+  return (
+    <FieldProvider>
+      <FrameworkLayout {...props} />
+    </FieldProvider>
+  )
 }
 
 // Markdoc.renderers.react renders directly into the page so not sure how to use the layout
