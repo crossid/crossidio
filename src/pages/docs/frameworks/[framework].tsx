@@ -16,7 +16,6 @@ import { ReactElement } from 'react'
 import { IFramework } from '@/types'
 import { getHost } from '@/utils/location'
 import {
-  fixSelectorEscapeTokens,
   normalizeTokens,
   simplifyToken,
   tokenizeCode,

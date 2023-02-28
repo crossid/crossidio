@@ -16,6 +16,7 @@ import React, { useContext } from 'react'
 import { IIntegrationProps } from '../integrations/[integration]'
 
 export default function IntegrationLayout({
+  slug,
   integration,
   content,
   host,
@@ -59,7 +60,7 @@ export default function IntegrationLayout({
             },
             {
               title: displayName,
-              href: `/integrations/${id}`,
+              href: `/integrations/${slug}`,
               current: true,
             },
           ]}

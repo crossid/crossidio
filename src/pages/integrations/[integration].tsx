@@ -30,6 +30,7 @@ export const getStaticPaths = async () => {
 }
 
 export interface IIntegrationProps {
+  slug: string
   content: GithubFile | null
   integration: string
   host: string
@@ -57,6 +58,7 @@ export const getStaticProps: GetStaticProps<IIntegrationProps> = async (
 
   return {
     props: {
+      slug: context.params?.integration || '',
       content,
       integration: context.params?.integration || '',
       host: getHost({ protocol: true }) || '',

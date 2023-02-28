@@ -1,11 +1,6 @@
-import { Icon } from '@/components/Icon'
 import { filterByKeywords, getAllIntegrations } from '@/utils/loadIntegrations'
 import clsx from 'clsx'
-import {
-  GetStaticProps,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
