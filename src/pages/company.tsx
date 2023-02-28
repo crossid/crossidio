@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import react from 'react'
 
 const team = [
   {
@@ -35,6 +34,8 @@ export default function Company() {
     <>
       <Head>
         <title>About</title>
+        <title>About</title>
+        <meta name="og:title" content="About Company" />
         <meta name="description" content="About Company" />
       </Head>
       <div className="bg-white dark:bg-slate-900">

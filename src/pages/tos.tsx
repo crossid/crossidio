@@ -1,10 +1,15 @@
 import Footer from '@/components/Footer'
+import Head from 'next/head'
 
 const email = 'info@crossid.io'
 
 export default function TOS() {
   return (
     <>
+      <Head>
+        <title>Term of Use</title>
+        <meta name="og:title" content="Term of Use" />
+      </Head>
       <div className="bg-white text-slate-800 dark:bg-slate-900 dark:text-slate-400">
         <div className="relative overflow-hidden py-16">
           <div className="relative px-4 sm:px-6 lg:px-8">
