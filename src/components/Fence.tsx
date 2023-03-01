@@ -2,11 +2,12 @@ import { IHighlightedLines } from '@/utils/prism/types'
 import { codeStyles } from '@/utils/prism/styles'
 import { ICodeLang } from '@/utils/prism/types'
 import clsx from 'clsx'
-import { Fragment, useContext } from 'react'
+import { Fragment, useContext, useMemo } from 'react'
 import { getClassNameForToken } from './CodeWindow'
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import { FieldsContext } from '@/hooks/useFieldsContext'
 import { resolveCode } from '@/utils/code'
+import { highlightedLines } from '@/utils/prism/highligted'
 
 export function Fence({
   lines,
@@ -111,26 +112,38 @@ export function FenceClient({
     code = resolveCode(code, fields)
   }
 
+  const highlited = useMemo(() => {
+    return highlightedLines(code, language)
+  }, [code, language])
+
   return (
     <Highlight
       {...defaultProps}
-      code={code}
+      code={highlited.code}
       language={language as Language}
       theme={undefined}
     >
-      {({ className, style, tokens, getTokenProps }) => (
+      {({ className, style, tokens, getTokenProps, getLineProps }) => (
         <pre className={className} style={style}>
           <code>
-            {tokens.map((line, lineIndex) => (
-              <Fragment key={lineIndex}>
-                {line
-                  .filter((token) => !token.empty)
-                  .map((token, tokenIndex) => (
-                    <span key={tokenIndex} {...getTokenProps({ token })} />
-                  ))}
-                {'\n'}
-              </Fragment>
-            ))}
+            {tokens.map((line, lineIndex) => {
+              const lineProps = getLineProps({ line, key: lineIndex })
+              if (highlited.highlighted.includes(lineIndex)) {
+                lineProps.className += ` ${codeStyles.highlighted}`
+              }
+              return (
+                <div {...lineProps} key={lineIndex}>
+                  <Fragment key={lineIndex}>
+                    {line
+                      .filter((token) => !token.empty)
+                      .map((token, tokenIndex) => (
+                        <span key={tokenIndex} {...getTokenProps({ token })} />
+                      ))}
+                    {'\n'}
+                  </Fragment>
+                </div>
+              )
+            })}
           </code>
         </pre>
       )}
