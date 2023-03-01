@@ -382,7 +382,13 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                   {!idToken && !authLoading && (
                     <button
                       className="ml-4 text-xs font-bold text-black hover:underline dark:text-sky-500"
-                      onClick={() => loginWithRedirect({})}
+                      onClick={() =>
+                        loginWithRedirect({
+                          state: {
+                            return_to: window.location.pathname,
+                          },
+                        })
+                      }
                     >
                       Sign in
                     </button>

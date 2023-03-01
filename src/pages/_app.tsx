@@ -72,6 +72,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   }
 }
 
+function onRedTo(state: any) {
+  window.location.replace(state.return_to)
+}
+
 function WrapApp({ children, ...props }: { children: ReactElement }) {
   return (
     <AuthProvider
@@ -83,6 +87,7 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       }
       scope={'owner openid email'}
       cache_type="session_storage"
+      onRedirectTo={onRedTo}
     >
       <TenantProvider>
         <IntercomProvider
