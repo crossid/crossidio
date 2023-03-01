@@ -73,15 +73,20 @@ type TenantContextProps = {
   getAccessToken: () => Promise<string>
 }
 
+function tenantDomain() {
+  return process.env.NEXT_PUBLIC_DOMAIN
+}
+
 export function prepareAudience(tenant?: Tenant): string[] {
   if (!tenant) {
     return []
   }
-  //`https://${tId}.${region}.${tenantsDomain()}/oauth2/token`
+
   const audience = [
-    // 'management',
     tenant.id,
-    `https://${tenant.id}.us.local.crossid.io/oauth2/token`,
+    `https://${
+      tenant.id
+    }.${tenant.regionCode.toLocaleLowerCase()}.${tenantDomain()}/oauth2/token`,
   ]
 
   return audience
