@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { useAuth } from '@crossid/crossid-react'
 import { Tenant, TenantContext } from './tenant'
 import { Patch } from '@/data/patch'
@@ -14,8 +14,7 @@ export function useApps() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
 
-  const { tenant } = useContext(TenantContext)
-  const { getAccessToken } = useAuth()
+  const { tenant, getAccessToken } = useContext(TenantContext)
 
   const getClientLinks = useCallback(async function (
     tenant: Tenant,
@@ -136,6 +135,11 @@ export function useApps() {
   if (!data && !loading && !error) {
     listApps()
   }
+
+  useEffect(() => {
+    setData(undefined)
+    setError(undefined)
+  }, [tenant])
 
   const updateClient = useCallback(
     async ({ clientId, patch }: { clientId: string; patch: Patch }) => {

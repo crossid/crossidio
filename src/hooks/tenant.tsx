@@ -70,16 +70,35 @@ type TenantContextProps = {
   app?: IApp
   setTenant: Function
   setApp: (app?: IApp) => void
+  getAccessToken: () => Promise<string>
+}
+
+export function prepareAudience(tenant?: Tenant): string[] {
+  if (!tenant) {
+    return []
+  }
+  //`https://${tId}.${region}.${tenantsDomain()}/oauth2/token`
+  const audience = [
+    // 'management',
+    tenant.id,
+    `https://${tenant.id}.us.local.crossid.io/oauth2/token`,
+  ]
+
+  return audience
 }
 
 export const TenantContext = createContext<TenantContextProps>({
   setTenant: () => {},
   setApp: () => {},
+  getAccessToken: () => {
+    return Promise.resolve('')
+  },
 })
 
 const TENANT_LOCALSTORAGE_KEY = '__tenant__'
 export function TenantProvider({ children }: { children: React.ReactNode }) {
   const [tenant, setTenant] = useState<Tenant | undefined>()
+  const { loginWithRedirect, getAccessToken } = useAuth()
 
   useEffect(() => {
     const currentTenantStr = localStorage.getItem(TENANT_LOCALSTORAGE_KEY)
@@ -88,16 +107,32 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  function _setTenant(tenant: Tenant | undefined) {
+  async function _setTenant(tenant: Tenant | undefined) {
     localStorage.setItem(TENANT_LOCALSTORAGE_KEY, JSON.stringify(tenant))
     setTenant(tenant)
+    const audience = prepareAudience(tenant)
+    const ac = await getAccessToken({ audience })
+    if (!ac) {
+      loginWithRedirect({ audience })
+    }
+  }
+
+  async function _getAccessToken() {
+    const audience = prepareAudience(tenant)
+    return getAccessToken({ audience })
   }
 
   const [app, setApp] = useState<IApp | undefined>()
 
   return (
     <TenantContext.Provider
-      value={{ tenant, setTenant: _setTenant, setApp, app }}
+      value={{
+        tenant,
+        setTenant: _setTenant,
+        setApp,
+        app,
+        getAccessToken: _getAccessToken,
+      }}
     >
       {children}
     </TenantContext.Provider>

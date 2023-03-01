@@ -6,7 +6,7 @@ import { useIntegrations } from '@/hooks/integrations'
 import { TenantContext } from '@/hooks/tenant'
 import { useContext, useMemo, useState } from 'react'
 
-export default function Demo() {
+function Demo() {
   const { app, setApp } = useContext(TenantContext)
   const { apps: appTuples, appsError, updateClient } = useApps()
   const { integrations = [], integrationsError, create } = useIntegrations()
@@ -71,6 +71,13 @@ export default function Demo() {
         op: 'add',
         value: [app?.logoutUri],
       })
+    } else if (!app?.logoutUri) {
+      patch.Operations.push({
+        path: 'post_logout_redirect_uris',
+        op: 'replace',
+        value: post_logout_redirect_uris.slice(1),
+        oldValue: post_logout_redirect_uris,
+      })
     } else if (app?.logoutUri !== post_logout_redirect_uris[0]) {
       patch.Operations.push({
         path: '/post_logout_redirect_uris/0',
@@ -88,7 +95,11 @@ export default function Demo() {
   }
 
   function onCancel() {
-    const { id } = app!
+    if (!app) {
+      return
+    }
+
+    const { id } = app
     const formerApp = apps.find((app) => app.id === id)
     setApp(formerApp)
   }
@@ -155,3 +166,5 @@ export default function Demo() {
     </div>
   )
 }
+
+export default Demo

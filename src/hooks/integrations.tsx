@@ -1,7 +1,7 @@
 import { Integration } from '@/data/applications'
 import { useAuth } from '@crossid/crossid-react'
-import { useCallback, useContext, useState } from 'react'
-import { TenantContext } from './tenant'
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { prepareAudience, TenantContext } from './tenant'
 
 export function useIntegrations(
   filter: string = 'id in ["singlePageApp", "webApp"]'
@@ -10,8 +10,7 @@ export function useIntegrations(
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
 
-  const { tenant } = useContext(TenantContext)
-  const { getAccessToken } = useAuth()
+  const { tenant, getAccessToken } = useContext(TenantContext)
 
   const listIntegrations = useCallback(
     async function (filter: string) {
@@ -51,6 +50,11 @@ export function useIntegrations(
   if (!data && !loading && !error) {
     listIntegrations(filter)
   }
+
+  useEffect(() => {
+    setData(undefined)
+    setError(undefined)
+  }, [tenant])
 
   const create = useCallback(
     async (data: creationData) => {
