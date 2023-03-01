@@ -17,20 +17,20 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { Logo } from '@/components/Logo'
-import { IFramework } from '@/types'
+import { IApp, IFramework } from '@/types'
 import { useScrollPosition } from '@/hooks/usePositionScroll'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Icon } from '@/components/Icon'
 import Head from 'next/head'
 import { formatDate, MACHINE_FORMAT } from '@/utils/date'
 import { useAuth } from '@crossid/crossid-react'
-import AppSelector, { IApp } from '@/components/AppSelector'
 import { FieldsContext } from '@/hooks/useFieldsContext'
 import { Field } from '@/components/markdoc/InlineInput'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 import { resolveCode } from '@/utils/code'
 import { TenantContext } from '@/hooks/tenant'
 import { Breadcrumb } from '@/components/Breadcrumb'
+import { AppConfigurator } from '@/components/ConfigureApp'
 
 const Heading: React.FC<
   {
@@ -181,32 +181,43 @@ export default function Layout(props: IProps) {
               </Prose>
             </article>
           </div>
-          <div className="sticky top-40 hidden grid-cols-1 gap-4 xl:grid	">
-            {comp === 'code' && (
-              <Code
-                codes={codes}
-                currentFileName={data || ''}
-                fields={fields || {}}
-              />
-            )}
-            {/* {comp === 'configure-app' && <ConfigureApp />} */}
-            {!idToken && (
+          <div className="sticky top-40 hidden grid-cols-1 gap-4 xl:grid">
+            {comp === 'configure-app' && !idToken && (
               <LoginOrSignup
                 loginFunc={loginWithRedirect}
                 signupFunc={signupWithRedirect}
               />
             )}
             {idToken && (
-              <AppSelector
-                onChange={(app: IApp) => {
-                  setFields({
-                    app: app,
-                    client_id: app.oauth2Client.clientId,
-                    login_redirect_uri: app.oauth2Client.redirectUrls[0],
-                    logout_redirect_uri: app.oauth2Client.logoutUrls[0],
-                  })
-                  setApp(app)
-                }}
+              <>
+                {fields && fields.app && (
+                  <div className={clsx(comp === 'configure-app' && 'hidden')}>
+                    Configured for app{' '}
+                    <span className="font-bold text-gray-500 dark:text-slate-400">{fields.app.displayName}</span>
+                  </div>
+                )}
+                <AppConfigurator
+                  className={clsx(comp !== 'configure-app' && 'hidden')}
+                  onChange={(app) => {
+                    if (app) {
+                      setFields({
+                        app: app,
+                        client_id: app.clientId,
+                        login_redirect_uri: app.loginUri,
+                        logout_redirect_uri: app.logoutUri,
+                        cors_origin: app.corsOrigin,
+                      })
+                      setApp(app)
+                    }
+                  }}
+                />
+              </>
+            )}
+            {comp === 'code' && (
+              <Code
+                codes={codes}
+                currentFileName={data || ''}
+                fields={fields || {}}
               />
             )}
           </div>
@@ -304,7 +315,7 @@ function Code({
                 className={clsx(className, 'flex overflow-x-auto pb-6')}
                 style={style}
               >
-                <code className="px-4">
+                <code className="px-5 py-4">
                   {tokens.map((line, lineIndex) => (
                     <div key={lineIndex} {...getLineProps({ line })}>
                       {line.map((token, tokenIndex) => (
@@ -438,12 +449,12 @@ function LoginOrSignup({
           >
             Signup
           </Link>
-          <a
-            href="#"
-            className="text-base font-semibold leading-7 text-gray-900"
+          <button
+            onClick={() => loginFunc({})}
+            className="tetext-base font-semibold leading-7 text-gray-900"
           >
             Login
-          </a>
+          </button>{' '}
         </div>
       </div>
     </div>

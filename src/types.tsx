@@ -42,3 +42,16 @@ export interface IFramework {
   // e.g., 'react > 18'
   requirements: string[]
 }
+
+export interface IAppConfigureData {
+  loginUri: string
+  logoutUri: string
+  corsOrigin: string
+  clientId?: string
+}
+
+export interface IApp extends IAppConfigureData {
+  id: string
+  displayName: string
+  active: boolean
+}

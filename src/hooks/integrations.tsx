@@ -24,7 +24,7 @@ export function useIntegrations(
         if (!act) {
           return
         }
-        const url = `${tenant.id}/api/v1/integrations?count=0&filter=${filter}`
+        const url = `/${tenant.id}/api/v1/integrations?count=0&filter=${filter}`
         const resp = await fetch(`${url}`, {
           headers: {
             authorization: `Bearer ${act}`,

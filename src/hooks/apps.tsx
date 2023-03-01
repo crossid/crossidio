@@ -23,7 +23,7 @@ export function useApps() {
   ): Promise<ClientLink[]> {
     const idsStr = `${appIds.join('","')}`
 
-    const url = `${tenant.id}/api/v1/resources/_/ClientLinks?count=0&filter=meta.appId in ["${idsStr}"]&attributes=meta,externalId`
+    const url = `/${tenant.id}/api/v1/resources/_/ClientLinks?count=0&filter=meta.appId in ["${idsStr}"]&attributes=meta,externalId`
 
     const resp = await fetch(url, {
       headers: {
@@ -46,7 +46,7 @@ export function useApps() {
     act: string
   ): Promise<Client[]> {
     const idsStr = `${clientIds.join('","')}`
-    const url = `${tenant.id}/api/v1/oauth2/clients?filter=client_id in ["${idsStr}"]&count=0`
+    const url = `/${tenant.id}/api/v1/oauth2/clients?filter=client_id in ["${idsStr}"]&count=0`
 
     const resp = await fetch(url, {
       headers: {
@@ -75,7 +75,7 @@ export function useApps() {
         if (!act) {
           return
         }
-        const url = `${tenant.id}/api/v1/apps?count=0&filter=appId ne "iam"`
+        const url = `/${tenant.id}/api/v1/apps?count=0&filter=appId ne "iam"`
         const resp = await fetch(`${url}`, {
           headers: {
             authorization: `Bearer ${act}`,
@@ -146,12 +146,13 @@ export function useApps() {
       if (!tenant) {
         return
       }
-      const url = `${tenant.id}/api/v1/oauth2/clients/${clientId}?reason=updated from crossid site`
+      const url = `/${tenant.id}/api/v1/oauth2/clients/${clientId}?reason=updated from crossid site`
       const act = await getAccessToken()
       if (!act) {
         return
       }
 
+      console.log(JSON.stringify(patch))
       try {
         const resp = await fetch(url, {
           method: 'PATCH',

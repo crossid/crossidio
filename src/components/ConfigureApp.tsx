@@ -1,4 +1,9 @@
 import { Integration } from '@/data/applications'
+import { Patch } from '@/data/patch'
+import { useApps } from '@/hooks/apps'
+import { useIntegrations } from '@/hooks/integrations'
+import { TenantContext } from '@/hooks/tenant'
+import { IApp, IAppConfigureData } from '@/types'
 import { Listbox, Transition } from '@headlessui/react'
 import {
   CheckIcon,
@@ -12,20 +17,10 @@ import {
   ForwardRefExoticComponent,
   Fragment,
   SVGProps,
+  useContext,
+  useMemo,
   useState,
 } from 'react'
-
-export interface IAppConfigureData {
-  loginUri: string
-  logoutUri: string
-  corsOrigin: string
-}
-
-export interface IApp extends IAppConfigureData {
-  id: string
-  displayName: string
-  active: boolean
-}
 
 function NewApp({
   integrations,
@@ -213,7 +208,7 @@ const items: IItem[] = [
   },
 ]
 
-export function ConfigureAppMenu({
+function ConfigureAppMenu({
   onSelect,
 }: {
   onSelect: (selected: mode) => void
@@ -263,7 +258,7 @@ export function ConfigureAppMenu({
       </ul>
       <div className="mt-6 flex">
         <Link
-          href="/docs/concepts/app"
+          href="/docs/concepts/application"
           className="text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-sky-500 dark:hover:text-sky-400"
         >
           Want to know more about apps?
@@ -275,7 +270,7 @@ export function ConfigureAppMenu({
 }
 
 type editMode = 'edit' | 'display'
-export function ConfigureAppForm({
+function ConfigureAppForm({
   app,
   setApp = () => {},
   apps,
@@ -555,3 +550,199 @@ function ConfigureAppInput({
   )
 }
 */
+
+// Configure App high order component
+export function AppConfigurator({
+  className,
+  onChange,
+}: {
+  className: String
+  onChange: (app: IApp | undefined) => void
+}) {
+  const { app, setApp: _setApp } = useContext(TenantContext)
+  const { apps: appTuples, appsError, updateClient } = useApps()
+  const { integrations = [], integrationsError, create } = useIntegrations()
+  const [integration, setIntegration] = useState<Integration | null>(null)
+
+  const setApp = (app: IApp | undefined) => {
+    _setApp(app)
+    onChange(app)
+  }
+
+  const apps: IApp[] = useMemo(() => {
+    if (!appTuples) {
+      return []
+    }
+
+    return Object.values(appTuples || {}).map<IApp>((at) => {
+      const {
+        client: {
+          id,
+          client_id,
+          redirect_uris = [],
+          post_logout_redirect_uris = [],
+          allowed_cors_origins = [],
+        },
+        app: { displayName, active },
+      } = at
+
+      const app: IApp = {
+        id,
+        displayName: displayName,
+        active: active,
+        clientId: client_id,
+        loginUri: redirect_uris[0],
+        logoutUri: post_logout_redirect_uris[0],
+        corsOrigin: allowed_cors_origins[0],
+      }
+      return app
+    })
+  }, [appTuples])
+
+  async function onSubmit() {
+    const { id } = app!
+    const formerClient = appTuples![id]
+    const patch: Patch = {
+      Operations: [],
+      revision: formerClient.client.meta.revision,
+    }
+
+    const { post_logout_redirect_uris, allowed_cors_origins } =
+      formerClient.client
+
+    if (app?.loginUri !== formerClient.client.redirect_uris[0]) {
+      patch.Operations.push({
+        path: '/redirect_uris/0',
+        op: 'replace',
+        value: app?.loginUri,
+        oldValue: formerClient.client.redirect_uris[0],
+      })
+    }
+
+    if (!allowed_cors_origins && !app?.corsOrigin) {
+      // nothing to do
+    } else if (!allowed_cors_origins) {
+      patch.Operations.push({
+        path: 'allowed_cors_origins',
+        op: 'add',
+        value: [app?.corsOrigin],
+      })
+    } else if (!app?.corsOrigin) {
+      patch.Operations.push({
+        path: 'allowed_cors_origins',
+        op: 'replace',
+        value: allowed_cors_origins.slice(1),
+        oldValue: allowed_cors_origins,
+      })
+    } else if (app?.corsOrigin !== allowed_cors_origins[0]) {
+      patch.Operations.push({
+        path: '/allowed_cors_origins/0',
+        op: 'replace',
+        value: app?.corsOrigin,
+        oldValue: allowed_cors_origins[0],
+      })
+    }
+
+    if (!post_logout_redirect_uris && !app?.logoutUri) {
+      // nothing to do
+    } else if (!post_logout_redirect_uris) {
+      patch.Operations.push({
+        path: 'post_logout_redirect_uris',
+        op: 'add',
+        value: [app?.logoutUri],
+      })
+    } else if (!app?.logoutUri) {
+      patch.Operations.push({
+        path: 'post_logout_redirect_uris',
+        op: 'replace',
+        value: post_logout_redirect_uris.slice(1),
+        oldValue: post_logout_redirect_uris,
+      })
+    } else if (app?.logoutUri !== post_logout_redirect_uris[0]) {
+      patch.Operations.push({
+        path: '/post_logout_redirect_uris/0',
+        op: 'replace',
+        value: app?.logoutUri,
+        oldValue: post_logout_redirect_uris[0],
+      })
+    }
+
+    try {
+      await updateClient({ clientId: id, patch })
+    } catch (e: any) {
+      // what to do on error??
+    }
+  }
+
+  function onCancel() {
+    if (!app) {
+      return
+    }
+
+    const { id } = app
+    const formerApp = apps.find((app) => app.id === id)
+    setApp(formerApp)
+  }
+
+  async function createApp(
+    configurationData: IAppConfigureData,
+    onSuccess: Function
+  ) {
+    if (!integration) {
+      return
+    }
+
+    const id = (Math.random() + 1).toString(36)
+    try {
+      const createdApp = await create({
+        integrationId: integration.id,
+        appId: id.substring(2),
+        appName: `demo application ${id.substring(9)}`,
+        loginUris: [configurationData.loginUri],
+        logoutUris: [configurationData.logoutUri],
+        corsOrigins: [configurationData.corsOrigin],
+        scopes: ['demo'],
+        audiences: [`demo${id.substring(2)}`],
+      })
+
+      const {
+        provisioning: {
+          oauth2Client,
+          p1: { app },
+        },
+      } = createdApp
+      const createdOauthClientId = oauth2Client.id
+      setApp({
+        id: createdOauthClientId,
+        displayName: app.displayName,
+        active: app.active,
+        loginUri: oauth2Client.redirect_uris[0],
+        logoutUri: oauth2Client.post_logout_redirect_uris?.[0],
+        corsOrigin: oauth2Client.allowed_cors_origins[0],
+      })
+      onSuccess()
+    } catch (e: any) {
+      // what to do on error??
+    }
+  }
+
+  if (!!appsError || !!integrationsError) {
+    return <div>{JSON.stringify(appsError || integrationsError)}</div>
+  }
+
+  return (
+    <div className={clsx(className, 'mt-10 sm:mx-auto sm:w-full sm:max-w-md')}>
+      <ConfigureApp
+        apps={apps}
+        app={app || null}
+        integrations={integrations}
+        integration={integration}
+        setIntegration={setIntegration}
+        setApp={setApp}
+        onSubmit={onSubmit}
+        onCancel={onCancel}
+        onCreateApp={createApp}
+      />
+    </div>
+  )
+}
