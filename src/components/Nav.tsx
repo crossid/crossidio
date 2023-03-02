@@ -83,10 +83,10 @@ const blogPosts = [
   // },
   {
     id: 2,
-    name: 'What is SCIM.',
-    href: '/blog/what-is-scim',
+    name: 'What is CIAM.',
+    href: '/blog/what-is-ciam',
     preview:
-      'The protocol to manage user identity in cloud-based applications and services in a standardized way.',
+      'What is CIAM and why you should consider to adopt such a solution into your project.',
     // imageUrl:
     //   'https://www.thousandeyes.com/dA/ffba0ead06/Featured-Image-SCIM-Blog.png',
   },

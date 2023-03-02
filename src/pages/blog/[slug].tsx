@@ -11,6 +11,7 @@ import { pathToSlug } from '@/utils/fsystem'
 import { getHost } from '@/utils/location'
 import { highlightedCode } from '@/utils/prism/highlight'
 import { readingTime } from '@/utils/content'
+const PARTIALS_DIR = path.join(process.cwd()) + '/partials'
 
 // see https://www.docploy.com/blog/how-to-build-a-blog-using-nextjs-and-markdoc
 
@@ -31,25 +32,18 @@ export const getStaticPaths = async () => {
   return { paths, fallback: false }
 }
 
-export const getStaticProps: GetStaticProps<{
-  frontmatter: Record<string, any>
-  content: string
-  timeToRead: number
-}> = async (context: GetStaticPropsContext<{ slug?: string }>) => {
-  // md files are stored in the 'posts' directory
-  const POSTS_DIR = path.join(process.cwd(), 'posts')
-
-  // generate the local md path from the URL slug
-  const slug = context.params?.slug
-  const fullPath = path.join(POSTS_DIR, slug + '/index.md')
-
-  // read the md file contents
-  const source = fs.readFileSync(fullPath, 'utf-8')
-
-  // Use Markdoc to create a tree of tokens based on the Markdown file
-  const ast = Markdoc.parse(source)
+async function createConfig(): Promise<Config> {
+  const paths = await glob(path.join(PARTIALS_DIR, '**/*.md'), {})
+  const partials: Record<string, any> = {}
+  paths.forEach((p) => {
+    const parts = p.split(path.sep)
+    const content = fs.readFileSync(p, 'utf-8')
+    partials[parts[parts.length - 1]] = Markdoc.parse(content)
+  })
 
   const config: Config = {
+    variables: {},
+    partials,
     tags: {
       callout: {
         attributes: {
@@ -110,8 +104,30 @@ export const getStaticProps: GetStaticProps<{
         },
       },
     },
-    variables: {},
   }
+
+  return config
+}
+
+export const getStaticProps: GetStaticProps<{
+  frontmatter: Record<string, any>
+  content: string
+  timeToRead: number
+}> = async (context: GetStaticPropsContext<{ slug?: string }>) => {
+  // md files are stored in the 'posts' directory
+  const POSTS_DIR = path.join(process.cwd(), 'posts')
+
+  // generate the local md path from the URL slug
+  const slug = context.params?.slug
+  const fullPath = path.join(POSTS_DIR, slug + '/index.md')
+
+  // read the md file contents
+  const source = fs.readFileSync(fullPath, 'utf-8')
+
+  // Use Markdoc to create a tree of tokens based on the Markdown file
+  const ast = Markdoc.parse(source)
+
+  const config = await createConfig()
 
   // Create a renderable tree
   const content = JSON.stringify(Markdoc.transform(ast, config))
