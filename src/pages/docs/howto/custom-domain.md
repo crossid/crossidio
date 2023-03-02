@@ -63,7 +63,7 @@ If your custom domain is `auth.acme.io`, your can refer now to the URL: `https:/
 
 If your domain is hosted in GoDaddy follow these steps:
 
-1. Open https://dcc.godaddy.com/manage/acme.io/dns
+1. Open [https://dcc.godaddy.com/manage](https://dcc.godaddy.com/manage)
 1. Put a _TXT_ record with the given _name_ and _value_.
 1. Click the **Add Record**.
 
