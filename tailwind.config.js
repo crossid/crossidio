@@ -44,6 +44,26 @@ module.exports = {
               marginTop: `${20 / 14}em`,
               marginBottom: `${32 / 14}em`,
             },
+            a: {
+              fontWeight: theme('fontWeight.semibold'),
+              textDecoration: 'none',
+              borderBottom: `2px solid ${theme('colors.indigo.300')}`,
+            },
+            'a:hover': {
+              borderBottomWidth: '2px',
+            },
+            'a code': {
+              color: 'inherit',
+              fontWeight: 'inherit',
+            },
+          },
+        },
+        dark: {
+          css: {
+            a: {
+              color: theme('colors.white'),
+              borderBottomColor: theme('colors.sky.400'),
+            },
           },
         },
       }),
