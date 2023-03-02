@@ -343,7 +343,7 @@ function ConfigureAppForm({
   )
 }
 
-function ConfigureAppInput({
+export function ConfigureAppInput({
   id,
   title,
   placeholder,

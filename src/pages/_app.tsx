@@ -5,17 +5,17 @@ import { AppProps } from 'next/app'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { AuthProvider } from '@crossid/crossid-react'
-import { IntercomProvider, useIntercom } from 'react-use-intercom'
+import { IntercomProvider } from 'react-use-intercom'
 
 // import 'focus-visible'
 import '@/styles/globals.css'
 import '@/styles/fonts.css'
 import DocsLayout from './layouts/DocsLayout'
-import { ReactElement, ReactNode, useContext, useMemo } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import DefaultLayout from './layouts/DefaultLayout'
-import { TenantContext, TenantProvider } from '@/hooks/tenant'
+import { TenantProvider } from '@/hooks/tenant'
 import { FieldProvider } from '@/hooks/useFieldsContext'
-import { AppConfigurator } from '@/components/ConfigureApp'
+import DownloadSampleButton from '@/components/DownloadSample'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -101,36 +101,4 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       </TenantProvider>
     </AuthProvider>
   )
-}
-
-function DownloadSampleButton({ repoName }: { repoName: string }) {
-  const { app = {} } = useContext(TenantContext)
-
-  const url = useMemo(() => {
-    let baseUrl = '/api/sample'
-
-    if (!!app) {
-      const data = {
-        repoName,
-        ...app,
-      }
-
-      const base64 = Buffer.from(JSON.stringify(data)).toString('base64')
-      baseUrl += `?data=${base64}`
-    }
-
-    return baseUrl
-  }, [repoName, app])
-
-  async function onClick() {
-    if (!app) {
-      //open a modal
-    } else {
-      const resp = await fetch(url)
-      const respJson = await resp.json()
-      console.log(respJson)
-    }
-  }
-
-  return <button onClick={onClick}>!!!!!!!!!!!!!!!!!!!!!!!!</button>
 }
