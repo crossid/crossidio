@@ -5,9 +5,9 @@ import { Icon } from './Icon'
 const styles = {
   tip: {
     container:
-      'bg-sky-50 dark:bg-slate-800/60 dark:ring-1 dark:ring-slate-300/10',
-    title: 'text-sky-900 dark:text-sky-400',
-    body: 'text-sky-800 [--tw-prose-background:theme(colors.sky.50)] prose-a:text-sky-900 prose-code:text-sky-900 dark:text-slate-300 dark:prose-code:text-slate-300',
+      'bg-indigo-50 dark:bg-slate-800/60 dark:ring-1 dark:ring-slate-300/10',
+    title: 'text-indigo-900 dark:text-sky-400',
+    body: 'text-indigo-800 [--tw-prose-background:theme(colors.indigo.50)] prose-a:text-indigo-900 prose-code:text-indigo-900 dark:text-slate-300 dark:prose-code:text-slate-300',
   },
   info: {
     container:
