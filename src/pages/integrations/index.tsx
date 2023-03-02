@@ -93,7 +93,7 @@ function Integration({ id, displayName, logoURL, keywords }: IMiniIntegration) {
     <li className="relative items-center rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2  hover:shadow-md dark:border-slate-600 dark:ring-offset-slate-900 dark:focus-within:ring-sky-500">
       <div className="flex space-x-5 px-6 py-5">
         <div className="flex-shrink-0">
-          <div className="rounded-md border border-gray-100 p-1 dark:border-0 dark:border-sky-500 dark:bg-slate-300">
+          <div className="rounded-md border border-gray-100 p-1 dark:border-0 dark:border-sky-500 dark:bg-white">
             <Image
               className="h-10 w-10"
               src={logoURL}
