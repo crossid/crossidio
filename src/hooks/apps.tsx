@@ -143,7 +143,7 @@ export function useApps() {
 
   const updateClient = useCallback(
     async ({ clientId, patch }: { clientId: string; patch: Patch }) => {
-      if (!tenant) {
+      if (!tenant || !patch.Operations.length) {
         return
       }
       const url = `/${tenant.id}/api/v1/oauth2/clients/${clientId}?reason=updated from crossid site`
@@ -152,7 +152,6 @@ export function useApps() {
         return
       }
 
-      console.log(JSON.stringify(patch))
       try {
         const resp = await fetch(url, {
           method: 'PATCH',
@@ -163,6 +162,10 @@ export function useApps() {
         })
 
         const updatedClient = await resp.json()
+        if (resp.status > 299) {
+          throw updatedClient
+        }
+
         const app = data?.[updatedClient.id]
         if (!!app) {
           app.client = updatedClient

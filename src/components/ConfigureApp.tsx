@@ -42,7 +42,7 @@ function NewApp({
   })
 
   function isSubmitDisabled(): boolean {
-    return !integration || !demoApp.loginUri || !demoApp.corsOrigin
+    return !integration || !demoApp.loginUri
   }
 
   return (
@@ -59,6 +59,7 @@ function NewApp({
             title="Login Redirect URL"
             placeholder="Login URL"
             id="redirect_uri"
+            required
             value={demoApp.loginUri || ''}
             setValue={(d) => {
               setDemoApp(demoApp && { ...demoApp, loginUri: d })
@@ -287,6 +288,10 @@ function ConfigureAppForm({
   mode: editMode
   onModeChange: (mode: editMode) => void
 }) {
+  function isSubmitDisabled(): boolean {
+    return !app?.loginUri
+  }
+
   return (
     <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
       <form className="space-y-4" action="#" method="POST">
@@ -308,6 +313,7 @@ function ConfigureAppForm({
               title="Login Redirect URL"
               placeholder="Login URL"
               id="redirect_uri"
+              required
               value={app?.loginUri || ''}
               setValue={(d) => {
                 setApp(app && { ...app, loginUri: d })
@@ -336,17 +342,19 @@ function ConfigureAppForm({
         {mode === 'edit' && (
           <div className="flex">
             <button
+              disabled={isSubmitDisabled()}
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
                 onSubmit()
               }}
-              className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:ring-offset-slate-900"
+              className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-60 dark:ring-offset-slate-900"
             >
               Update
             </button>
             <button
               type="submit"
+              disabled={isSubmitDisabled()}
               onClick={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
@@ -368,12 +376,14 @@ function ConfigureAppInput({
   title,
   placeholder,
   value,
+  required,
   setValue,
 }: {
   id: string
   title: string
   placeholder: string
   value: string
+  required?: boolean
   setValue: (s: string) => void
 }) {
   const handleFocus = (event: FocusEvent<HTMLInputElement>) =>
@@ -395,6 +405,9 @@ function ConfigureAppInput({
           onFocus={handleFocus}
           className="form-input block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500"
         />
+        {required && !value ? (
+          <span className="text-sm text-red-600">Required</span>
+        ) : null}
       </div>
     </div>
   )
@@ -563,6 +576,7 @@ export function AppConfigurator({
   const { apps: appTuples, appsError, updateClient } = useApps()
   const { integrations = [], integrationsError, create } = useIntegrations()
   const [integration, setIntegration] = useState<Integration | null>(null)
+  const [patchError, setPatchError] = useState<any>()
 
   const setApp = (app: IApp | undefined) => {
     _setApp(app)
@@ -669,8 +683,9 @@ export function AppConfigurator({
 
     try {
       await updateClient({ clientId: id, patch })
+      setPatchError(undefined)
     } catch (e: any) {
-      // what to do on error??
+      setPatchError(e)
     }
   }
 
@@ -743,6 +758,9 @@ export function AppConfigurator({
         onCancel={onCancel}
         onCreateApp={createApp}
       />
+      {!!patchError && (
+        <span className="text-sm text-red-600">{patchError.message}</span>
+      )}
     </div>
   )
 }

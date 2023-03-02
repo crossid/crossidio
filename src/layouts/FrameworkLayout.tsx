@@ -90,7 +90,7 @@ export default function Layout(props: IProps) {
   useEffect(() => {
     setField('tenant', tenant)
     setField('tenant_domain', tenant?.domains[0])
-  }, [tenant])
+  }, [setField, tenant])
 
   return (
     <>
@@ -193,7 +193,9 @@ export default function Layout(props: IProps) {
                 {fields && fields.app && (
                   <div className={clsx(comp === 'configure-app' && 'hidden')}>
                     Configured for app{' '}
-                    <span className="font-bold text-gray-500 dark:text-slate-400">{fields.app.displayName}</span>
+                    <span className="font-bold text-gray-500 dark:text-slate-400">
+                      {fields.app.displayName}
+                    </span>
                   </div>
                 )}
                 <AppConfigurator
