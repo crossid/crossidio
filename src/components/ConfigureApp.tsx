@@ -3,7 +3,7 @@ import { Patch } from '@/data/patch'
 import { useApps } from '@/hooks/apps'
 import { useIntegrations } from '@/hooks/integrations'
 import { TenantContext } from '@/hooks/tenant'
-import { IApp, IAppConfigureData } from '@/types'
+import { IApp, IAppConfigureData, IAppType, IFramework } from '@/types'
 import { Listbox, Transition } from '@headlessui/react'
 import {
   CheckIcon,
@@ -11,16 +11,17 @@ import {
   PlusIcon,
 } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
-import Link from 'next/link'
 import {
   FocusEvent,
   ForwardRefExoticComponent,
   Fragment,
   SVGProps,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from 'react'
+import { formatError } from '@/utils/error'
 
 function NewApp({
   integrations,
@@ -36,9 +37,9 @@ function NewApp({
   onCreateApp: (cd: IAppConfigureData, onSuccess: Function) => void
 }) {
   const [demoApp, setDemoApp] = useState<IAppConfigureData>({
-    loginUri: 'http://localhost',
-    logoutUri: 'http://localhost',
-    corsOrigin: 'http://localhost*',
+    loginUri: 'http://localhost:3000',
+    logoutUri: 'http://localhost:3000',
+    corsOrigin: 'http://localhost:3000*',
   })
 
   function isSubmitDisabled(): boolean {
@@ -46,10 +47,11 @@ function NewApp({
   }
 
   return (
-    <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
+    <div>
       <form className="space-y-4" action="#" method="POST">
-        <AppSelector
-          title="Create New Application"
+        <Selector
+          disabled
+          title="Create a new application"
           app={integration}
           setApp={setIntegration}
           apps={integrations}
@@ -129,6 +131,7 @@ export function ConfigureApp({
   onSubmit,
   onCancel,
   onCreateApp,
+  onNewAppCancel,
 }: {
   app: IApp | null
   setApp: (app?: IApp) => void
@@ -139,18 +142,59 @@ export function ConfigureApp({
   onSubmit: Function
   onCancel: Function
   onCreateApp: (cd: IAppConfigureData, onSuccess: Function) => void
+  onNewAppCancel: Function
 }) {
   const [mode, setMode] = useState<mode>('select')
-  const [editMode, setEditMode] = useState<editMode>('edit')
+  const [editMode, setEditMode] = useState<editMode>('display')
 
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="mt-10 py-8 px-4 shadow sm:mx-auto sm:w-full sm:max-w-md sm:rounded-lg sm:px-10">
       {mode === 'select' ? (
-        <ConfigureAppMenu
-          onSelect={(chosen: mode) => {
-            setMode(chosen)
-          }}
-        />
+        <div className="mx-auto max-w-lg">
+          <h2 className="text-base font-semibold leading-6 text-gray-900 dark:text-slate-200">
+            Setup an application
+          </h2>
+          <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
+            Selecting or creating an ap app will customize code accordingly.
+          </p>
+          <ConfigureAppForm
+            apps={apps}
+            app={app}
+            setApp={setApp}
+            mode={editMode}
+            onSubmit={() => {
+              onSubmit()
+              setEditMode('display')
+            }}
+            onCancel={() => {
+              onCancel()
+              setEditMode('display')
+              setMode('select')
+            }}
+          />
+          {app && editMode === 'display' && (
+            <button
+              className="text-indigo-500"
+              onClick={(e) => {
+                e.preventDefault()
+                setEditMode('edit')
+              }}
+            >
+              edit
+            </button>
+          )}
+          <span className="text-gray-500 dark:text-slate-400">{' or '}</span>
+          <button
+            className="text-indigo-500"
+            onClick={(e) => {
+              e.preventDefault()
+              setEditMode('display')
+              setMode('new')
+            }}
+          >
+            create a new app
+          </button>
+        </div>
       ) : (
         <>
           {mode === 'edit' ? (
@@ -159,7 +203,6 @@ export function ConfigureApp({
               app={app}
               setApp={setApp}
               mode={editMode}
-              onModeChange={(mode: editMode) => setEditMode(mode)}
               onSubmit={() => {
                 onSubmit()
                 setEditMode('display')
@@ -174,7 +217,10 @@ export function ConfigureApp({
               integrations={integrations}
               setIntegration={setIntegration}
               integration={integration}
-              onCancel={() => setMode('select')}
+              onCancel={() => {
+                onNewAppCancel()
+                setMode('select')
+              }}
               onCreateApp={onCreateApp}
             />
           )}
@@ -209,67 +255,6 @@ const items: IItem[] = [
   },
 ]
 
-function ConfigureAppMenu({
-  onSelect,
-}: {
-  onSelect: (selected: mode) => void
-}) {
-  return (
-    <div className="mx-auto max-w-lg">
-      <h2 className="text-base font-semibold leading-6 text-gray-900 dark:text-slate-200">
-        Setup an application
-      </h2>
-      <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
-        Select an existing or create a new one application, selecting an app
-        will customize code accordingly.
-      </p>
-      <ul
-        role="list"
-        className="mt-6 grid grid-cols-1 gap-6 border-t border-b border-gray-200 py-6 sm:grid-cols-1"
-      >
-        {items.map((item, itemIdx) => (
-          <li key={itemIdx} className="flow-root">
-            <div className="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50 dark:focus-within:ring-sky-500 dark:hover:bg-slate-800">
-              <div
-                className={clsx(
-                  item.backgroundColor,
-                  'flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg'
-                )}
-              >
-                <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
-              </div>
-              <div>
-                <h3 className="text-sm font-medium text-gray-900 dark:text-slate-200">
-                  <a
-                    onClick={() => onSelect(item.mode)}
-                    className="focus:outline-none"
-                  >
-                    <span className="absolute inset-0" aria-hidden="true" />
-                    <span>{item.title}</span>
-                    <span aria-hidden="true"> &rarr;</span>
-                  </a>
-                </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
-                  {item.description}
-                </p>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-6 flex">
-        <Link
-          href="/docs/concepts/application"
-          className="text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-sky-500 dark:hover:text-sky-400"
-        >
-          Want to know more about apps?
-          <span aria-hidden="true"> &rarr;</span>
-        </Link>
-      </div>
-    </div>
-  )
-}
-
 type editMode = 'edit' | 'display'
 function ConfigureAppForm({
   app,
@@ -278,7 +263,6 @@ function ConfigureAppForm({
   onSubmit,
   onCancel,
   mode = 'edit',
-  onModeChange,
 }: {
   app: IApp | null
   setApp?: (app: IApp) => void
@@ -286,27 +270,15 @@ function ConfigureAppForm({
   onSubmit: () => void
   onCancel: () => void
   mode: editMode
-  onModeChange: (mode: editMode) => void
 }) {
   function isSubmitDisabled(): boolean {
     return !app?.loginUri
   }
 
   return (
-    <div className="py-8 px-4 shadow sm:rounded-lg sm:px-10">
-      <form className="space-y-4" action="#" method="POST">
-        <AppSelector app={app} setApp={setApp} apps={apps} />
-        {app && mode === 'display' && (
-          <button
-            className="text-indigo-500"
-            onClick={(e) => {
-              e.preventDefault()
-              onModeChange('edit')
-            }}
-          >
-            Edit
-          </button>
-        )}
+    <div>
+      <form className="space-y-2" action="#" method="POST">
+        <Selector app={app} setApp={setApp} apps={apps} showStatus />
         {app && mode === 'edit' && (
           <>
             <ConfigureAppInput
@@ -415,20 +387,28 @@ function ConfigureAppInput({
 
 type selectorApp = IApp | Integration | null
 
-const placeholder = 'Please select an app'
-function AppSelector({
-  title = 'Assigned to',
+const placeholder = 'Select an app'
+function Selector({
+  title = '',
   app,
   setApp,
   apps,
+  disabled,
+  showStatus = false,
 }: {
   title?: string
   app: selectorApp
   setApp: Function
   apps: selectorApp[]
+  disabled?: boolean
+  showStatus?: boolean
 }) {
   return (
-    <Listbox defaultValue={app} onChange={(a: selectorApp) => setApp(a)}>
+    <Listbox
+      defaultValue={app}
+      onChange={(a: selectorApp) => setApp(a)}
+      disabled={disabled}
+    >
       {({ open }) => (
         <>
           <div className="relative mt-1">
@@ -437,15 +417,17 @@ function AppSelector({
             </Listbox.Label>
             <Listbox.Button className="relative mt-1 w-full cursor-default rounded-md border border-gray-300 bg-white py-3 px-4 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500 sm:text-sm">
               <span className="flex items-center">
-                <span
-                  aria-label={app?.active ? 'Online' : 'Offline'}
-                  className={clsx(
-                    app?.active
-                      ? 'bg-green-400 dark:bg-green-700'
-                      : 'bg-gray-200 dark:bg-slate-500',
-                    'inline-block h-2 w-2 flex-shrink-0 rounded-full'
-                  )}
-                />
+                {app && showStatus && (
+                  <span
+                    aria-label={app?.active ? 'Online' : 'Offline'}
+                    className={clsx(
+                      app?.active
+                        ? 'bg-green-400 dark:bg-green-700'
+                        : 'bg-gray-200 dark:bg-slate-500',
+                      'inline-block h-2 w-2 flex-shrink-0 rounded-full'
+                    )}
+                  />
+                )}
                 <span className="ml-3 block truncate">
                   {app?.displayName || placeholder}
                 </span>
@@ -482,15 +464,17 @@ function AppSelector({
                     {({ selected, active }) => (
                       <>
                         <div className="flex items-center">
-                          <span
-                            className={clsx(
-                              app?.active
-                                ? 'bg-green-400 dark:bg-green-700'
-                                : 'bg-gray-200 dark:bg-slate-500',
-                              'inline-block h-2 w-2 flex-shrink-0 rounded-full'
-                            )}
-                            aria-hidden="true"
-                          />
+                          {showStatus && (
+                            <span
+                              className={clsx(
+                                app?.active
+                                  ? 'bg-green-400 dark:bg-green-700'
+                                  : 'bg-gray-200 dark:bg-slate-500',
+                                'inline-block h-2 w-2 flex-shrink-0 rounded-full'
+                              )}
+                              aria-hidden="true"
+                            />
+                          )}
                           <span
                             className={clsx(
                               selected ? 'font-semibold' : 'font-normal',
@@ -568,15 +552,23 @@ function ConfigureAppInput({
 export function AppConfigurator({
   className,
   onChange,
+  framework,
 }: {
   className: String
   onChange: (app: IApp | undefined) => void
+  framework: IFramework
 }) {
   const { app, setApp: _setApp } = useContext(TenantContext)
   const { apps: appTuples, appsError, updateClient } = useApps()
   const { integrations = [], integrationsError, create } = useIntegrations()
   const [integration, setIntegration] = useState<Integration | null>(null)
   const [patchError, setPatchError] = useState<any>()
+  const [newAppError, setNewAppError] = useState<any>()
+  const { appType } = framework
+
+  useEffect(() => {
+    setIntegration(integrations.filter((a) => a.id === appType)[0] || null)
+  }, [appType, integrations])
 
   const setApp = (app: IApp | undefined) => {
     _setApp(app)
@@ -689,6 +681,15 @@ export function AppConfigurator({
     }
   }
 
+  function clearErrors() {
+    if (patchError) {
+      setPatchError(null)
+    }
+    if (newAppError) {
+      setNewAppError(null)
+    }
+  }
+
   function onCancel() {
     if (!app) {
       return
@@ -712,7 +713,7 @@ export function AppConfigurator({
       const createdApp = await create({
         integrationId: integration.id,
         appId: id.substring(2),
-        appName: `demo application ${id.substring(9)}`,
+        appName: `${framework.title} demo application ${id.substring(9)}`,
         loginUris: [configurationData.loginUri],
         logoutUris: [configurationData.logoutUri],
         corsOrigins: [configurationData.corsOrigin],
@@ -737,7 +738,7 @@ export function AppConfigurator({
       })
       onSuccess()
     } catch (e: any) {
-      // what to do on error??
+      setNewAppError(e)
     }
   }
 
@@ -756,10 +757,14 @@ export function AppConfigurator({
         setApp={setApp}
         onSubmit={onSubmit}
         onCancel={onCancel}
+        onNewAppCancel={() => clearErrors()}
         onCreateApp={createApp}
       />
       {!!patchError && (
-        <span className="text-sm text-red-600">{patchError.message}</span>
+        <span className="text-sm text-red-600">{formatError(patchError)}</span>
+      )}
+      {!!newAppError && (
+        <span className="text-sm text-red-600">{formatError(newAppError)}</span>
       )}
     </div>
   )

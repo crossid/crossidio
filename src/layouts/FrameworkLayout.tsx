@@ -94,7 +94,7 @@ export default function Layout(props: IProps) {
   useEffect(() => {
     setField('tenant', tenant)
     setField('tenant_domain', tenant?.domains[0])
-  }, [setField, tenant])
+  }, [tenant])
 
   return (
     <>
@@ -197,13 +197,17 @@ export default function Layout(props: IProps) {
                 {fields && fields.app && (
                   <div className={clsx(comp === 'configure-app' && 'hidden')}>
                     Configured for app{' '}
-                    <span className="font-bold text-gray-500 dark:text-slate-400">
+                    <a
+                      href={`#configure-crossid`}
+                      className="border-b-2 border-dashed border-indigo-400 font-bold text-gray-500 dark:border-sky-400 dark:text-slate-400"
+                    >
                       {fields.app.displayName}
-                    </span>
+                    </a>
                   </div>
                 )}
                 <AppConfigurator
                   className={clsx(comp !== 'configure-app' && 'hidden')}
+                  framework={frameworkMeta}
                   onChange={(app) => {
                     if (app) {
                       setFields({
@@ -296,7 +300,7 @@ function Code({
           type="button"
           className="mr-3 inline-flex items-center rounded-md border border-gray-300 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-900 dark:hover:bg-slate-800 dark:focus:ring-sky-500"
           onClick={() => {
-            if (code) navigator.clipboard.writeText(code.code)
+            if (resolvedCode) navigator.clipboard.writeText(resolvedCode)
           }}
         >
           <DocumentDuplicateIcon

@@ -24,6 +24,8 @@ interface IRepo {
   languages: string[]
 }
 
+export type IAppType = 'webapp' | 'singlePageApp'
+
 export interface IFramework {
   // the title of the tech, e.g., "React"
   title: string
@@ -41,6 +43,8 @@ export interface IFramework {
   sample_repo: IRepo
   // e.g., 'react > 18'
   requirements: string[]
+  // is this an SPA or webapp?
+  appType: IAppType
 }
 
 export interface IAppConfigureData {

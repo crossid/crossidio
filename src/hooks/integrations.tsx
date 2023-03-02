@@ -1,7 +1,6 @@
 import { Integration } from '@/data/applications'
-import { useAuth } from '@crossid/crossid-react'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { prepareAudience, TenantContext } from './tenant'
+import { TenantContext } from './tenant'
 
 export function useIntegrations(
   filter: string = 'id in ["singlePageApp", "webApp"]'
@@ -80,7 +79,12 @@ export function useIntegrations(
             }),
           }
         )
-        return resp.json()
+
+        const json = await resp.json()
+        if (resp.status > 299) {
+          throw json
+        }
+        return json
       } catch (e: any) {
         throw e
       }

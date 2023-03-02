@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import { useAuth } from '@crossid/crossid-react'
-import { IApp } from '@/components/ConfigureApp'
+import { IApp } from '@/types'
 
 type provisioningStatus = 'completed' | 'fatal' | 'started'
 export type TenantRegion = 'US' | 'EU' | 'JP' | 'AU' | 'local'
