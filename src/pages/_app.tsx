@@ -13,8 +13,9 @@ import '@/styles/fonts.css'
 import DocsLayout from './layouts/DocsLayout'
 import { ReactElement, ReactNode, useContext, useMemo } from 'react'
 import DefaultLayout from './layouts/DefaultLayout'
-import { TenantProvider } from '@/hooks/tenant'
+import { TenantContext, TenantProvider } from '@/hooks/tenant'
 import { FieldProvider } from '@/hooks/useFieldsContext'
+import { AppConfigurator } from '@/components/ConfigureApp'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -94,9 +95,42 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
           appId={process.env.intercomAppId || ''}
           autoBoot={process.env.NODE_ENV === 'production'}
         >
+          <DownloadSampleButton repoName="crossid/sample-monorepo" />
           {children}
         </IntercomProvider>
       </TenantProvider>
     </AuthProvider>
   )
+}
+
+function DownloadSampleButton({ repoName }: { repoName: string }) {
+  const { app = {} } = useContext(TenantContext)
+
+  const url = useMemo(() => {
+    let baseUrl = '/api/sample'
+
+    if (!!app) {
+      const data = {
+        repoName,
+        ...app,
+      }
+
+      const base64 = Buffer.from(JSON.stringify(data)).toString('base64')
+      baseUrl += `?data=${base64}`
+    }
+
+    return baseUrl
+  }, [repoName, app])
+
+  async function onClick() {
+    if (!app) {
+      //open a modal
+    } else {
+      const resp = await fetch(url)
+      const respJson = await resp.json()
+      console.log(respJson)
+    }
+  }
+
+  return <button onClick={onClick}>!!!!!!!!!!!!!!!!!!!!!!!!</button>
 }
