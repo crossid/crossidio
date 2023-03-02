@@ -181,6 +181,18 @@ async function createConfig(): Promise<Config> {
           path: { type: String },
         },
       },
+      callout: {
+        render: 'Callout',
+        attributes: {
+          title: { type: String },
+          type: {
+            type: String,
+            default: 'note',
+            matches: ['note', 'warning'],
+            errorLevel: 'critical',
+          },
+        },
+      },
     },
     nodes: {
       heading: {
@@ -202,6 +214,18 @@ async function createConfig(): Promise<Config> {
             { ...attributes, id, level: node.attributes['level'] },
             children
           )
+        },
+      },
+      link: {
+        render: 'Link',
+        attributes: {
+          ...Markdoc.nodes.link.attributes,
+          rel: {
+            type: String,
+          },
+          target: {
+            type: String,
+          },
         },
       },
     },

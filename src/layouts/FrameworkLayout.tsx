@@ -31,6 +31,8 @@ import { resolveCode } from '@/utils/code'
 import { TenantContext } from '@/hooks/tenant'
 import { Breadcrumb } from '@/components/Breadcrumb'
 import { AppConfigurator } from '@/components/ConfigureApp'
+import { LinkNode } from '@/components/markdoc/Link'
+import { Callout } from '@/components/Callout'
 
 const Heading: React.FC<
   {
@@ -61,6 +63,8 @@ const Heading: React.FC<
 const components = {
   Heading,
   Field,
+  Link: LinkNode,
+  Callout,
 }
 
 type Comp = 'code' | 'configure-app'
