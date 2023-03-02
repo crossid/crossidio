@@ -88,11 +88,6 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       scope={'owner openid email'}
       cache_type="session_storage"
       onRedirectTo={onRedTo}
-      audience={[
-        'crossid',
-        'management',
-        'https://crossid.us.local.crossid.io/oauth2/token',
-      ]}
     >
       <TenantProvider>
         <IntercomProvider
