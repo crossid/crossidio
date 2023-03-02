@@ -17,6 +17,7 @@ import React from 'react'
 import { Img } from '@/components/markdoc/Img'
 import Mermaid from '@/components/markdoc/Mermaid'
 import Time from '@/components/Time'
+import FooterSlim from '@/components/FooterSlim'
 
 // TODO
 const components = {
@@ -296,6 +297,7 @@ export function BlogPostLayout({
           </div>
         </div>
       </div>
+      <FooterSlim />
     </>
   )
 }
