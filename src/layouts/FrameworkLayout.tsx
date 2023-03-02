@@ -321,7 +321,7 @@ function Code({
                 className={clsx(className, 'flex overflow-x-auto pb-6')}
                 style={style}
               >
-                <code className="px-5 py-4">
+                <code className="px-4 py-4">
                   {tokens.map((line, lineIndex) => (
                     <div key={lineIndex} {...getLineProps({ line })}>
                       {line.map((token, tokenIndex) => (
