@@ -228,6 +228,18 @@ async function createConfig(): Promise<Config> {
           },
         },
       },
+      fence: {
+        render: 'FenceClient',
+        attributes: {
+          ...Markdoc.nodes.fence.attributes,
+          language: {
+            type: String,
+          },
+          resolve: {
+            type: Boolean,
+          },
+        },
+      },
     },
   }
 

@@ -33,6 +33,7 @@ import { Breadcrumb } from '@/components/Breadcrumb'
 import { AppConfigurator } from '@/components/ConfigureApp'
 import { LinkNode } from '@/components/markdoc/Link'
 import { Callout } from '@/components/Callout'
+import { FenceClient } from '@/components/Fence'
 
 const Heading: React.FC<
   {
@@ -65,6 +66,7 @@ const components = {
   Field,
   Link: LinkNode,
   Callout,
+  FenceClient,
 }
 
 type Comp = 'code' | 'configure-app'
