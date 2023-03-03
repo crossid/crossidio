@@ -1,7 +1,7 @@
 ---
 slug: what-is-ciam
 title: What is CIAM?
-description: What is Custom Identity & Access Management
+description: What is Customer Identity & Access Management
 authors: [asaf]
 tags: ['iam', 'ciam']
 date: 2023-03-02T15:01:02.000Z
