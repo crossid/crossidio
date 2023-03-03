@@ -529,7 +529,8 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                           </Link>
                         ))}
                       </div>
-                      <div className="mt-8 text-base">
+                      {/* todo: build this page */}
+                      {/* <div className="mt-8 text-base">
                         <a
                           href="#"
                           className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-sky-500 dark:hover:text-sky-600"
@@ -538,7 +539,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                           View all products{' '}
                           <span aria-hidden="true">&rarr;</span>
                         </a>
-                      </div>
+                      </div> */}
                     </nav>
                   </div>
                 </div>
