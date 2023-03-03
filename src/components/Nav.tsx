@@ -605,7 +605,13 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                         Existing customer?{' '}
                         <a
                           href="#"
-                          onClick={() => loginWithRedirect({})}
+                          onClick={() =>
+                            loginWithRedirect({
+                              state: {
+                                return_to: window.location.pathname,
+                              },
+                            })
+                          }
                           className="text-indigo-600 hover:text-indigo-500 dark:text-sky-600 dark:hover:text-sky-500"
                         >
                           Login
