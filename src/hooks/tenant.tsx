@@ -118,7 +118,12 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
     const audience = prepareAudience(tenant)
     const ac = await getAccessToken({ audience })
     if (!ac) {
-      loginWithRedirect({ audience })
+      loginWithRedirect({
+        audience,
+        state: {
+          return_to: window.location.pathname,
+        },
+      })
     }
   }
 
