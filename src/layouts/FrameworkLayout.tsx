@@ -53,7 +53,7 @@ const Heading: React.FC<
     classes = '[counter-reset:h2counter]'
   } else if (level === 2) {
     classes =
-      '[counter-increment:h2counter] before:content-[counter(h2counter)] before:inline-flex dark:before:bg-sky-500 before:mr-2 before:rounded-md before:bg-indigo-600 before:px-2 before:py-1 before:font-bold before:leading-none before:text-white'
+      '[counter-increment:h2counter] before:content-[counter(h2counter)] before:inline-flex dark:before:bg-sky-500 before:mr-2 before:rounded-md before:bg-indigo-600 before:px-2 before:py-1 before:font-bold before:leading-none before:text-white scroll-mt-16'
   }
 
   return <Head {...rest} className={classes} />
