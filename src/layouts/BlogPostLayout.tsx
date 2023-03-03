@@ -18,6 +18,7 @@ import { Img } from '@/components/markdoc/Img'
 import Mermaid from '@/components/markdoc/Mermaid'
 import Time from '@/components/Time'
 import FooterSlim from '@/components/FooterSlim'
+import { LinkNode } from '@/components/markdoc/Link'
 
 // TODO
 const components = {
@@ -25,6 +26,7 @@ const components = {
   Img,
   Fence,
   Mermaid,
+  Link: LinkNode,
 }
 
 export function BlogPostLayout({

@@ -103,6 +103,18 @@ async function createConfig(): Promise<Config> {
           )
         },
       },
+      link: {
+        render: 'Link',
+        attributes: {
+          ...Markdoc.nodes.link.attributes,
+          rel: {
+            type: String,
+          },
+          target: {
+            type: String,
+          },
+        },
+      },
     },
   }
 
