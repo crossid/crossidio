@@ -8,8 +8,10 @@ import { tuplesToIApps, useApps } from '@/hooks/apps'
 // repoName is `${owner}/${repo}`
 export default function DownloadSampleButton({
   repoName,
+  folderName,
 }: {
   repoName: string
+  folderName?: string
 }) {
   const { app, setApp } = useContext(TenantContext)
   const [showModal, setShowModal] = useState(false)
@@ -26,7 +28,7 @@ export default function DownloadSampleButton({
   const url = useMemo(() => {
     // nextjs base url
     let baseUrl = '/api/sample'
-    let data = { repoName }
+    let data = { repoName, folderName }
     if (!!app) {
       data = Object.assign(data, app)
       // must be a get request, so I send the data in the query param as base64 encoded object
@@ -35,7 +37,7 @@ export default function DownloadSampleButton({
     }
 
     return baseUrl
-  }, [app, repoName])
+  }, [app, folderName, repoName])
 
   function openModal() {
     setShowModal(true)
