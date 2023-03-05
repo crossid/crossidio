@@ -34,6 +34,8 @@ import { AppConfigurator } from '@/components/ConfigureApp'
 import { LinkNode } from '@/components/markdoc/Link'
 import { Callout } from '@/components/Callout'
 import { FenceClient } from '@/components/Fence'
+import { codeStyles } from '@/utils/prism/styles'
+import { highligtedCodebyMarkdownMeta } from '@/utils/prism/highligted'
 
 const Heading: React.FC<
   {
@@ -89,9 +91,18 @@ export default function Layout(props: IProps) {
   const parsedContent = JSON.parse(articleContent)
   const [activeElement] = useActiveElement('h2', containerRef, scrollerRef, 80)
   const comp = activeElement?.getAttribute('component') as Comp
-  const data = activeElement?.getAttribute('data')
+  let dataAll = activeElement?.getAttribute('data')?.split('#')
   const scrollPos = useScrollPosition()
   const [app, setApp] = useState<IApp>()
+
+  let data
+  let dataMeta
+  if (dataAll) {
+    data = dataAll[0]
+    if (dataAll.length > 0) {
+      dataMeta = dataAll[1]
+    }
+  }
 
   useEffect(() => {
     setField('tenant', tenant)
@@ -201,6 +212,7 @@ export default function Layout(props: IProps) {
                     Configured for app{' '}
                     <a
                       href={`#configure-crossid`}
+                      style={{ top: '-30px' }}
                       className="border-b-2 border-dashed border-indigo-400 font-bold text-gray-500 dark:border-sky-400 dark:text-slate-400"
                     >
                       {fields.app.displayName}
@@ -229,6 +241,7 @@ export default function Layout(props: IProps) {
               <Code
                 codes={codes}
                 currentFileName={data || ''}
+                meta={dataMeta}
                 fields={fields || {}}
               />
             )}
@@ -243,11 +256,15 @@ export default function Layout(props: IProps) {
 function Code({
   codes,
   currentFileName,
+  meta,
   fields,
+  showLineNumbers = true,
 }: {
   codes: ICode[]
   currentFileName: string
+  meta: string | undefined
   fields: Record<string, any>
+  showLineNumbers?: boolean
 }) {
   const [activeFilename, setActiveFilename] = useState<string | undefined>(
     currentFileName
@@ -273,8 +290,12 @@ function Code({
   }
 
   if (!code) return null
+
+  const highlighted = highligtedCodebyMarkdownMeta(meta || '')
+  console.log(highlighted)
+
   return (
-    <CodeWindow border={false}>
+    <CodeWindow border={false} className="xl:h-[50rem]">
       {/* <div className="relative min-w-full flex-none px-1"> */}
       <div className="flex justify-between px-1">
         <ul className="flex text-sm leading-6 text-slate-400">
@@ -313,7 +334,7 @@ function Code({
         </button>
         <div className="absolute inset-x-0 bottom-0 h-px bg-slate-500/30" />
       </div>
-      <div className="flex min-h-0 w-full flex-auto">
+      <div className={'flex min-h-0 w-full flex-auto overflow-auto'}>
         {resolvedCode && (
           <Highlight
             {...defaultProps}
@@ -324,17 +345,47 @@ function Code({
           >
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
               <pre
-                className={clsx(className, 'flex overflow-x-auto pb-6')}
+                className={clsx(
+                  'flex min-h-full text-sm leading-6',
+                  code.frontmatter.lang && `language-${code.frontmatter.lang}`
+                )}
                 style={style}
               >
-                <code className="px-4 py-4">
-                  {tokens.map((line, lineIndex) => (
-                    <div key={lineIndex} {...getLineProps({ line })}>
-                      {line.map((token, tokenIndex) => (
-                        <span key={tokenIndex} {...getTokenProps({ token })} />
-                      ))}
-                    </div>
-                  ))}
+                {showLineNumbers && (
+                  <div
+                    aria-hidden="true"
+                    // todo: in CodeWindow we have p-4 here it harms the lines alignment
+                    className="hidden w-[3.125rem] flex-none select-none px-2 py-2 pr-4 text-right text-slate-600 md:block"
+                  >
+                    {Array.from(tokens).map((_, i) =>
+                      i === 0 ? (
+                        i + 1
+                      ) : (
+                        <Fragment key={i}>
+                          <br />
+                          {i + 1}
+                        </Fragment>
+                      )
+                    )}
+                  </div>
+                )}
+                <code className="px-2 py-2">
+                  {tokens.map((line, lineIndex) => {
+                    const lineProps = getLineProps({ line, key: lineIndex })
+                    if (highlighted.includes(lineIndex)) {
+                      lineProps.className += ` ${codeStyles.highlighted}`
+                    }
+                    return (
+                      <div key={lineIndex} {...lineProps}>
+                        {line.map((token, tokenIndex) => (
+                          <span
+                            key={tokenIndex}
+                            {...getTokenProps({ token })}
+                          />
+                        ))}
+                      </div>
+                    )
+                  })}
                 </code>
               </pre>
             )}

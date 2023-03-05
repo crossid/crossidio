@@ -1,3 +1,4 @@
+import { arrayRange } from './array'
 import { ICodeLang, IHighlightedLines } from './types'
 
 // returns true if code has highlighted lines, these lines marked with a > prefix (e.g., ">  <div>hello</div>")
@@ -52,4 +53,20 @@ export function highlightedLines(
     highlighted: highlightedLines,
     code,
   }
+}
+
+// e.g, '4:8,5,9,15:20'
+export function highligtedCodebyMarkdownMeta(meta: string) {
+  const highlights: number[] = []
+  const ranges = meta.split(',')
+  ranges.forEach((r) => {
+    if (r.indexOf(':') > -1) {
+      const p = r.split(':')
+      highlights.push(...arrayRange(Number(p[0]) - 1, Number(p[1]) - 1, 1))
+    } else {
+      highlights.push(Number(r) - 1)
+    }
+  })
+
+  return highlights
 }
