@@ -341,7 +341,6 @@ export default function TOS() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }
