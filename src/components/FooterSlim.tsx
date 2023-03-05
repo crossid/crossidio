@@ -1,3 +1,5 @@
+import { getCurrentYear } from '@/utils/date'
+
 const navigation = {
   main: [
     { name: 'Try free', href: '/signup' },
@@ -64,7 +66,7 @@ export default function FooterSlim() {
           ))}
         </div>
         <p className="mt-10 text-center text-xs leading-5 text-gray-500">
-          &copy; 2023 Crossid. All rights reserved.
+          &copy; {getCurrentYear()} Crossid. All rights reserved.
         </p>
       </div>
     </footer>

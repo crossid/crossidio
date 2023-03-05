@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { features } from '@/data/features'
 import { Logo } from './Logo'
 import { Icon } from './Icon'
+import { getCurrentYear } from '@/utils/date'
 
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = {
@@ -251,7 +252,7 @@ export default function Footer() {
         </div>
         <div className="mt-12 border-t border-gray-200 pt-8 dark:border-sky-500">
           <p className="text-base text-gray-400 xl:text-center">
-            &copy; 2023 Crossid, Inc. All rights reserved.
+            &copy; {getCurrentYear()} Crossid, Inc. All rights reserved.
           </p>
         </div>
       </div>
