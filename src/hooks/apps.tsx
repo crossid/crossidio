@@ -3,6 +3,7 @@ import { useAuth } from '@crossid/crossid-react'
 import { Tenant, TenantContext } from './tenant'
 import { Patch } from '@/data/patch'
 import { App, Client, ClientLink } from '@/data/applications'
+import { IApp } from '@/types'
 
 type AppReturn = {
   app: App
@@ -185,4 +186,32 @@ export function useApps() {
     appsError: error,
     updateClient,
   }
+}
+
+export function tuplesToIApps(
+  appTuples: Record<string, AppReturn> = {}
+): IApp[] {
+  return Object.values(appTuples || {}).map<IApp>((at) => {
+    const {
+      client: {
+        id,
+        client_id,
+        redirect_uris = [],
+        post_logout_redirect_uris = [],
+        allowed_cors_origins = [],
+      },
+      app: { displayName, active },
+    } = at
+
+    const app: IApp = {
+      id,
+      displayName: displayName,
+      active: active,
+      clientId: client_id,
+      loginUri: redirect_uris[0],
+      logoutUri: post_logout_redirect_uris[0],
+      corsOrigin: allowed_cors_origins[0],
+    }
+    return app
+  })
 }

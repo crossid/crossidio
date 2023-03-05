@@ -1,9 +1,9 @@
 import { Integration } from '@/data/applications'
 import { Patch } from '@/data/patch'
-import { useApps } from '@/hooks/apps'
+import { tuplesToIApps, useApps } from '@/hooks/apps'
 import { useIntegrations } from '@/hooks/integrations'
 import { TenantContext } from '@/hooks/tenant'
-import { IApp, IAppConfigureData, IAppType, IFramework } from '@/types'
+import { IApp, IAppConfigureData, IFramework } from '@/types'
 import { Listbox, Transition } from '@headlessui/react'
 import {
   CheckIcon,
@@ -348,6 +348,7 @@ export function ConfigureAppInput({
   title,
   placeholder,
   value,
+  disabled,
   required,
   setValue,
 }: {
@@ -355,6 +356,7 @@ export function ConfigureAppInput({
   title: string
   placeholder: string
   value: string
+  disabled?: boolean
   required?: boolean
   setValue: (s: string) => void
 }) {
@@ -368,6 +370,7 @@ export function ConfigureAppInput({
       </label>
       <div className="mt-1">
         <input
+          disabled={disabled}
           id={id}
           name={id}
           required
@@ -388,7 +391,7 @@ export function ConfigureAppInput({
 type selectorApp = IApp | Integration | null
 
 const placeholder = 'Select an app'
-function Selector({
+export function Selector({
   title = '',
   app,
   setApp,
@@ -580,29 +583,7 @@ export function AppConfigurator({
       return []
     }
 
-    return Object.values(appTuples || {}).map<IApp>((at) => {
-      const {
-        client: {
-          id,
-          client_id,
-          redirect_uris = [],
-          post_logout_redirect_uris = [],
-          allowed_cors_origins = [],
-        },
-        app: { displayName, active },
-      } = at
-
-      const app: IApp = {
-        id,
-        displayName: displayName,
-        active: active,
-        clientId: client_id,
-        loginUri: redirect_uris[0],
-        logoutUri: post_logout_redirect_uris[0],
-        corsOrigin: allowed_cors_origins[0],
-      }
-      return app
-    })
+    return tuplesToIApps(appTuples)
   }, [appTuples])
 
   async function onSubmit() {
