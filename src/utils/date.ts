@@ -9,3 +9,7 @@ export function formatDate(
 ) {
   return dayjs(date).format(format)
 }
+
+export function getCurrentYear(): number {
+  return new Date().getFullYear()
+}
