@@ -56,6 +56,10 @@ module.exports = {
               color: 'inherit',
               fontWeight: 'inherit',
             },
+            strong: {
+              color: theme('colors.slate.900'),
+              fontWeight: theme('fontWeight.semibold'),
+            },
           },
         },
         dark: {
@@ -63,6 +67,9 @@ module.exports = {
             a: {
               color: theme('colors.white'),
               borderBottomColor: theme('colors.sky.400'),
+            },
+            strong: {
+              color: theme('colors.slate.200'),
             },
           },
         },
