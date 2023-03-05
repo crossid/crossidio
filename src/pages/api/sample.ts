@@ -37,7 +37,7 @@ export default async function handler(
   // decode base64 data object
   const dataObj = JSON.parse(Buffer.from(dataStr, 'base64').toString('utf-8'))
 
-  const { repoName, ...configData } = dataObj
+  const { repoName, folderName, ...configData } = dataObj
   try {
     // download the repo as zip file
     const githubUrl = `https://api.github.com/repos/${repoName}/zipball/main`
@@ -66,13 +66,23 @@ export default async function handler(
     // iterate over the downloaded files
     const newZip = new JSZip()
     for (const [name, content] of Object.entries(repo.files)) {
+      let newZipName = name
+      const whereFolder = name.indexOf(folderName)
+      if (!!folderName) {
+        if (whereFolder > -1) {
+          newZipName = name.slice(whereFolder)
+        } else {
+          continue
+        }
+      }
+
       if (!content.dir) {
         // for files, replace their content with configuration data
         const fileContent = (await repo.file(name)?.async('string')) || ''
-        newZip.file(name, replaceFileContent(fileContent, configData))
+        newZip.file(newZipName, replaceFileContent(fileContent, configData))
       } else {
         // for folders, just create the same folder in the new zip
-        newZip.folder(name)
+        newZip.folder(newZipName)
       }
     }
 
