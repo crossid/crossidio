@@ -17,7 +17,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { Logo } from '@/components/Logo'
-import { IApp, IFramework } from '@/types'
+import { IFramework } from '@/types'
 import { useScrollPosition } from '@/hooks/usePositionScroll'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Icon } from '@/components/Icon'
@@ -85,7 +85,7 @@ export default function Layout(props: IProps) {
   } = props
   const { loginWithRedirect, signupWithRedirect, idToken } = useAuth()
   const { fields, setField, setFields } = useContext(FieldsContext)
-  const { tenant } = useContext(TenantContext)
+  const { tenant, setApp } = useContext(TenantContext)
   const scrollerRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const parsedContent = JSON.parse(articleContent)
@@ -93,7 +93,6 @@ export default function Layout(props: IProps) {
   const comp = activeElement?.getAttribute('component') as Comp
   let dataAll = activeElement?.getAttribute('data')?.split('#')
   const scrollPos = useScrollPosition()
-  const [app, setApp] = useState<IApp>()
 
   let data
   let dataMeta
