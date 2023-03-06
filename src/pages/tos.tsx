@@ -1,4 +1,3 @@
-import Footer from '@/components/Footer'
 import Head from 'next/head'
 
 const email = 'info@crossid.io'
