@@ -37,6 +37,7 @@ const navigation = {
   company: [
     { name: 'About', href: '/company' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Status', href: 'https://status.crossid.io' },
     //   { name: 'Blog', href: '#' },
     //   { name: 'Jobs', href: '#' },
     //   { name: 'Press', href: '#' },
