@@ -10,6 +10,7 @@ import {
 import { IFramework } from '@/types'
 import { Icon, iconTypes } from '@/components/Icon'
 import Link from 'next/link'
+import Head from 'next/head'
 const FW_DIR = path.join(process.cwd(), 'frameworks')
 
 interface ISingleFw {
@@ -44,44 +45,59 @@ export const getStaticProps: GetStaticProps<{
   }
 }
 
+const title = 'Frameworks'
+const desc = 'Integrate your framework of choice with Crossid'
 export default function Page(
   props: InferGetStaticPropsType<typeof getStaticProps>
 ) {
   const { frameworks } = props
 
   return (
-    <div className="mx-auto max-w-2xl lg:max-w-5xl">
-      <header id="header" className="mb-10 md:flex md:items-start">
-        <div className="max-w-4xl flex-auto">
-          {/* <p className="mb-4 text-sm font-semibold leading-6 text-indigo-500 dark:text-sky-400">
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="og:title" content={title} />
+        <meta name="description" content={desc} />
+        <meta name="og:description" content={desc} />
+      </Head>
+      <div className="mx-auto max-w-2xl lg:max-w-5xl">
+        <header id="header" className="mb-10 md:flex md:items-start">
+          <div className="max-w-4xl flex-auto">
+            {/* <p className="mb-4 text-sm font-semibold leading-6 text-indigo-500 dark:text-sky-400">
             Frameworks
           </p> */}
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-4xl">
-            Get started with Crossid
-          </h1>
-          <p className="mt-4 text-lg text-slate-700 dark:text-slate-400">
-            Crossid integrates with many frameworks.
-          </p>
-          <p className="mt-4 text-lg text-slate-700 dark:text-slate-400">
-            For guidance, choose the relevant framework.
-          </p>
-        </div>
-      </header>
-      <section className="relative mb-16"></section>
-      <div className="not-prose mt-16 sm:mt-20">
-        <ul
-          role="list"
-          className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3"
-        >
-          {frameworks.map((fw) => (
-            <Framework key={fw.frameworkMeta.title} {...fw} />
-          ))}
-        </ul>
-        <div className="dark:prose-dark prose prose-slate mt-16 max-w-3xl">
-          <p>{`Don't see your framework of choice? contact us`}</p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-slate-200 sm:text-4xl">
+              Get started with Crossid
+            </h1>
+            <p className="mt-4 text-lg text-slate-700 dark:text-slate-400">
+              Crossid integrates with many frameworks.
+            </p>
+            <p className="mt-4 text-lg text-slate-700 dark:text-slate-400">
+              For guidance, choose the relevant framework.
+            </p>
+          </div>
+        </header>
+        <section className="relative mb-16"></section>
+        <div className="mt-16 sm:mt-20">
+          <ul
+            role="list"
+            className="not-prose grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3"
+          >
+            {frameworks.map((fw) => (
+              <Framework key={fw.frameworkMeta.title} {...fw} />
+            ))}
+          </ul>
+          <div className="prose prose-slate mt-16 max-w-3xl dark:prose-dark">
+            <p>
+              Don&apos;t see your framework of choice?{' '}
+              <a href="mailto:support@crossid.io?subject=Framework XY integration">
+                contact us
+              </a>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
