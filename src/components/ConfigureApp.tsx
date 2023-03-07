@@ -278,7 +278,7 @@ function ConfigureAppForm({
   return (
     <div>
       <form className="space-y-2" action="#" method="POST">
-        <Selector app={app} setApp={setApp} apps={apps} showStatus />
+        <Selector app={app} setApp={setApp} apps={apps} showStatus hideLabel />
         {app && mode === 'edit' && (
           <>
             <ConfigureAppInput
@@ -398,6 +398,7 @@ export function Selector({
   apps,
   disabled,
   showStatus = false,
+  hideLabel,
 }: {
   title?: string
   app: selectorApp
@@ -405,115 +406,126 @@ export function Selector({
   apps: selectorApp[]
   disabled?: boolean
   showStatus?: boolean
+  hideLabel?: boolean
 }) {
   return (
-    <Listbox
-      defaultValue={app}
-      onChange={(a: selectorApp) => setApp(a)}
-      disabled={disabled}
-    >
-      {({ open }) => (
-        <>
-          <div className="relative mt-1">
-            <Listbox.Label className="block text-sm font-medium text-gray-700">
-              {title}
-            </Listbox.Label>
-            <Listbox.Button className="relative mt-1 w-full cursor-default rounded-md border border-gray-300 bg-white py-3 px-4 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500 sm:text-sm">
-              <span className="flex items-center">
-                {app && showStatus && (
-                  <span
-                    aria-label={app?.active ? 'Online' : 'Offline'}
-                    className={clsx(
-                      app?.active
-                        ? 'bg-green-400 dark:bg-green-700'
-                        : 'bg-gray-200 dark:bg-slate-500',
-                      'inline-block h-2 w-2 flex-shrink-0 rounded-full'
-                    )}
-                  />
-                )}
-                <span className="ml-3 block truncate">
-                  {app?.displayName || placeholder}
+    <>
+      {!hideLabel && (
+        <label className="block text-sm font-medium text-gray-700">
+          Select app
+        </label>
+      )}
+      <Listbox
+        defaultValue={app}
+        onChange={(a: selectorApp) => setApp(a)}
+        disabled={disabled}
+      >
+        {({ open }) => (
+          <>
+            <div className="relative mt-1">
+              <Listbox.Label className="block text-sm font-medium text-gray-700">
+                {title}
+              </Listbox.Label>
+              <Listbox.Button className="relative mt-1 w-full cursor-default rounded-md border border-gray-300 bg-white py-3 px-4 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500 sm:text-sm">
+                <span className="flex items-center">
+                  {app && showStatus && (
+                    <span
+                      aria-label={app?.active ? 'Online' : 'Offline'}
+                      className={clsx(
+                        app?.active
+                          ? 'bg-green-400 dark:bg-green-700'
+                          : 'bg-gray-200 dark:bg-slate-500',
+                        'inline-block h-2 w-2 flex-shrink-0 rounded-full'
+                      )}
+                    />
+                  )}
+                  <span className="ml-3 block truncate">
+                    {app?.displayName || placeholder}
+                  </span>
                 </span>
-              </span>
-              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                <ChevronUpDownIcon
-                  className="h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-              </span>
-            </Listbox.Button>
+                <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                  <ChevronUpDownIcon
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                </span>
+              </Listbox.Button>
 
-            <Transition
-              show={open}
-              as={Fragment}
-              leave="transition ease-in duration-100"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 sm:text-sm">
-                {apps.map((app) => (
-                  <Listbox.Option
-                    key={app?.id}
-                    className={({ active }) =>
-                      clsx(
-                        active
-                          ? 'bg-indigo-600 text-white dark:bg-sky-800'
-                          : 'text-gray-900',
-                        'relative cursor-default select-none py-2 pl-3 pr-9'
-                      )
-                    }
-                    value={app}
-                  >
-                    {({ selected, active }) => (
-                      <>
-                        <div className="flex items-center">
-                          {showStatus && (
+              <Transition
+                show={open}
+                as={Fragment}
+                leave="transition ease-in duration-100"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-slate-800 sm:text-sm">
+                  {apps.map((app) => (
+                    <Listbox.Option
+                      key={app?.id}
+                      className={({ active }) =>
+                        clsx(
+                          active
+                            ? 'bg-indigo-600 text-white dark:bg-sky-800'
+                            : 'text-gray-900',
+                          'relative cursor-default select-none py-2 pl-3 pr-9'
+                        )
+                      }
+                      value={app}
+                    >
+                      {({ selected, active }) => (
+                        <>
+                          <div className="flex items-center">
+                            {showStatus && (
+                              <span
+                                className={clsx(
+                                  app?.active
+                                    ? 'bg-green-400 dark:bg-green-700'
+                                    : 'bg-gray-200 dark:bg-slate-500',
+                                  'inline-block h-2 w-2 flex-shrink-0 rounded-full'
+                                )}
+                                aria-hidden="true"
+                              />
+                            )}
                             <span
                               className={clsx(
-                                app?.active
-                                  ? 'bg-green-400 dark:bg-green-700'
-                                  : 'bg-gray-200 dark:bg-slate-500',
-                                'inline-block h-2 w-2 flex-shrink-0 rounded-full'
+                                selected ? 'font-semibold' : 'font-normal',
+                                'ml-3 block truncate'
                               )}
-                              aria-hidden="true"
-                            />
-                          )}
-                          <span
-                            className={clsx(
-                              selected ? 'font-semibold' : 'font-normal',
-                              'ml-3 block truncate'
-                            )}
-                          >
-                            {app?.displayName}
-                            <span className="sr-only">
-                              {' '}
-                              is {app?.active ? 'active' : 'inactive'}
+                            >
+                              {app?.displayName}
+                              <span className="sr-only">
+                                {' '}
+                                is {app?.active ? 'active' : 'inactive'}
+                              </span>
                             </span>
-                          </span>
-                        </div>
+                          </div>
 
-                        {selected ? (
-                          <span
-                            className={clsx(
-                              active
-                                ? 'text-white'
-                                : 'text-indigo-600 dark:text-sky-600',
-                              'absolute inset-y-0 right-0 flex items-center pr-4'
-                            )}
-                          >
-                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
-            </Transition>
-          </div>
-        </>
-      )}
-    </Listbox>
+                          {selected ? (
+                            <span
+                              className={clsx(
+                                active
+                                  ? 'text-white'
+                                  : 'text-indigo-600 dark:text-sky-600',
+                                'absolute inset-y-0 right-0 flex items-center pr-4'
+                              )}
+                            >
+                              <CheckIcon
+                                className="h-5 w-5"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </>
+        )}
+      </Listbox>
+    </>
   )
 }
 

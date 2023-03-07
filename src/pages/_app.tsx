@@ -95,10 +95,6 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
           appId={process.env.intercomAppId || ''}
           autoBoot={process.env.NODE_ENV === 'production'}
         >
-          <DownloadSampleButton
-            repoName="crossid/sample-monorepo"
-            folderName="api-go"
-          />
           {children}
         </IntercomProvider>
       </TenantProvider>
