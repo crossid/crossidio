@@ -1,19 +1,28 @@
 import { Fragment, useContext, useMemo, useState } from 'react'
 import { TenantContext } from '@/hooks/tenant'
-import { IApp, IAppConfigureData } from '@/types'
+import { IApp } from '@/types'
 import { Dialog, Transition } from '@headlessui/react'
 import { ConfigureAppInput, Selector } from '@/components/ConfigureApp'
 import { tuplesToIApps, useApps } from '@/hooks/apps'
+import {
+  ArrowDownTrayIcon,
+  ArrowRightOnRectangleIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline'
+import { useAuth } from '@crossid/crossid-react'
 
 // repoName is `${owner}/${repo}`
 export default function DownloadSampleButton({
   repoName,
   folderName,
+  className,
 }: {
   repoName: string
   folderName?: string
+  className?: string
 }) {
   const { app, setApp } = useContext(TenantContext)
+  const { idToken, loginWithRedirect } = useAuth()
   const [showModal, setShowModal] = useState(false)
   const { apps: appTuples, appsError } = useApps()
 
@@ -65,7 +74,34 @@ export default function DownloadSampleButton({
 
   return (
     <>
-      <button onClick={openModal}>Download Example</button>
+      {idToken && (
+        <button className={className} onClick={openModal}>
+          <ArrowDownTrayIcon
+            className="-ml-1 mr-2 h-5 w-5"
+            aria-hidden="true"
+          />
+          <span>Download Example</span>
+        </button>
+      )}
+
+      {!idToken && (
+        <button
+          className={className}
+          onClick={() =>
+            loginWithRedirect({
+              state: {
+                return_to: window.location.pathname,
+              },
+            })
+          }
+        >
+          <ArrowRightOnRectangleIcon
+            className="-ml-1 mr-2 h-5 w-5"
+            aria-hidden="true"
+          />
+          <span>Login to Download Sample</span>
+        </button>
+      )}
 
       <Transition appear show={showModal} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
@@ -92,62 +128,81 @@ export default function DownloadSampleButton({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    Select an application to configure the sample accordingly
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <Selector
-                      app={app || null}
-                      setApp={setApp}
-                      apps={apps}
-                      showStatus
-                    />
-                    <>
-                      <ConfigureAppInput
-                        title="Client ID"
-                        placeholder="Client ID"
-                        id="client_id"
-                        required
-                        value={app?.clientId || ''}
-                        setValue={(d) => {}}
-                      />
-                      <ConfigureAppInput
-                        title="Login Redirect URL"
-                        placeholder="Login URL"
-                        id="redirect_uri"
-                        required
-                        value={app?.loginUri || ''}
-                        setValue={(d) => {}}
-                      />
-                      <ConfigureAppInput
-                        title="Logout Redirect URL"
-                        id="post_logout_redirect_uri"
-                        value={app?.logoutUri || ''}
-                        setValue={(d: string) => {}}
-                        placeholder={'Logout Redirect'}
-                      />
-                      <ConfigureAppInput
-                        title="Web Origin"
-                        id="allowed_cors_origin"
-                        value={app?.corsOrigin || ''}
-                        setValue={(d) => {}}
-                        placeholder={'Web Origin'}
-                      />
-                    </>
+                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all md:p-16 xl:p-32">
+                  <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+                    <button
+                      type="button"
+                      className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      onClick={() => closeModal()}
+                    >
+                      <span className="sr-only">Close</span>
+                      <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <div className="">
+                    <Dialog.Title
+                      as="h3"
+                      className="pb-3 text-lg font-medium leading-6 text-gray-900"
+                    >
+                      Select an application to configure the sample accordingly.
+                    </Dialog.Title>
+                    <Dialog.Title
+                      as="h2"
+                      className="pb-8 text-sm font-medium text-gray-400"
+                    >
+                      Code will be downloaded from the github sample repo.
+                    </Dialog.Title>
                   </div>
 
-                  <div className="mt-4">
+                  <Selector
+                    app={app || null}
+                    setApp={setApp}
+                    apps={apps}
+                    showStatus
+                  />
+                  <>
+                    <ConfigureAppInput
+                      title="Client ID"
+                      placeholder="Client ID"
+                      id="client_id"
+                      value={app?.clientId || ''}
+                      setValue={(d) => {}}
+                    />
+                    <ConfigureAppInput
+                      title="Login Redirect URL"
+                      placeholder="Login URL"
+                      id="redirect_uri"
+                      value={app?.loginUri || ''}
+                      setValue={(d) => {}}
+                    />
+                    <ConfigureAppInput
+                      title="Logout Redirect URL"
+                      id="post_logout_redirect_uri"
+                      value={app?.logoutUri || ''}
+                      setValue={(d: string) => {}}
+                      placeholder={'Logout Redirect'}
+                    />
+                    <ConfigureAppInput
+                      title="Web Origin"
+                      id="allowed_cors_origin"
+                      value={app?.corsOrigin || ''}
+                      setValue={(d) => {}}
+                      placeholder={'Web Origin'}
+                    />
+                  </>
+
+                  <div className="mt-5 sm:mt-4 sm:flex">
                     <button
                       disabled={isSubmitDisabled()}
                       type="submit"
                       onClick={downloadExample}
-                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+                      className={className}
                     >
-                      Download Example
+                      <ArrowDownTrayIcon
+                        className="-ml-1 mr-2 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                      <span>Download</span>
                     </button>
                   </div>
                 </Dialog.Panel>
