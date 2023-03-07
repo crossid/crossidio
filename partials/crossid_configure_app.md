@@ -20,7 +20,7 @@ A _login url_ is where Crossid will redirect users after they log in.
 
 {% callout type="info" %}
 
-Code samples in this guide expects **{% $redirect_uri %}**
+Code samples in this guide expects **{% $login_redirect_uri %}**
 
 {% /callout %}
 
@@ -30,7 +30,7 @@ A _logout url_ is where Crossid will redirect users after they log out.
 
 {% callout type="info" %}
 
-Code samples in this guide expects **{% $post_logout_redirect_uri %}**
+Code samples in this guide expects **{% $logout_redirect_uri %}**
 
 {% /callout %}
 
