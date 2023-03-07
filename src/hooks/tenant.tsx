@@ -19,6 +19,10 @@ export interface Tenant {
   domains: string[]
 }
 
+function tenantDomain() {
+  return process.env.NEXT_PUBLIC_DOMAIN
+}
+
 export default function useTenant(): {
   list?: Tenant[]
   listError?: Error
@@ -43,10 +47,11 @@ export default function useTenant(): {
           })
           const respJson = await resp.json()
 
-          // TODO: remove this after resolving ticket https://github.com/crossid/backend/issues/562
           respJson.Resources.forEach(
             (t: Tenant) =>
-              (t.domains = [`${t.id}.${t.regionCode.toLowerCase()}.crossid.io`])
+              (t.domains = [
+                `${t.id}.${t.regionCode.toLowerCase()}.${tenantDomain()}`,
+              ])
           )
           setList(respJson.Resources)
         }
@@ -71,10 +76,6 @@ type TenantContextProps = {
   setTenant: Function
   setApp: (app?: IApp) => void
   getAccessToken: () => Promise<string>
-}
-
-function tenantDomain() {
-  return process.env.NEXT_PUBLIC_DOMAIN
 }
 
 export function prepareAudience(tenant?: Tenant): string[] {

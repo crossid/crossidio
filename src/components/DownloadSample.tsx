@@ -11,6 +11,26 @@ import {
 } from '@heroicons/react/24/outline'
 import { useAuth } from '@crossid/crossid-react'
 
+const backendFields: Record<string, string> = {
+  loginUri: 'login_redirect_uri',
+  logoutUri: 'logout_redirect_uri',
+  corsOrigin: 'allowed_cors_origins',
+  clientId: 'client_id',
+}
+
+function appDataToBackendData(data: Record<string, any>): Record<string, any> {
+  const backendData: Record<string, any> = {}
+  for (const [key, value] of Object.entries(data)) {
+    let newKey = key
+    if (!!backendFields[key]) {
+      newKey = backendFields[key]
+    }
+    backendData[newKey] = value
+  }
+
+  return backendData
+}
+
 // repoName is `${owner}/${repo}`
 export default function DownloadSampleButton({
   repoName,
@@ -21,7 +41,7 @@ export default function DownloadSampleButton({
   folderName?: string
   className?: string
 }) {
-  const { app, setApp } = useContext(TenantContext)
+  const { app, setApp, tenant } = useContext(TenantContext)
   const { idToken, loginWithRedirect } = useAuth()
   const [showModal, setShowModal] = useState(false)
   const { apps: appTuples, appsError } = useApps()
@@ -37,16 +57,18 @@ export default function DownloadSampleButton({
   const url = useMemo(() => {
     // nextjs base url
     let baseUrl = '/api/sample'
-    let data = { repoName, folderName }
+    let data = { repoName, folderName, tenant_domain: tenant?.domains[0] }
     if (!!app) {
       data = Object.assign(data, app)
       // must be a get request, so I send the data in the query param as base64 encoded object
-      const base64 = Buffer.from(JSON.stringify(data)).toString('base64')
+      const base64 = Buffer.from(
+        JSON.stringify(appDataToBackendData(data))
+      ).toString('base64')
       baseUrl += `?data=${base64}`
     }
 
     return baseUrl
-  }, [app, folderName, repoName])
+  }, [app, folderName, repoName, tenant?.domains])
 
   function openModal() {
     setShowModal(true)

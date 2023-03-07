@@ -15,7 +15,6 @@ import { ReactElement, ReactNode } from 'react'
 import DefaultLayout from './layouts/DefaultLayout'
 import { TenantProvider } from '@/hooks/tenant'
 import { FieldProvider } from '@/hooks/useFieldsContext'
-import DownloadSampleButton from '@/components/DownloadSample'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode

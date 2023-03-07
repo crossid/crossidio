@@ -11,7 +11,7 @@ function replaceFileContent(
 ): string {
   let newContent = content
   for (const [key, value] of Object.entries(dataObj)) {
-    newContent = newContent.replaceAll(key, value)
+    newContent = newContent.replaceAll(`\${{${key}}}`, value)
   }
   return newContent
 }
@@ -70,7 +70,7 @@ export default async function handler(
       const whereFolder = name.indexOf(folderName)
       if (!!folderName) {
         if (whereFolder > -1) {
-          newZipName = name.slice(whereFolder)
+          newZipName = name.slice(whereFolder + folderName.length + 1)
         } else {
           continue
         }
@@ -81,8 +81,10 @@ export default async function handler(
         const fileContent = (await repo.file(name)?.async('string')) || ''
         newZip.file(newZipName, replaceFileContent(fileContent, configData))
       } else {
-        // for folders, just create the same folder in the new zip
-        newZip.folder(newZipName)
+        // for folders, just create the same folder in the new zip, if needed
+        if (!folderName) {
+          newZip.folder(newZipName)
+        }
       }
     }
 
