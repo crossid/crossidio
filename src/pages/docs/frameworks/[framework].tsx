@@ -24,6 +24,7 @@ import { ICodeLang } from '@/utils/prism/types'
 import { highlight } from '@/utils/prism/highlight'
 import { FieldProvider } from '@/hooks/useFieldsContext'
 import { readingTime } from '@/utils/content'
+import { codeSections } from '@/utils/code'
 
 const FW_DIR_NAME = 'frameworks'
 const PARTIALS_DIR = path.join(process.cwd()) + '/partials'
@@ -71,6 +72,7 @@ export interface ICode {
   content: string
   code: string
   highlitedCode: string
+  sections: Record<string, number[]>
 }
 
 function generateID(
@@ -101,16 +103,6 @@ export const getStaticProps: GetStaticProps<IProps> = async (
   const fullPath = path.join(dir, framework + '/index.md')
   // read the md file contents
   const source = fs.readFileSync(fullPath, 'utf-8')
-  // Use Markdoc to create a tree of tokens based on the Markdown file
-  const ast = Markdoc.parse(source)
-  const config = await createConfig()
-  const articleContent = JSON.stringify(Markdoc.transform(ast, config))
-  const frontmatter = yaml.load(ast.attributes.frontmatter) as Record<
-    string,
-    any
-  >
-  frontmatter.authors = frontmatter.authors?.map((a: string) => authors[a])
-  frontmatter.date = frontmatter.date.getTime()
 
   // load the raframework metadata
   //
@@ -118,6 +110,17 @@ export const getStaticProps: GetStaticProps<IProps> = async (
   const fwMeta = yaml.load(
     fs.readFileSync(fwMetaFileName, 'utf-8')
   ) as IFramework
+
+  // Use Markdoc to create a tree of tokens based on the Markdown file
+  const ast = Markdoc.parse(source)
+  const config = await createConfig(fwMeta)
+  const articleContent = JSON.stringify(Markdoc.transform(ast, config))
+  const frontmatter = yaml.load(ast.attributes.frontmatter) as Record<
+    string,
+    any
+  >
+  frontmatter.authors = frontmatter.authors?.map((a: string) => authors[a])
+  frontmatter.date = frontmatter.date.getTime()
 
   // load code
   //
@@ -129,8 +132,9 @@ export const getStaticProps: GetStaticProps<IProps> = async (
       ast.attributes.frontmatter
     ) as ICodeFrontmatter
     const { lang } = frontmatter
-    const code = ast.children[0].attributes.content
+    const codeOrg = ast.children[0].attributes.content
 
+    const { sections, code } = codeSections(codeOrg)
     const tokens = tokenizeCode(code, lang)
     if (!tokens) {
       throw 'no tokens'
@@ -147,6 +151,7 @@ export const getStaticProps: GetStaticProps<IProps> = async (
       content: codeStr,
       code,
       highlitedCode: highligtedCodeStr,
+      sections,
     }
   })
 
@@ -163,7 +168,7 @@ export const getStaticProps: GetStaticProps<IProps> = async (
   }
 }
 
-async function createConfig(): Promise<Config> {
+async function createConfig(fwMeta: IFramework): Promise<Config> {
   const paths = await glob(path.join(PARTIALS_DIR, '**/*.md'), {})
   const partials: Record<string, any> = {}
   paths.forEach((p) => {
@@ -173,6 +178,9 @@ async function createConfig(): Promise<Config> {
   })
 
   const config: Config = {
+    variables: {
+      fw_meta: fwMeta,
+    },
     partials,
     tags: {
       field: {
@@ -193,6 +201,24 @@ async function createConfig(): Promise<Config> {
           },
         },
       },
+      sdkApiLink: {
+        render: 'FrameworkApiRefLink',
+        attributes: {
+          to: { type: String },
+        },
+        transform(node, config) {
+          const attributes = node.transformAttributes(config)
+          const children = node.transformChildren(config)
+          return new Tag(
+            this.render,
+            {
+              ...attributes,
+              apiRef: config.variables?.fw_meta.sdk_repo.api_reference,
+            },
+            children
+          )
+        },
+      },
     },
     nodes: {
       heading: {
@@ -204,6 +230,7 @@ async function createConfig(): Promise<Config> {
           ...Markdoc.nodes.heading.attributes,
           component: { type: String },
           data: { type: String },
+          section: { type: String },
         },
         transform(node, config) {
           const attributes = node.transformAttributes(config)

@@ -16,12 +16,24 @@ export interface ITOC {
   children: ITOC[]
 }
 
-interface IRepo {
+type IRepoFolderType = 'auth'
+
+interface IRepoFolder {
+  type: IRepoFolderType
   name: string
+}
+
+interface IRepo {
   url: string
   branch: string
+  api_reference: string
   // the coding languages, e.g., "javascript", "typescript"
   languages: string[]
+  // github
+  //
+  owner: string
+  name: string
+  folders: IRepoFolder[]
 }
 
 export type IAppType = 'webapp' | 'singlePageApp'

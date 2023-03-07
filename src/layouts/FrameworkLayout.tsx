@@ -35,7 +35,9 @@ import { LinkNode } from '@/components/markdoc/Link'
 import { Callout } from '@/components/Callout'
 import { FenceClient } from '@/components/Fence'
 import { codeStyles } from '@/utils/prism/styles'
-import { highligtedCodebyMarkdownMeta } from '@/utils/prism/highligted'
+import DownloadSampleButton from '@/components/DownloadSample'
+import { FrameworkApiRefLink } from '@/components/markdoc/FrameworkApiRefLink'
+import { scroll } from '@/utils/scroll'
 
 const Heading: React.FC<
   {
@@ -69,6 +71,7 @@ const components = {
   Link: LinkNode,
   Callout,
   FenceClient,
+  FrameworkApiRefLink,
 }
 
 type Comp = 'code' | 'configure-app'
@@ -92,6 +95,7 @@ export default function Layout(props: IProps) {
   const [activeElement] = useActiveElement('h2', containerRef, scrollerRef, 80)
   const comp = activeElement?.getAttribute('component') as Comp
   let dataAll = activeElement?.getAttribute('data')?.split('#')
+  let activeElementSection = activeElement?.getAttribute('section')
   const scrollPos = useScrollPosition()
 
   let data
@@ -242,6 +246,7 @@ export default function Layout(props: IProps) {
                 currentFileName={data || ''}
                 meta={dataMeta}
                 fields={fields || {}}
+                section={activeElementSection || ''}
               />
             )}
           </div>
@@ -254,12 +259,14 @@ export default function Layout(props: IProps) {
 
 function Code({
   codes,
+  section,
   currentFileName,
   meta,
   fields,
   showLineNumbers = true,
 }: {
   codes: ICode[]
+  section: string
   currentFileName: string
   meta: string | undefined
   fields: Record<string, any>
@@ -272,17 +279,26 @@ function Code({
   const [resolvedCode, setResolvedCode] = useState('')
 
   const filenames = codes.map((c) => c.frontmatter.name)
-  let singleCode: ICode
 
   useIsomorphicLayoutEffect(() => {
     setActiveFilename(currentFileName)
   }, [currentFileName])
 
   useIsomorphicLayoutEffect(() => {
-    singleCode = codes.filter((c) => c.frontmatter.name === activeFilename)[0]
+    let singleCode = codes.filter(
+      (c) => c.frontmatter.name === activeFilename
+    )[0]
     setCode(singleCode)
     setResolvedCode(resolve(singleCode, fields))
   }, [activeFilename, fields.client_id])
+
+  useEffect(() => {
+    const cont = document.getElementById('code-container')
+    const el = document.getElementById(`section:${section}`)
+    if (el && cont) {
+      scroll(cont, el, 0.5, 80)
+    }
+  }, [section])
 
   const resolve = (code: ICode, fields: Record<string, any>) => {
     return resolveCode(code.code, fields)
@@ -290,8 +306,7 @@ function Code({
 
   if (!code) return null
 
-  const highlighted = highligtedCodebyMarkdownMeta(meta || '')
-  console.log(highlighted)
+  // const highlighted = highligtedCodebyMarkdownMeta(meta || '')
 
   return (
     <CodeWindow border={false} className="xl:h-[50rem]">
@@ -333,7 +348,10 @@ function Code({
         </button>
         <div className="absolute inset-x-0 bottom-0 h-px bg-slate-500/30" />
       </div>
-      <div className={'flex min-h-0 w-full flex-auto overflow-auto'}>
+      <div
+        id="code-container"
+        className={'flex min-h-0 w-full flex-auto overflow-auto'}
+      >
         {resolvedCode && (
           <Highlight
             {...defaultProps}
@@ -371,8 +389,12 @@ function Code({
                 <code className="px-2 py-2">
                   {tokens.map((line, lineIndex) => {
                     const lineProps = getLineProps({ line, key: lineIndex })
-                    if (highlighted.includes(lineIndex)) {
+                    const hidx = code.sections[section]?.indexOf(lineIndex)
+                    if (hidx > -1) {
                       lineProps.className += ` ${codeStyles.highlighted}`
+                      if (hidx === 0) {
+                        lineProps.id = `section:${section}`
+                      }
                     }
                     return (
                       <div key={lineIndex} {...lineProps}>
@@ -632,18 +654,17 @@ function NavBar({
                       color="gray"
                       className="-ml-1 mr-2 h-5 w-5"
                     />
-                    <span>Repo</span>
+                    <span>Samples Repo</span>
                   </a>
-                  {/* <button
-                    type="button"
+                  <DownloadSampleButton
+                    repoName={`${frameworkMeta.sample_repo.owner}/${frameworkMeta.sample_repo.name}`}
+                    folderName={
+                      frameworkMeta.sample_repo.folders.filter(
+                        (f) => f.type === 'auth'
+                      )[0].name
+                    }
                     className="relative inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-sky-500 dark:ring-offset-slate-900 dark:hover:bg-sky-700 dark:focus:ring-sky-500"
-                  >
-                    <ArrowDownTrayIcon
-                      className="-ml-1 mr-2 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    <span>Download Sample</span>
-                  </button> */}
+                  />
                 </div>
               </div>
               <div className="-mr-2 flex items-center sm:hidden">

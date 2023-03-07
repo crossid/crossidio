@@ -87,10 +87,10 @@ We have to grant our service account access to the API.
 At this point, we have a service account that have _write_ grants to access our API app, lets authenticate.
 
 ```bash {% resolve=true %}
-curl -X POST https://{tenant_domain}/oauth2/token \
+curl -X POST https://{{tenant_domain}}/oauth2/token \
   -F grant_type=client_credentials \
-  -F client_id={client_id} \
-  -F client_secret={client_secret} \
+  -F client_id={{client_id}} \
+  -F client_secret={{client_secret}} \
   -F scope='write'
 ```
 
