@@ -80,10 +80,11 @@ type TenantContextProps = {
 
 export function prepareAudience(tenant?: Tenant): string[] {
   if (!tenant) {
-    return []
+    return ['management']
   }
 
   const audience = [
+    'management',
     tenant.id,
     `https://${
       tenant.id

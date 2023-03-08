@@ -395,7 +395,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                   )}
                   {!idToken && !authLoading && (
                     <Link
-                      href="/signup"
+                      href={`/signup?return_to=${window.location.pathname}`}
                       className="ml-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-bold leading-4 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                       Try Free
