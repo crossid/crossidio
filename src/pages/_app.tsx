@@ -85,6 +85,7 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       post_logout_redirect_uri={
         process.env.NEXT_PUBLIC_CID_AUTH_LOGOUT_REDIRECT_URI || ''
       }
+      audience={['management']}
       scope={'owner openid email'}
       cache_type="session_storage"
       onRedirectTo={onRedTo}
