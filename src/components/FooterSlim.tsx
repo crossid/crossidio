@@ -1,8 +1,9 @@
 import { getCurrentYear } from '@/utils/date'
+import { useRouter } from 'next/router'
 
 const navigation = {
   main: [
-    { name: 'Try free', href: '/signup' },
+    { name: 'Try free', href: '/signup?return_to=currentLoc' },
     { name: 'Blog', href: '/blog' },
     { name: 'Docs', href: '/docs' },
   ],
@@ -33,6 +34,8 @@ const navigation = {
 }
 
 export default function FooterSlim() {
+  const router = useRouter()
+
   return (
     <footer className="bg-white dark:bg-slate-900">
       <div className="mx-auto max-w-7xl overflow-hidden py-4 px-6 sm:py-8 lg:px-8">
@@ -43,7 +46,7 @@ export default function FooterSlim() {
           {navigation.main.map((item) => (
             <div key={item.name} className="pb-6">
               <a
-                href={item.href}
+                href={item.href.replace('currentLoc', router.asPath)}
                 className="text-sm leading-6 text-gray-600 hover:text-gray-900"
               >
                 {item.name}

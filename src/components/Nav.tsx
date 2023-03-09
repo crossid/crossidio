@@ -24,6 +24,7 @@ import { INav } from '@/types'
 import { MobileNavigation } from './docs/MobileNav'
 import { getCrossidManagementHost } from '@/utils/location'
 import TenantDropdown from './TenantDropdown'
+import { useRouter } from 'next/router'
 
 const mgmtHost = getCrossidManagementHost()
 
@@ -105,6 +106,7 @@ function MenuItemChevron({ open }: { open: boolean }) {
 }
 
 export default function Nav({ navigation }: { navigation?: INav }) {
+  const router = useRouter()
   const featuresButtonRef = useRef<HTMLButtonElement>(null)
   const resourcesButtonRef = useRef<HTMLButtonElement>(null)
   const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
@@ -395,7 +397,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                   )}
                   {!idToken && !authLoading && (
                     <Link
-                      href={`/signup?return_to=${window.location.pathname}`}
+                      href={`/signup?return_to=${router.asPath}`}
                       className="ml-4 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-bold leading-4 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                       Try Free
@@ -587,7 +589,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                   <div className="mt-6">
                     {!idToken && (
                       <Link
-                        href="/signup"
+                        href={`/signup?return_to=${router.asPath}`}
                         className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 dark:bg-sky-600 dark:hover:bg-sky-700"
                       >
                         Try Free
