@@ -38,6 +38,7 @@ import { codeStyles } from '@/utils/prism/styles'
 import DownloadSampleButton from '@/components/DownloadSample'
 import { FrameworkApiRefLink } from '@/components/markdoc/FrameworkApiRefLink'
 import { scroll } from '@/utils/scroll'
+import { useRouter } from 'next/router'
 
 const Heading: React.FC<
   {
@@ -507,6 +508,7 @@ function LoginOrSignup({
   loginFunc: (opts: any) => void
   signupFunc: (opts: any) => void
 }) {
+  const router = useRouter()
   return (
     <div className="py-24 px-6 sm:px-6 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-xl text-center">
@@ -528,7 +530,7 @@ function LoginOrSignup({
         </h3>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link
-            href={`/signup?return_to=${window.location.pathname}`}
+            href={`/signup?return_to=${router.asPath}`}
             className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-sky-600 dark:hover:bg-sky-700"
           >
             Signup
