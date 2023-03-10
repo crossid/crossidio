@@ -39,12 +39,14 @@
     "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-intersection-observer": "^9.4.3",
     "react-use-intercom": "^4.0.0",
     "redent": "^4.0.0",
     "typescript": "4.9.5",
     "use-disposable-list": "^0.2.2"
   },
   "devDependencies": {
+    "@savvywombat/tailwindcss-grid-areas": "^3.0.1",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/gtag.js": "^0.0.12",
     "@types/js-yaml": "^4.0.5",
