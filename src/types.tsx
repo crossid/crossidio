@@ -66,8 +66,26 @@ export interface IAppConfigureData {
   clientId?: string
 }
 
+export interface ITenant {
+  tenantId: string
+}
+
 export interface IApp extends IAppConfigureData {
   id: string
   displayName: string
   active: boolean
+}
+
+export type Region = 'US' | 'EU'
+export type Env = 'development' | 'staging' | 'production'
+
+export type IRegion = {
+  name: string
+  code: Region
+  disabled: boolean
+}
+
+export type IEnv = {
+  name: string
+  env: Env
 }

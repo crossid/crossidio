@@ -1,10 +1,8 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@crossid/crossid-react'
-import { IApp } from '@/types'
+import { Env, IApp, ITenant, Region } from '@/types'
 
 type provisioningStatus = 'completed' | 'fatal' | 'started'
-export type TenantRegion = 'US' | 'EU' | 'JP' | 'AU' | 'local'
-export type TenantEnv = 'development' | 'staging' | 'production'
 
 export interface Tenant {
   id: string
@@ -14,9 +12,17 @@ export interface Tenant {
   deactivatedAt?: string
   terminateAt?: string
   clusterId: string
-  regionCode: TenantRegion
-  environmentTag: TenantEnv
+  regionCode: Region
+  environmentTag: Env
   domains: string[]
+}
+
+interface tenantCreationPayload {
+  displayName: string
+  tenantId: string
+  type: string
+  regionCode: Region
+  environmentTag?: Env
 }
 
 function tenantDomain() {
@@ -27,6 +33,9 @@ export default function useTenant(): {
   list?: Tenant[]
   listError?: Error
   listLoading: boolean
+  create: Function
+  creating: boolean
+  get: Function
 } {
   const { getAccessToken } = useAuth()
 
@@ -64,7 +73,72 @@ export default function useTenant(): {
     }
   }, [getAccessToken, list])
 
-  return { list, listError, listLoading }
+  const [creating, setCreating] = useState(false)
+  const create = useCallback(
+    async (payload: tenantCreationPayload) => {
+      // const t = {
+      //   id: 'foobar',
+      //   provisioningStatus: 'started',
+      // }
+      // return new Promise((resolve) => resolve(t))
+      setCreating(true)
+      try {
+        const act = await getAccessToken({ scope: 'create:tenant', audience: ['management'] })
+        if (!act) {
+          throw { message: 'failed to get access token' }
+        }
+        const resp = await fetch(`/api/v1/tenants`, {
+          headers: {
+            authorization: `Bearer ${act}`,
+          },
+          method: 'POST',
+          body: JSON.stringify(payload),
+        })
+        const ok = resp.ok
+        const respJson = await resp.json()
+        if (!ok) {
+          throw respJson
+        }
+
+        return respJson as ITenant
+      } catch (e: any) {
+        throw e
+      } finally {
+        setCreating(false)
+      }
+    },
+    [getAccessToken]
+  )
+
+  const [loadingTenant, setLoadingTenant] = useState(false)
+  const get = useCallback(
+    async (id: string) => {
+      setLoadingTenant(true)
+      try {
+        const act = await getAccessToken({ audience: ['management'] })
+        if (!act) {
+          throw 'failed to get access token'
+        }
+        const resp = await fetch(`/api/v1/tenants/${id}`, {
+          headers: {
+            authorization: `Bearer ${act}`,
+          },
+        })
+        const ok = resp.ok
+        const respJson = await resp.json()
+        if (!ok) {
+          throw respJson
+        }
+
+        return respJson
+      } finally {
+        setLoadingTenant(false)
+      }
+    },
+    [getAccessToken]
+  )
+
+  return { list, listError, listLoading, create, creating, get }
 }
 
 type TenantContextProps = {

@@ -36,8 +36,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     let title = pageProps.markdoc?.frontmatter.title
 
     let pageTitle =
-      pageProps.markdoc?.frontmatter.pageTitle ||
-      `${pageProps.markdoc?.frontmatter.title} - Docs`
+      pageProps.markdoc?.frontmatter.pageTitle || `${pageProps.markdoc?.frontmatter.title} - Docs`
 
     let description = pageProps.markdoc?.frontmatter.description
 
@@ -63,9 +62,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     )
   } else {
     // Use the layout defined at the page level, if available
-    const getLayout = Component.getLayout
-      ? (page: any) => page
-      : getLayoutDefault
+    const getLayout = Component.getLayout ? (page: any) => page : getLayoutDefault
 
     const props = pageProps as any
     return <WrapApp>{getLayout(<Component {...props} />)}</WrapApp>
@@ -82,11 +79,9 @@ function WrapApp({ children, ...props }: { children: ReactElement }) {
       domain={process.env.NEXT_PUBLIC_CID_AUTH_DOMAIN || ''}
       client_id={process.env.NEXT_PUBLIC_CID_AUTH_CLIENT_ID || ''}
       redirect_uri={process.env.NEXT_PUBLIC_CID_AUTH_REDIRECT_URI || ''}
-      post_logout_redirect_uri={
-        process.env.NEXT_PUBLIC_CID_AUTH_LOGOUT_REDIRECT_URI || ''
-      }
+      post_logout_redirect_uri={process.env.NEXT_PUBLIC_CID_AUTH_LOGOUT_REDIRECT_URI || ''}
       audience={['management']}
-      scope={'owner openid email'}
+      scope={'owner openid email create:tenant'}
       cache_type="session_storage"
       onRedirectTo={onRedTo}
     >
