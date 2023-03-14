@@ -5,11 +5,7 @@ import { useIntegrations } from '@/hooks/integrations'
 import { TenantContext } from '@/hooks/tenant'
 import { IApp, IAppConfigureData, IFramework } from '@/types'
 import { Listbox, Transition } from '@headlessui/react'
-import {
-  CheckIcon,
-  ChevronUpDownIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline'
+import { CheckIcon, ChevronUpDownIcon, PlusIcon } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
 import {
   FocusEvent,
@@ -51,10 +47,12 @@ function NewApp({
       <form className="space-y-4" action="#" method="POST">
         <Selector
           disabled
+          hideLabel
           title="Create a new application"
           app={integration}
           setApp={setIntegration}
           apps={integrations}
+          placeholder="Application type"
         />
         <>
           <ConfigureAppInput
@@ -154,36 +152,41 @@ export function ConfigureApp({
           <h2 className="text-base font-semibold leading-6 text-gray-900 dark:text-slate-200">
             Setup an application
           </h2>
-          <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
-            Selecting or creating an ap app will customize code accordingly.
-          </p>
-          <ConfigureAppForm
-            apps={apps}
-            app={app}
-            setApp={setApp}
-            mode={editMode}
-            onSubmit={() => {
-              onSubmit()
-              setEditMode('display')
-            }}
-            onCancel={() => {
-              onCancel()
-              setEditMode('display')
-              setMode('select')
-            }}
-          />
-          {app && editMode === 'display' && (
-            <button
-              className="text-indigo-500"
-              onClick={(e) => {
-                e.preventDefault()
-                setEditMode('edit')
-              }}
-            >
-              edit
-            </button>
+          {apps && !!apps.length && (
+            <>
+              <p className="mt-1 text-sm text-gray-500 dark:text-slate-400">
+                Selecting or creating an ap app will customize code accordingly.
+              </p>
+              <ConfigureAppForm
+                apps={apps}
+                app={app}
+                setApp={setApp}
+                mode={editMode}
+                onSubmit={() => {
+                  onSubmit()
+                  setEditMode('display')
+                }}
+                onCancel={() => {
+                  onCancel()
+                  setEditMode('display')
+                  setMode('select')
+                }}
+              />
+
+              {app && editMode === 'display' && (
+                <button
+                  className="text-indigo-500"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setEditMode('edit')
+                  }}
+                >
+                  edit
+                </button>
+              )}
+              <span className="text-gray-500 dark:text-slate-400">{' or '}</span>
+            </>
           )}
-          <span className="text-gray-500 dark:text-slate-400">{' or '}</span>
           <button
             className="text-indigo-500"
             onClick={(e) => {
@@ -360,8 +363,7 @@ export function ConfigureAppInput({
   required?: boolean
   setValue: (s: string) => void
 }) {
-  const handleFocus = (event: FocusEvent<HTMLInputElement>) =>
-    event.target.select()
+  const handleFocus = (event: FocusEvent<HTMLInputElement>) => event.target.select()
 
   return (
     <div>
@@ -380,9 +382,7 @@ export function ConfigureAppInput({
           onFocus={handleFocus}
           className="form-input block w-full rounded-md border-gray-300 py-3 px-4 placeholder-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-800 dark:focus:border-sky-500 dark:focus:ring-sky-500"
         />
-        {required && !value ? (
-          <span className="text-sm text-red-600">Required</span>
-        ) : null}
+        {required && !value ? <span className="text-sm text-red-600">Required</span> : null}
       </div>
     </div>
   )
@@ -390,7 +390,6 @@ export function ConfigureAppInput({
 
 type selectorApp = IApp | Integration | null
 
-const placeholder = 'Select an app'
 export function Selector({
   title = '',
   app,
@@ -399,6 +398,7 @@ export function Selector({
   disabled,
   showStatus = false,
   hideLabel,
+  placeholder = 'Select an app',
 }: {
   title?: string
   app: selectorApp
@@ -407,19 +407,12 @@ export function Selector({
   disabled?: boolean
   showStatus?: boolean
   hideLabel?: boolean
+  placeholder?: string
 }) {
   return (
     <>
-      {!hideLabel && (
-        <label className="block text-sm font-medium text-gray-700">
-          Select app
-        </label>
-      )}
-      <Listbox
-        defaultValue={app}
-        onChange={(a: selectorApp) => setApp(a)}
-        disabled={disabled}
-      >
+      {!hideLabel && <label className="block text-sm font-medium text-gray-700">Select app</label>}
+      <Listbox defaultValue={app} onChange={(a: selectorApp) => setApp(a)} disabled={disabled}>
         {({ open }) => (
           <>
             <div className="relative mt-1">
@@ -439,15 +432,10 @@ export function Selector({
                       )}
                     />
                   )}
-                  <span className="ml-3 block truncate">
-                    {app?.displayName || placeholder}
-                  </span>
+                  <span className="ml-3 block truncate">{app?.displayName || placeholder}</span>
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                  <ChevronUpDownIcon
-                    className="h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
+                  <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                 </span>
               </Listbox.Button>
 
@@ -464,9 +452,7 @@ export function Selector({
                       key={app?.id}
                       className={({ active }) =>
                         clsx(
-                          active
-                            ? 'bg-indigo-600 text-white dark:bg-sky-800'
-                            : 'text-gray-900',
+                          active ? 'bg-indigo-600 text-white dark:bg-sky-800' : 'text-gray-900',
                           'relative cursor-default select-none py-2 pl-3 pr-9'
                         )
                       }
@@ -503,16 +489,11 @@ export function Selector({
                           {selected ? (
                             <span
                               className={clsx(
-                                active
-                                  ? 'text-white'
-                                  : 'text-indigo-600 dark:text-sky-600',
+                                active ? 'text-white' : 'text-indigo-600 dark:text-sky-600',
                                 'absolute inset-y-0 right-0 flex items-center pr-4'
                               )}
                             >
-                              <CheckIcon
-                                className="h-5 w-5"
-                                aria-hidden="true"
-                              />
+                              <CheckIcon className="h-5 w-5" aria-hidden="true" />
                             </span>
                           ) : null}
                         </>
@@ -606,8 +587,7 @@ export function AppConfigurator({
       revision: formerClient.client.meta.revision,
     }
 
-    const { post_logout_redirect_uris, allowed_cors_origins } =
-      formerClient.client
+    const { post_logout_redirect_uris, allowed_cors_origins } = formerClient.client
 
     if (app?.loginUri !== formerClient.client.redirect_uris[0]) {
       patch.Operations.push({
@@ -693,10 +673,7 @@ export function AppConfigurator({
     setApp(formerApp)
   }
 
-  async function createApp(
-    configurationData: IAppConfigureData,
-    onSuccess: Function
-  ) {
+  async function createApp(configurationData: IAppConfigureData, onSuccess: Function) {
     if (!integration) {
       return
     }
@@ -753,12 +730,8 @@ export function AppConfigurator({
         onNewAppCancel={() => clearErrors()}
         onCreateApp={createApp}
       />
-      {!!patchError && (
-        <span className="text-sm text-red-600">{formatError(patchError)}</span>
-      )}
-      {!!newAppError && (
-        <span className="text-sm text-red-600">{formatError(newAppError)}</span>
-      )}
+      {!!patchError && <span className="text-sm text-red-600">{formatError(patchError)}</span>}
+      {!!newAppError && <span className="text-sm text-red-600">{formatError(newAppError)}</span>}
     </div>
   )
 }

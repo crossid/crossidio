@@ -10,6 +10,7 @@ import {
 import clsx from 'clsx'
 import useTenant, { Tenant, TenantContext } from '@/hooks/tenant'
 import { useContext, useEffect, useRef, useState } from 'react'
+import { CreateTenantButton } from './CreateTenant'
 
 const MenuItems = ({
   tenant,
@@ -158,6 +159,17 @@ export default function TenantDropdown() {
 
   const defaultMode = () => {
     setMode('default')
+  }
+
+  if (!tenant) {
+    return (
+      <CreateTenantButton
+        onTenantCreated={() => {}}
+        className='className="border-1 Sbold dark:focus:ring-offset-slate-900" ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-semibold leading-4 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-sky-500'
+      >
+        Create Tenant
+      </CreateTenantButton>
+    )
   }
 
   return (

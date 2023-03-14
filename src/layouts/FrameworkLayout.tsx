@@ -39,6 +39,7 @@ import DownloadSampleButton from '@/components/DownloadSample'
 import { FrameworkApiRefLink } from '@/components/markdoc/FrameworkApiRefLink'
 import { scroll } from '@/utils/scroll'
 import { useRouter } from 'next/router'
+import { CreateTenantButton } from '@/components/CreateTenant'
 
 const Heading: React.FC<
   {
@@ -78,15 +79,8 @@ const components = {
 type Comp = 'code' | 'configure-app'
 
 export default function Layout(props: IProps) {
-  const {
-    articleContent,
-    codes,
-    frameworkMeta,
-    framework,
-    articleFrontmatter,
-    host,
-    timeToRead,
-  } = props
+  const { articleContent, codes, frameworkMeta, framework, articleFrontmatter, host, timeToRead } =
+    props
   const { loginWithRedirect, signupWithRedirect, idToken } = useAuth()
   const { fields, setField, setFields } = useContext(FieldsContext)
   const { tenant, setApp } = useContext(TenantContext)
@@ -122,22 +116,18 @@ export default function Layout(props: IProps) {
           <meta name="description" content={articleFrontmatter.description} />
         )}
         {articleFrontmatter.description && (
-          <meta
-            name="og:description"
-            content={articleFrontmatter.description}
-          />
+          <meta name="og:description" content={articleFrontmatter.description} />
         )}
         <meta name="og:url" content={`${host}/docs/frameworks/${framework}`} />
         {/*TODO og:image and twitter:image */}
         <meta property="og:type" content="article" />
-        <meta
-          property="article:tag"
-          content={`${articleFrontmatter.tags.join(',')}`}
-        />
-        <meta
-          property="article:author"
-          content={`https://github.com/${articleFrontmatter.authors[0].github}`}
-        />
+        <meta property="article:tag" content={`${articleFrontmatter.tags?.join(',')}`} />
+        {articleFrontmatter.authors && articleFrontmatter.authors.length && (
+          <meta
+            property="article:author"
+            content={`https://github.com/${articleFrontmatter.authors[0].github}`}
+          />
+        )}
         {articleFrontmatter.date && (
           <meta
             property="article:published_time"
@@ -204,10 +194,7 @@ export default function Layout(props: IProps) {
           </div>
           <div className="sticky top-40 hidden grid-cols-1 gap-4 xl:grid">
             {comp === 'configure-app' && !idToken && (
-              <LoginOrSignup
-                loginFunc={loginWithRedirect}
-                signupFunc={signupWithRedirect}
-              />
+              <LoginOrSignup loginFunc={loginWithRedirect} signupFunc={signupWithRedirect} />
             )}
             {idToken && (
               <>
@@ -223,22 +210,25 @@ export default function Layout(props: IProps) {
                     </a>
                   </div>
                 )}
-                <AppConfigurator
-                  className={clsx(comp !== 'configure-app' && 'hidden')}
-                  framework={frameworkMeta}
-                  onChange={(app) => {
-                    if (app) {
-                      setFields({
-                        app: app,
-                        client_id: app.clientId,
-                        login_redirect_uri: app.loginUri,
-                        logout_redirect_uri: app.logoutUri,
-                        cors_origin: app.corsOrigin,
-                      })
-                      setApp(app)
-                    }
-                  }}
-                />
+                {tenant && (
+                  <AppConfigurator
+                    className={clsx(comp !== 'configure-app' && 'hidden')}
+                    framework={frameworkMeta}
+                    onChange={(app) => {
+                      if (app) {
+                        setFields({
+                          app: app,
+                          client_id: app.clientId,
+                          login_redirect_uri: app.loginUri,
+                          logout_redirect_uri: app.logoutUri,
+                          cors_origin: app.corsOrigin,
+                        })
+                        setApp(app)
+                      }
+                    }}
+                  />
+                )}
+                {!tenant && <CreateTenant />}
               </>
             )}
             {comp === 'code' && (
@@ -273,9 +263,7 @@ function Code({
   fields: Record<string, any>
   showLineNumbers?: boolean
 }) {
-  const [activeFilename, setActiveFilename] = useState<string | undefined>(
-    currentFileName
-  )
+  const [activeFilename, setActiveFilename] = useState<string | undefined>(currentFileName)
   const [code, setCode] = useState<ICode>()
   const [resolvedCode, setResolvedCode] = useState('')
 
@@ -286,9 +274,7 @@ function Code({
   }, [currentFileName])
 
   useIsomorphicLayoutEffect(() => {
-    let singleCode = codes.filter(
-      (c) => c.frontmatter.name === activeFilename
-    )[0]
+    let singleCode = codes.filter((c) => c.frontmatter.name === activeFilename)[0]
     setCode(singleCode)
     setResolvedCode(resolve(singleCode, fields))
   }, [activeFilename, fields.client_id])
@@ -320,9 +306,7 @@ function Code({
                 type="button"
                 className={clsx(
                   'relative py-2 px-3',
-                  tab === activeFilename
-                    ? 'text-sky-300'
-                    : 'hover:text-slate-300'
+                  tab === activeFilename ? 'text-sky-300' : 'hover:text-slate-300'
                 )}
                 onClick={() => setActiveFilename(tab)}
               >
@@ -341,18 +325,12 @@ function Code({
             if (resolvedCode) navigator.clipboard.writeText(resolvedCode)
           }}
         >
-          <DocumentDuplicateIcon
-            className="-ml-0.5 mr-2 h-4 w-4"
-            aria-hidden="true"
-          />
+          <DocumentDuplicateIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
           Copy
         </button>
         <div className="absolute inset-x-0 bottom-0 h-px bg-slate-500/30" />
       </div>
-      <div
-        id="code-container"
-        className={'flex min-h-0 w-full flex-auto overflow-auto'}
-      >
+      <div id="code-container" className={'flex min-h-0 w-full flex-auto overflow-auto'}>
         {resolvedCode && (
           <Highlight
             {...defaultProps}
@@ -400,10 +378,7 @@ function Code({
                     return (
                       <div key={lineIndex} {...lineProps}>
                         {line.map((token, tokenIndex) => (
-                          <span
-                            key={tokenIndex}
-                            {...getTokenProps({ token })}
-                          />
+                          <span key={tokenIndex} {...getTokenProps({ token })} />
                         ))}
                       </div>
                     )
@@ -513,17 +488,11 @@ function LoginOrSignup({
     <div className="py-24 px-6 sm:px-6 sm:py-32 lg:px-8">
       <div className="mx-auto max-w-xl text-center">
         <h3 className="text-3xl font-normal tracking-tight">
-          <button
-            onClick={() => loginFunc({})}
-            className="text-indigo-500 dark:text-sky-500"
-          >
+          <button onClick={() => loginFunc({})} className="text-indigo-500 dark:text-sky-500">
             Login
           </button>{' '}
           your account or{' '}
-          <button
-            onClick={() => signupFunc({})}
-            className="text-indigo-500 dark:text-sky-500"
-          >
+          <button onClick={() => signupFunc({})} className="text-indigo-500 dark:text-sky-500">
             signup
           </button>{' '}
           a new account to configure your app directly from this tour.
@@ -541,6 +510,30 @@ function LoginOrSignup({
           >
             Login
           </button>{' '}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CreateTenant() {
+  return (
+    <div className="py-24 px-6 sm:px-6 sm:py-32 lg:px-8">
+      <div className="mx-auto max-w-xl text-center">
+        <h3 className="text-4xl font-normal tracking-tight">
+          To configure an app you need to{' '}
+          <CreateTenantButton className="text-indigo-500" onTenantCreated={() => {}}>
+            create a tenant
+          </CreateTenantButton>{' '}
+          first.
+        </h3>
+        <div className="mt-10 flex items-center justify-center gap-x-6">
+          <CreateTenantButton
+            className="rounded-md bg-indigo-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-sky-600 dark:hover:bg-sky-700"
+            onTenantCreated={() => {}}
+          >
+            Create
+          </CreateTenantButton>{' '}
         </div>
       </div>
     </div>
@@ -580,20 +573,14 @@ function NavBar({
     <Disclosure as="nav" className="bg-white dark:bg-slate-900">
       {({ open }) => (
         <>
-          <div
-            ref={scrollerRef}
-            className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-          >
+          <div ref={scrollerRef} className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 justify-between">
               <div className="flex">
                 <div className="flex flex-shrink-0 items-center">
                   <Logo />
                 </div>
                 <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                  <Menu
-                    as="div"
-                    className="relative  items-center px-1 pt-1 text-sm font-medium"
-                  >
+                  <Menu as="div" className="relative  items-center px-1 pt-1 text-sm font-medium">
                     <div>
                       <Menu.Button className="inline-flex text-lg font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-white dark:ring-offset-slate-900 dark:focus:ring-sky-500">
                         <span className="sr-only">Open sections</span>
@@ -643,31 +630,27 @@ function NavBar({
                 </div>
               </div>
               <div className="hidden sm:ml-6 sm:flex sm:items-center">
-                <div className="flex-shrink-0">
-                  <a
-                    href={frameworkMeta.sample_repo.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    type="button"
-                    className="mr-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:ring-offset-slate-900 dark:focus:ring-sky-500"
-                  >
-                    <Icon
-                      icon="github"
-                      color="gray"
-                      className="-ml-1 mr-2 h-5 w-5"
+                {frameworkMeta.sample_repo && (
+                  <div className="flex-shrink-0">
+                    <a
+                      href={frameworkMeta.sample_repo.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      type="button"
+                      className="mr-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:ring-offset-slate-900 dark:focus:ring-sky-500"
+                    >
+                      <Icon icon="github" color="gray" className="-ml-1 mr-2 h-5 w-5" />
+                      <span>Samples Repo</span>
+                    </a>
+                    <DownloadSampleButton
+                      repoName={`${frameworkMeta.sample_repo.owner}/${frameworkMeta.sample_repo.name}`}
+                      folderName={
+                        frameworkMeta.sample_repo.folders.filter((f) => f.type === 'auth')[0].name
+                      }
+                      className="relative inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-sky-500 dark:ring-offset-slate-900 dark:hover:bg-sky-700 dark:focus:ring-sky-500"
                     />
-                    <span>Samples Repo</span>
-                  </a>
-                  <DownloadSampleButton
-                    repoName={`${frameworkMeta.sample_repo.owner}/${frameworkMeta.sample_repo.name}`}
-                    folderName={
-                      frameworkMeta.sample_repo.folders.filter(
-                        (f) => f.type === 'auth'
-                      )[0].name
-                    }
-                    className="relative inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-sky-500 dark:ring-offset-slate-900 dark:hover:bg-sky-700 dark:focus:ring-sky-500"
-                  />
-                </div>
+                  </div>
+                )}
               </div>
               <div className="-mr-2 flex items-center sm:hidden">
                 {/* Mobile menu button */}
@@ -702,24 +685,26 @@ function NavBar({
               ))}
             </div>
             <div className="border-t border-gray-200 pt-4 pb-3">
-              <div className="mt-3 space-y-1">
-                <Disclosure.Button
-                  as="a"
-                  href={frameworkMeta.sample_repo.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
-                >
-                  Repo
-                </Disclosure.Button>
-                {/* <Disclosure.Button
+              {frameworkMeta.sample_repo && (
+                <div className="mt-3 space-y-1">
+                  <Disclosure.Button
+                    as="a"
+                    href={frameworkMeta.sample_repo.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
+                  >
+                    Repo
+                  </Disclosure.Button>
+                  {/* <Disclosure.Button
                   as="a"
                   href="#"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800"
                 >
                   Download Sample
                 </Disclosure.Button> */}
-              </div>
+                </div>
+              )}
             </div>
           </Disclosure.Panel>
         </>

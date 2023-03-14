@@ -4,7 +4,7 @@ import useTenant, { Tenant, TenantContext } from '@/hooks/tenant'
 import { Env, ITenant, Region } from '@/types'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import clsx from 'clsx'
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useContext, useEffect, useState } from 'react'
 import {
   useForm,
   SubmitHandler,
@@ -17,6 +17,7 @@ import {
 import { formatError } from '@/utils/error'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { crossidPublicDomain } from '@/utils/location'
 
 type Inputs = {
   tenantId: string
@@ -24,10 +25,39 @@ type Inputs = {
   env: Env
 }
 
-export default function CreateTenant({
+export function CreateTenantButton({
+  className,
+  children,
   onTenantCreated,
 }: {
+  className: string
+  children: string
   onTenantCreated: (t: ITenant) => void
+}) {
+  const [showModal, setShowModal] = useState(false)
+
+  return (
+    <>
+      <CreateTenant
+        onTenantCreated={onTenantCreated}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+      <button className={className} onClick={() => setShowModal(true)}>
+        {children}
+      </button>
+    </>
+  )
+}
+
+export default function CreateTenant({
+  onTenantCreated,
+  showModal,
+  setShowModal,
+}: {
+  onTenantCreated: (t: ITenant) => void
+  showModal: boolean
+  setShowModal: Dispatch<SetStateAction<boolean>>
 }) {
   const { setTenant } = useContext(TenantContext)
   const { create, get } = useTenant()
@@ -81,7 +111,13 @@ export default function CreateTenant({
 
   return (
     <>
-      <CreateTenantModal onSubmit={onSubmit} submitting={submitting} error={error} />
+      <CreateTenantModal
+        onSubmit={onSubmit}
+        submitting={submitting}
+        error={error}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </>
   )
 }
@@ -90,13 +126,15 @@ export function CreateTenantModal({
   onSubmit,
   submitting,
   error,
+  showModal,
+  setShowModal,
 }: {
   onSubmit: SubmitHandler<Inputs>
   submitting: boolean
   error?: string
+  showModal: boolean
+  setShowModal: Dispatch<SetStateAction<boolean>>
 }) {
-  const [showModal, setShowModal] = useState(true)
-
   const {
     register,
     handleSubmit,
@@ -220,6 +258,7 @@ function CreateTenantForm({
 }) {
   const env = watch('env')
   const region = watch('region')
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <div className="sm:col-span-3">
@@ -237,7 +276,7 @@ function CreateTenantForm({
           />
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <span className="text-gray-500 sm:text-sm" id="tenant-region">
-              DOMAIN
+              {region.toLocaleLowerCase()}.{crossidPublicDomain()}
             </span>
           </div>
         </div>

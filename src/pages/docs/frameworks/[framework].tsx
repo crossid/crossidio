@@ -2,11 +2,7 @@ import path from 'path'
 import glob from 'glob-promise'
 import fs from 'fs'
 import { pathToSlug } from '@/utils/fsystem'
-import {
-  GetStaticProps,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next'
+import { GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import Markdoc, { Config, RenderableTreeNode } from '@markdoc/markdoc'
 import yaml from 'js-yaml'
 import { authors } from '@/data/authors'
@@ -15,11 +11,7 @@ import { Tag } from '@markdoc/markdoc'
 import { ReactElement } from 'react'
 import { IFramework } from '@/types'
 import { getHost } from '@/utils/location'
-import {
-  normalizeTokens,
-  simplifyToken,
-  tokenizeCode,
-} from '@/utils/prism/token'
+import { normalizeTokens, simplifyToken, tokenizeCode } from '@/utils/prism/token'
 import { ICodeLang } from '@/utils/prism/types'
 import { highlight } from '@/utils/prism/highlight'
 import { FieldProvider } from '@/hooks/useFieldsContext'
@@ -75,10 +67,7 @@ export interface ICode {
   sections: Record<string, number[]>
 }
 
-function generateID(
-  children: RenderableTreeNode[],
-  attributes: Record<string, any>
-) {
+function generateID(children: RenderableTreeNode[], attributes: Record<string, any>) {
   if (attributes.id && typeof attributes.id === 'string') {
     return attributes.id
   }
@@ -107,20 +96,15 @@ export const getStaticProps: GetStaticProps<IProps> = async (
   // load the raframework metadata
   //
   const fwMetaFileName = path.join(dir, framework + '/index.yml')
-  const fwMeta = yaml.load(
-    fs.readFileSync(fwMetaFileName, 'utf-8')
-  ) as IFramework
+  const fwMeta = yaml.load(fs.readFileSync(fwMetaFileName, 'utf-8')) as IFramework
 
   // Use Markdoc to create a tree of tokens based on the Markdown file
   const ast = Markdoc.parse(source)
   const config = await createConfig(fwMeta)
   const articleContent = JSON.stringify(Markdoc.transform(ast, config))
-  const frontmatter = yaml.load(ast.attributes.frontmatter) as Record<
-    string,
-    any
-  >
-  frontmatter.authors = frontmatter.authors?.map((a: string) => authors[a])
-  frontmatter.date = frontmatter.date.getTime()
+  const frontmatter = yaml.load(ast.attributes.frontmatter) as Record<string, any>
+  if (frontmatter.authors) frontmatter.authors = frontmatter.authors?.map((a: string) => authors[a])
+  if (frontmatter.date) frontmatter.date = frontmatter.date.getTime()
 
   // load code
   //
@@ -128,9 +112,7 @@ export const getStaticProps: GetStaticProps<IProps> = async (
   const codes = codePaths.map((fwPath): ICode => {
     const source = fs.readFileSync(fwPath, 'utf-8')
     const ast = Markdoc.parse(source)
-    const frontmatter = yaml.load(
-      ast.attributes.frontmatter
-    ) as ICodeFrontmatter
+    const frontmatter = yaml.load(ast.attributes.frontmatter) as ICodeFrontmatter
     const { lang } = frontmatter
     const codeOrg = ast.children[0].attributes.content
 
@@ -273,9 +255,7 @@ async function createConfig(fwMeta: IFramework): Promise<Config> {
   return config
 }
 
-export default function Page(
-  props: InferGetStaticPropsType<typeof getStaticProps>
-) {
+export default function Page(props: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <FieldProvider>
       <FrameworkLayout {...props} />

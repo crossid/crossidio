@@ -1,6 +1,7 @@
 import { createContext, useCallback, useEffect, useState } from 'react'
 import { useAuth } from '@crossid/crossid-react'
 import { Env, IApp, ITenant, Region } from '@/types'
+import { crossidPublicDomain } from '@/utils/location'
 
 type provisioningStatus = 'completed' | 'fatal' | 'started'
 
@@ -23,10 +24,6 @@ interface tenantCreationPayload {
   type: string
   regionCode: Region
   environmentTag?: Env
-}
-
-function tenantDomain() {
-  return process.env.NEXT_PUBLIC_DOMAIN
 }
 
 export default function useTenant(): {
@@ -57,7 +54,7 @@ export default function useTenant(): {
           const respJson = await resp.json()
 
           respJson.Resources.forEach(
-            (t: Tenant) => (t.domains = [`${t.id}.${t.regionCode.toLowerCase()}.${tenantDomain()}`])
+            (t: Tenant) => (t.domains = [`${t.id}.${t.regionCode.toLowerCase()}.${crossidPublicDomain()}`])
           )
           setList(respJson.Resources)
         }
@@ -157,7 +154,7 @@ export function prepareAudience(tenant?: Tenant | null): string[] {
   const audience = [
     'management',
     tenant.id,
-    `https://${tenant.id}.${tenant.regionCode.toLocaleLowerCase()}.${tenantDomain()}/oauth2/token`,
+    `https://${tenant.id}.${tenant.regionCode.toLocaleLowerCase()}.${crossidPublicDomain()}/oauth2/token`,
   ]
 
   return audience

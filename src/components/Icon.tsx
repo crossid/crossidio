@@ -36,8 +36,7 @@ const iconsViewBox = {
 
 const iconStyles = {
   blue: '[--icon-foreground:theme(colors.slate.900)] [--icon-background:theme(colors.white)]',
-  amber:
-    '[--icon-foreground:theme(colors.amber.900)] [--icon-background:theme(colors.amber.100)]',
+  amber: '[--icon-foreground:theme(colors.amber.900)] [--icon-background:theme(colors.amber.100)]',
   gray: '[--icon-foreground:theme(colors.gray.900)] [--icon-background:theme(colors.gray.100)]',
 }
 
@@ -53,6 +52,11 @@ export function Icon({
 }) {
   let id = useId()
   let IconComponent = icons[icon]
+
+  if (!IconComponent) {
+    console.warn(`no icon found for ${icon}`)
+    return null
+  }
 
   return (
     <svg

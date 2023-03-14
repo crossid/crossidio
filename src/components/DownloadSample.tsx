@@ -61,9 +61,7 @@ export default function DownloadSampleButton({
     if (!!app) {
       data = Object.assign(data, app)
       // must be a get request, so I send the data in the query param as base64 encoded object
-      const base64 = Buffer.from(
-        JSON.stringify(appDataToBackendData(data))
-      ).toString('base64')
+      const base64 = Buffer.from(JSON.stringify(appDataToBackendData(data))).toString('base64')
       baseUrl += `?data=${base64}`
     }
 
@@ -98,10 +96,7 @@ export default function DownloadSampleButton({
     <>
       {idToken && (
         <button className={className} onClick={openModal}>
-          <ArrowDownTrayIcon
-            className="-ml-1 mr-2 h-5 w-5"
-            aria-hidden="true"
-          />
+          <ArrowDownTrayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
           <span>Download Example</span>
         </button>
       )}
@@ -117,10 +112,7 @@ export default function DownloadSampleButton({
             })
           }
         >
-          <ArrowRightOnRectangleIcon
-            className="-ml-1 mr-2 h-5 w-5"
-            aria-hidden="true"
-          />
+          <ArrowRightOnRectangleIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
           <span>Login to Download Sample</span>
         </button>
       )}
@@ -168,20 +160,12 @@ export default function DownloadSampleButton({
                     >
                       Select an application to configure the sample accordingly.
                     </Dialog.Title>
-                    <Dialog.Title
-                      as="h2"
-                      className="pb-8 text-sm font-medium text-gray-400"
-                    >
+                    <Dialog.Title as="h2" className="pb-8 text-sm font-medium text-gray-400">
                       Code will be downloaded from the github sample repo.
                     </Dialog.Title>
                   </div>
 
-                  <Selector
-                    app={app || null}
-                    setApp={setApp}
-                    apps={apps}
-                    showStatus
-                  />
+                  <Selector app={app || null} setApp={setApp} apps={apps} showStatus />
                   <>
                     <ConfigureAppInput
                       title="Client ID"
@@ -220,10 +204,7 @@ export default function DownloadSampleButton({
                       onClick={downloadExample}
                       className={className}
                     >
-                      <ArrowDownTrayIcon
-                        className="-ml-1 mr-2 h-5 w-5"
-                        aria-hidden="true"
-                      />
+                      <ArrowDownTrayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
                       <span>Download</span>
                     </button>
                   </div>
