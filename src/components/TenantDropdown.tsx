@@ -76,10 +76,7 @@ const ListTenants = ({
     <>
       <div className="px-4 py-3">
         <div className="flex">
-          <ArrowLeftIcon
-            onClick={defaultMode}
-            className="h-4 w-4 flex-none cursor-pointer"
-          />
+          <ArrowLeftIcon onClick={defaultMode} className="h-4 w-4 flex-none cursor-pointer" />
           <p className="flex-grow text-center text-sm">Switch Tenant</p>
         </div>
       </div>
@@ -93,10 +90,7 @@ const ListTenants = ({
         <ul>
           {ownedTenants.map((t) => (
             <li key={t.id} onClick={() => setTenant(t)}>
-              <a
-                className="block hover:bg-gray-50 dark:hover:bg-slate-900"
-                href=" #"
-              >
+              <a className="block hover:bg-gray-50 dark:hover:bg-slate-900" href=" #">
                 <div className="flex items-center px-4 py-4 sm:px-6">
                   <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
                     <div className="truncate">
@@ -151,7 +145,7 @@ export default function TenantDropdown() {
   const { setTenant, tenant } = useContext(TenantContext)
 
   useEffect(() => {
-    if (!tenant && ownedTenants.length) {
+    if (tenant === undefined && ownedTenants.length) {
       setTenant(ownedTenants[0])
     }
   }, [ownedTenants, ownedTenants.length, setTenant, tenant])
@@ -177,10 +171,7 @@ export default function TenantDropdown() {
                 className="border-1 Sbold ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-sm leading-4 text-black shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-sky-500 dark:focus:ring-offset-slate-900"
               >
                 {tenant?.id}
-                <ChevronDownIcon
-                  className="ml-2 -mr-0.5 h-4 w-4"
-                  aria-hidden="true"
-                />
+                <ChevronDownIcon className="ml-2 -mr-0.5 h-4 w-4" aria-hidden="true" />
               </Menu.Button>
               {open && (
                 <Menu.Items
@@ -188,10 +179,7 @@ export default function TenantDropdown() {
                   className="absolute right-0 mt-2 h-72 w-72  origin-top-right divide-y divide-gray-100 overflow-scroll rounded-xl bg-white shadow-md shadow-black/5 ring-1 ring-black ring-black/5  ring-opacity-5 focus:outline-none dark:bg-slate-800"
                 >
                   {mode === 'default' && !!tenant && (
-                    <MenuItems
-                      tenant={tenant}
-                      listTenantsMode={listTenantsMode}
-                    />
+                    <MenuItems tenant={tenant} listTenantsMode={listTenantsMode} />
                   )}
                   {mode === 'tenants' && (
                     <ListTenants
