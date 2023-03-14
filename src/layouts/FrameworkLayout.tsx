@@ -104,7 +104,7 @@ export default function Layout(props: IProps) {
 
   useEffect(() => {
     setField('tenant', tenant)
-    setField('tenant_domain', tenant?.domains[0])
+    setField('tenant_domain', (tenant?.domains || [])[0])
   }, [tenant])
 
   return (

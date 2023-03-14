@@ -72,7 +72,7 @@ export default function CreateTenant({
           const t = await get(createdTenant.id)
           if (t.provisioningStatus === 'completed') {
             window.clearInterval(id)
-            setTenant(createdTenant)
+            setTenant(t)
           } else if (t.provisioningStatus === 'fatal') {
             // failed to create the tenant
             window.clearInterval(id)
