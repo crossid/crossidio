@@ -38,7 +38,7 @@ export default function useTenant(): {
     async function fetchList() {
       setListLoading(true)
       try {
-        const act = await getAccessToken()
+        const act = await getAccessToken({ scope: 'email openid' })
         if (!!act) {
           const resp = await fetch(`/api/v1/tenants`, {
             headers: {
@@ -48,10 +48,7 @@ export default function useTenant(): {
           const respJson = await resp.json()
 
           respJson.Resources.forEach(
-            (t: Tenant) =>
-              (t.domains = [
-                `${t.id}.${t.regionCode.toLowerCase()}.${tenantDomain()}`,
-              ])
+            (t: Tenant) => (t.domains = [`${t.id}.${t.regionCode.toLowerCase()}.${tenantDomain()}`])
           )
           setList(respJson.Resources)
         }
@@ -71,14 +68,14 @@ export default function useTenant(): {
 }
 
 type TenantContextProps = {
-  tenant?: Tenant
+  tenant?: Tenant | null
   app?: IApp
   setTenant: Function
   setApp: (app?: IApp) => void
   getAccessToken: () => Promise<string>
 }
 
-export function prepareAudience(tenant?: Tenant): string[] {
+export function prepareAudience(tenant?: Tenant | null): string[] {
   if (!tenant) {
     return ['management']
   }
@@ -86,9 +83,7 @@ export function prepareAudience(tenant?: Tenant): string[] {
   const audience = [
     'management',
     tenant.id,
-    `https://${
-      tenant.id
-    }.${tenant.regionCode.toLocaleLowerCase()}.${tenantDomain()}/oauth2/token`,
+    `https://${tenant.id}.${tenant.regionCode.toLocaleLowerCase()}.${tenantDomain()}/oauth2/token`,
   ]
 
   return audience
@@ -104,7 +99,7 @@ export const TenantContext = createContext<TenantContextProps>({
 
 const TENANT_LOCALSTORAGE_KEY = '__tenant__'
 export function TenantProvider({ children }: { children: React.ReactNode }) {
-  const [tenant, setTenant] = useState<Tenant | undefined>()
+  const [tenant, setTenant] = useState<Tenant | undefined | null>()
   const { loginWithRedirect, getAccessToken } = useAuth()
 
   useEffect(() => {
@@ -114,10 +109,16 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  async function _setTenant(tenant: Tenant | undefined) {
-    localStorage.setItem(TENANT_LOCALSTORAGE_KEY, JSON.stringify(tenant))
-    setTenant(tenant)
-    const audience = prepareAudience(tenant)
+  async function _setTenant(t: Tenant | undefined) {
+    setTenant(t)
+    if (!t) {
+      localStorage.removeItem(TENANT_LOCALSTORAGE_KEY)
+      return
+    } else {
+      localStorage.setItem(TENANT_LOCALSTORAGE_KEY, JSON.stringify(t))
+    }
+
+    const audience = prepareAudience(t)
     const ac = await getAccessToken({ audience })
     if (!ac) {
       loginWithRedirect({

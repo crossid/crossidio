@@ -1,4 +1,4 @@
-import { useRef, Fragment } from 'react'
+import { useRef, Fragment, useContext } from 'react'
 import { Menu, Popover, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { Logo } from './Logo'
@@ -25,6 +25,7 @@ import { MobileNavigation } from './docs/MobileNav'
 import { getCrossidManagementHost } from '@/utils/location'
 import TenantDropdown from './TenantDropdown'
 import { useRouter } from 'next/router'
+import { TenantContext } from '@/hooks/tenant'
 
 const mgmtHost = getCrossidManagementHost()
 
@@ -86,8 +87,7 @@ const blogPosts = [
     id: 2,
     name: 'What is CIAM.',
     href: '/blog/what-is-ciam',
-    preview:
-      'What is CIAM and why you should consider to adopt such a solution into your project.',
+    preview: 'What is CIAM and why you should consider to adopt such a solution into your project.',
     // imageUrl:
     //   'https://www.thousandeyes.com/dA/ffba0ead06/Featured-Image-SCIM-Blog.png',
   },
@@ -115,21 +115,20 @@ export default function Nav({ navigation }: { navigation?: INav }) {
     mobileMenuButtonRef.current?.click()
   }
 
-  let {
-    loginWithRedirect,
-    logoutWithRedirect,
-    idToken,
-    loading: authLoading,
-  } = useAuth()
+  let { loginWithRedirect, logoutWithRedirect, idToken, loading: authLoading } = useAuth()
+
+  const { setTenant } = useContext(TenantContext)
+
+  async function logout() {
+    setTenant(null)
+    logoutWithRedirect({})
+  }
 
   return (
     <Popover className="relative ">
       {({ open }) => (
         <>
-          <div
-            className="pointer-events-none absolute inset-0 z-30"
-            aria-hidden="true"
-          />
+          <div className="pointer-events-none absolute inset-0 z-30" aria-hidden="true" />
           <div className="relative z-20">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1 sm:px-6 sm:py-2 lg:justify-start lg:space-x-10 lg:px-8">
               {/* logo section */}
@@ -180,17 +179,12 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                   key={item.id}
                                   href={item.href}
                                   className="dark:t -m-3 flex flex-col justify-between rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-slate-800"
-                                  onClick={() =>
-                                    featuresButtonRef?.current?.click()
-                                  }
+                                  onClick={() => featuresButtonRef?.current?.click()}
                                 >
                                   <div className="flex md:h-full lg:flex-col">
                                     <div className="flex-shrink-0">
                                       <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-black text-white dark:bg-sky-500 dark:text-slate-900 sm:h-12 sm:w-12">
-                                        <item.icon
-                                          className="h-6 w-6"
-                                          aria-hidden="true"
-                                        />
+                                        <item.icon className="h-6 w-6" aria-hidden="true" />
                                       </span>
                                     </div>
                                     <div className="ml-4 md:flex md:flex-1 md:flex-col md:justify-between lg:ml-0 lg:mt-4">
@@ -203,8 +197,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                         </p>
                                       </div>
                                       <p className="mt-2 text-sm font-medium text-indigo-600 dark:text-sky-500 lg:mt-4">
-                                        Learn more{' '}
-                                        <span aria-hidden="true">&rarr;</span>
+                                        Learn more <span aria-hidden="true">&rarr;</span>
                                       </p>
                                     </div>
                                   </div>
@@ -218,9 +211,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                     <Link
                                       href={item.href}
                                       className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-100 dark:hover:bg-sky-800"
-                                      onClick={() =>
-                                        featuresButtonRef?.current?.click()
-                                      }
+                                      onClick={() => featuresButtonRef?.current?.click()}
                                     >
                                       <item.icon
                                         className="h-6 w-6 flex-shrink-0 text-gray-400 dark:text-slate-800"
@@ -278,18 +269,14 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                       <li key={item.name} className="flow-root">
                                         <Link
                                           href={item.href}
-                                          onClick={() =>
-                                            resourcesButtonRef.current?.click()
-                                          }
+                                          onClick={() => resourcesButtonRef.current?.click()}
                                           className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50 dark:text-slate-500 dark:hover:bg-slate-800"
                                         >
                                           <item.icon
                                             className="h-6 w-6 flex-shrink-0 text-gray-400 dark:text-sky-500"
                                             aria-hidden="true"
                                           />
-                                          <span className="ml-4">
-                                            {item.name}
-                                          </span>
+                                          <span className="ml-4">{item.name}</span>
                                         </Link>
                                       </li>
                                     ))}
@@ -310,9 +297,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                             className="h-6 w-6 flex-shrink-0 text-gray-400"
                                             aria-hidden="true"
                                           />
-                                          <span className="ml-4">
-                                            {item.name}
-                                          </span>
+                                          <span className="ml-4">{item.name}</span>
                                         </Link>
                                       </li>
                                     ))}
@@ -361,8 +346,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                     className="text-indigo-600 hover:text-indigo-500 dark:text-sky-600 dark:hover:text-sky-500"
                                   >
                                     {' '}
-                                    View all posts{' '}
-                                    <span aria-hidden="true">&rarr;</span>
+                                    View all posts <span aria-hidden="true">&rarr;</span>
                                   </Link>
                                 </div>
                               </div>
@@ -457,7 +441,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                           <Menu.Item key="2">
                             {({ active }) => (
                               <a
-                                onClick={() => logoutWithRedirect({})}
+                                onClick={() => logout()}
                                 className={clsx(
                                   active ? 'bg-gray-100' : '',
                                   'block cursor-pointer px-4 py-2 text-sm text-gray-700'
@@ -520,10 +504,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                             className="dark:hover-slate-800 -m-3 flex items-center rounded-lg p-3 hover:bg-gray-50 dark:hover:bg-slate-700"
                           >
                             <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-black text-white dark:bg-slate-800 dark:text-slate-400 sm:h-12 sm:w-12">
-                              <item.icon
-                                className="h-6 w-6"
-                                aria-hidden="true"
-                              />
+                              <item.icon className="h-6 w-6" aria-hidden="true" />
                             </div>
                             <div className="ml-4 text-base font-medium text-gray-900 dark:text-slate-400">
                               {item.title}
@@ -625,7 +606,7 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                       <p className="mt-6 text-center text-base font-medium text-gray-500">
                         <a
                           href="#"
-                          onClick={() => logoutWithRedirect({})}
+                          onClick={() => logout()}
                           className="text-indigo-600 hover:text-indigo-500 dark:text-sky-600 dark:hover:text-sky-600"
                         >
                           Logout
