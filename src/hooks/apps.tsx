@@ -32,7 +32,7 @@ export function useApps() {
       },
     })
 
-    if (resp.status > 299) {
+    if (!resp.ok) {
       throw await resp.json()
     }
 
@@ -55,7 +55,7 @@ export function useApps() {
       },
     })
 
-    if (resp.status > 299) {
+    if (!resp.ok) {
       throw await resp.json()
     }
 
@@ -70,11 +70,11 @@ export function useApps() {
         return
       }
 
+      setLoading(true)
       try {
-        setLoading(true)
-        const act = await getAccessToken()
+        const act = await getAccessToken('owner')
         if (!act) {
-          return
+          throw 'could not fetch app list; failed to get access token'
         }
         const url = `/${tenant.id}/api/v1/apps?count=0&filter=appId ne "iam"`
         const resp = await fetch(`${url}`, {
@@ -83,7 +83,7 @@ export function useApps() {
           },
         })
 
-        if (resp.status > 299) {
+        if (!resp.ok) {
           throw await resp.json()
         }
 
@@ -188,9 +188,7 @@ export function useApps() {
   }
 }
 
-export function tuplesToIApps(
-  appTuples: Record<string, AppReturn> = {}
-): IApp[] {
+export function tuplesToIApps(appTuples: Record<string, AppReturn> = {}): IApp[] {
   return Object.values(appTuples || {}).map<IApp>((at) => {
     const {
       client: {

@@ -46,7 +46,7 @@ function NewApp({
     <div>
       <form className="space-y-4" action="#" method="POST">
         <Selector
-          disabled
+          // disabled
           hideLabel
           title="Create a new application"
           app={integration}

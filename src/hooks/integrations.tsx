@@ -2,9 +2,7 @@ import { Integration } from '@/data/applications'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { TenantContext } from './tenant'
 
-export function useIntegrations(
-  filter: string = 'id in ["singlePageApp", "webApp"]'
-) {
+export function useIntegrations(filter: string = 'id in ["singlePageApp", "webApp"]') {
   const [data, setData] = useState<Integration[] | undefined>(undefined)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
@@ -19,10 +17,11 @@ export function useIntegrations(
 
       try {
         setLoading(true)
-        const act = await getAccessToken()
+        const act = await getAccessToken('owner')
         if (!act) {
-          return
+          throw 'could not fetch integrations list; failed to get access token'
         }
+
         const url = `/${tenant.id}/api/v1/integrations?count=0&filter=${filter}`
         const resp = await fetch(`${url}`, {
           headers: {
@@ -30,12 +29,11 @@ export function useIntegrations(
           },
         })
 
-        if (resp.status > 299) {
+        if (!resp.ok) {
           throw await resp.json()
         }
 
         const { Resources: integrationsList } = await resp.json()
-
         setData(integrationsList)
       } catch (e: any) {
         setError(e)

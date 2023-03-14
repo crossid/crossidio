@@ -54,7 +54,8 @@ export default function useTenant(): {
           const respJson = await resp.json()
 
           respJson.Resources.forEach(
-            (t: Tenant) => (t.domains = [`${t.id}.${t.regionCode.toLowerCase()}.${crossidPublicDomain()}`])
+            (t: Tenant) =>
+              (t.domains = [`${t.id}.${t.regionCode.toLowerCase()}.${crossidPublicDomain()}`])
           )
           setList(respJson.Resources)
         }
@@ -143,7 +144,7 @@ type TenantContextProps = {
   app?: IApp
   setTenant: Function
   setApp: (app?: IApp) => void
-  getAccessToken: () => Promise<string>
+  getAccessToken: (scopes?: string) => Promise<string>
 }
 
 export function prepareAudience(tenant?: Tenant | null): string[] {
@@ -152,9 +153,11 @@ export function prepareAudience(tenant?: Tenant | null): string[] {
   }
 
   const audience = [
-    'management',
     tenant.id,
-    `https://${tenant.id}.${tenant.regionCode.toLocaleLowerCase()}.${crossidPublicDomain()}/oauth2/token`,
+    'management',
+    `https://${
+      tenant.id
+    }.${tenant.regionCode.toLocaleLowerCase()}.${crossidPublicDomain()}/oauth2/token`,
   ]
 
   return audience
@@ -201,9 +204,9 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  async function _getAccessToken() {
+  async function _getAccessToken(scope?: string) {
     const audience = prepareAudience(tenant)
-    return getAccessToken({ audience })
+    return getAccessToken({ audience, scope })
   }
 
   const [app, setApp] = useState<IApp | undefined>()
