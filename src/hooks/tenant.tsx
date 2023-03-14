@@ -74,11 +74,6 @@ export default function useTenant(): {
   const [creating, setCreating] = useState(false)
   const create = useCallback(
     async (payload: tenantCreationPayload) => {
-      // const t = {
-      //   id: 'foobar',
-      //   provisioningStatus: 'started',
-      // }
-      // return new Promise((resolve) => resolve(t))
       setCreating(true)
       try {
         const act = await getAccessToken({ scope: 'create:tenant', audience: ['management'] })
@@ -113,7 +108,7 @@ export default function useTenant(): {
     async (id: string) => {
       setLoadingTenant(true)
       try {
-        const act = await getAccessToken({ audience: ['management'] })
+        const act = await getAccessToken({ audience: ['management'], scope: 'openid email' })
         if (!act) {
           throw 'failed to get access token'
         }

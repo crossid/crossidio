@@ -81,7 +81,7 @@ export default function CreateTenant({
           }
         } catch (err: any) {
           // this is a "get" error
-          setError('failed to get tenant')
+          setError(`failed to get tenant: ${err.toString()}`)
           setCreatedTenant(undefined)
         }
       }
