@@ -72,6 +72,7 @@ export default function CreateTenant({
           const t = await get(createdTenant.id)
           if (t.provisioningStatus === 'completed') {
             window.clearInterval(id)
+            setCreatedTenant(undefined)
             setTenant(t)
           } else if (t.provisioningStatus === 'fatal') {
             // failed to create the tenant
@@ -82,6 +83,7 @@ export default function CreateTenant({
         } catch (err: any) {
           // this is a "get" error
           setError(`failed to get tenant: ${err.toString()}`)
+          window.clearInterval(id)
           setCreatedTenant(undefined)
         }
       }
@@ -91,6 +93,7 @@ export default function CreateTenant({
   }, [createdTenant, get, setTenant])
 
   async function onSubmit({ region, env, tenantId }: Inputs) {
+    setError('')
     try {
       setSubmitting(true)
       const createdTenant = await create({
@@ -113,7 +116,7 @@ export default function CreateTenant({
     <>
       <CreateTenantModal
         onSubmit={onSubmit}
-        submitting={submitting}
+        submitting={submitting || !!createdTenant}
         error={error}
         showModal={showModal}
         setShowModal={setShowModal}
