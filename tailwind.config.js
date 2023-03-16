@@ -77,6 +77,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('@savvywombat/tailwindcss-grid-areas'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/forms')({ strategy: 'class' }),

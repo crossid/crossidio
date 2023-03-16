@@ -79,7 +79,7 @@ export function Link({
 }: {
   className?: string
   href: string
-  color: 'gray' | 'pink' | 'sky' | 'blue' | 'gray'
+  color: 'gray' | 'pink' | 'sky' | 'blue' | 'gray' | 'indigo'
   darkColor: 'gray' | 'sky'
   children: React.ReactNode
 }) {

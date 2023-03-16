@@ -20,12 +20,12 @@ export function GridLockup({
   beams = 0,
 }: {
   left: ReactElement
-  right: ReactElement
+  right?: ReactElement
   className: string
   beams: number
   overhang: IOverhan
-  leftProps: {}
-  rightProps: {}
+  leftProps?: {}
+  rightProps?: {}
 }) {
   return (
     <GridLockup.Container

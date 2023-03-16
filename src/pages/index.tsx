@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import Head from 'next/head'
 import { NextPageWithLayout } from './_app'
 import styles from './index.module.css'
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
 import { Hero } from '@/components/home/Hero'
 import Nav from '@/components/Nav'
 import Link from 'next/link'
@@ -10,6 +10,8 @@ import { StartNow } from '@/components/home/StartNow'
 import ReadyToTry from '@/components/home/ReadyToTry'
 import Footer from '@/components/Footer'
 import { Frameworks } from '@/components/home/Frameworks'
+import { DigitalOcean } from '@/components/home/DigitalOcean'
+import Banner from '@/components/home/Banner'
 
 function Header() {
   return (
@@ -52,8 +54,8 @@ function Header() {
             into your apps.
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-center text-lg text-slate-600 dark:text-slate-400">
-            More than authentication, rapidly integrate a complete user
-            management into your websites and apps.
+            More than authentication, rapidly integrate a complete user management into your
+            websites and apps.
           </p>
           <div className="mt-6 flex justify-center space-x-6 text-sm sm:mt-10">
             <Link
@@ -78,22 +80,17 @@ function Header() {
 }
 
 const Page: NextPageWithLayout = () => {
+  const [banner, setBanner] = useState(true)
+
   return (
     <>
       <Head>
-        <meta
-          key="twitter:title"
-          name="twitter:title"
-          content="Crossid - Modern identity."
-        />
-        <meta
-          key="og:title"
-          property="og:title"
-          content="Crossid - Modern identity."
-        />
+        <meta key="twitter:title" name="twitter:title" content="Crossid - Modern identity." />
+        <meta key="og:title" property="og:title" content="Crossid - Modern identity." />
         <title>Crossid - A login box that your customers will love.</title>
       </Head>
       <div className="mb-20 overflow-hidden sm:mb-32 md:mb-40">
+        {banner && <Banner onClose={() => setBanner(false)} />}
         <Header />
         <section className="mt-20 px-8 text-center sm:mt-32 md:mt-40">
           <h2 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
@@ -102,9 +99,8 @@ const Page: NextPageWithLayout = () => {
           <figure>
             <blockquote>
               <p className="mx-auto mt-6 max-w-3xl text-lg">
-                Managing users and authentication flows securely is a big
-                challenge, we have built it for you, so you can spend your time
-                focusing on building your business logic.
+                Managing users and authentication flows securely is a big challenge, we have built
+                it for you, so you can spend your time focusing on building your business logic.
               </p>
             </blockquote>
           </figure>
@@ -112,6 +108,7 @@ const Page: NextPageWithLayout = () => {
       </div>
       <div className="mb-20 flex flex-col gap-y-20 overflow-hidden pt-20 sm:mb-32 sm:gap-y-32 sm:pt-32 md:mb-40 md:gap-y-40 md:pt-40">
         <Frameworks />
+        <DigitalOcean />
         <ReadyToTry />
         <StartNow />
       </div>

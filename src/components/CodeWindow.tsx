@@ -117,6 +117,7 @@ CodeWindow.Code2 = forwardRef<HTMLDivElement, Code2Props>(function Code(
                 'overflow-auto': overflow === true || overflow === 'x',
                 'whitespace-pre-wrap': wrap,
                 'p-4': showLineNumbers,
+                'p-2': !showLineNumbers,
               },
               language && `language-${language}`
             )}
