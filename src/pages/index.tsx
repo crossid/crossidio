@@ -54,8 +54,7 @@ function Header() {
             into your apps.
           </h1>
           <p className="mx-auto mt-6 max-w-3xl text-center text-lg text-slate-600 dark:text-slate-400">
-            More than authentication, rapidly integrate a complete user management into your
-            websites and apps.
+            Rapidly integrate a complete user management into your websites and apps.
           </p>
           <div className="mt-6 flex justify-center space-x-6 text-sm sm:mt-10">
             <Link
