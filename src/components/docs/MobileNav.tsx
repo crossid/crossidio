@@ -75,11 +75,7 @@ export function MobileNavigation({ navigation }: { navigation: INav }) {
       >
         <Dialog.Panel className="min-h-full w-full max-w-xs bg-white px-4 pt-5 pb-12 dark:bg-slate-900 sm:px-6">
           <div className="flex items-center">
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close navigation"
-            >
+            <button type="button" onClick={() => setIsOpen(false)} aria-label="Close navigation">
               <CloseIcon className="h-6 w-6 stroke-slate-500" />
             </button>
             <Link href="/" className="ml-6" aria-label="Home page">

@@ -97,9 +97,7 @@ export function simplifyToken(token: any) {
   if (typeof token === 'string') return token
   return [
     token.type,
-    Array.isArray(token.content)
-      ? token.content.map(simplifyToken)
-      : token.content,
+    Array.isArray(token.content) ? token.content.map(simplifyToken) : token.content,
   ]
 }
 
@@ -189,9 +187,7 @@ export function normalizeTokens(tokens: TokenStream): IToken[][] {
   const acc = [currentLine]
 
   while (stackIndex > -1) {
-    while (
-      (i = tokenArrIndexStack[stackIndex]++) < tokenArrSizeStack[stackIndex]
-    ) {
+    while ((i = tokenArrIndexStack[stackIndex]++) < tokenArrSizeStack[stackIndex]) {
       let content
       let types = typeArrStack[stackIndex]
 
@@ -254,16 +250,11 @@ export function normalizeTokens(tokens: TokenStream): IToken[][] {
   return acc
 }
 
-export function tokenizeCode(
-  code: string,
-  lang: ICodeLang
-): (string | Prism.Token)[] | null {
+export function tokenizeCode(code: string, lang: ICodeLang): (string | Prism.Token)[] | null {
   const gn = getGrammarName(lang)
   const grammar = Prism.languages[gn]
   if (!grammar) {
-    console.warn(
-      `Unrecognised language ${grammar} for code: ${code.substring(0, 20)}...`
-    )
+    console.warn(`Unrecognised language ${grammar} for code: ${code.substring(0, 20)}...`)
     // return Prism.util.encode(code)
     return null
   }

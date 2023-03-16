@@ -7,16 +7,11 @@ function hasLineHighlights(code: string) {
     return false
   }
 
-  return code
-    .split('\n')
-    .every((line) => line === '' || line === '>' || /^[> ] /.test(line))
+  return code.split('\n').every((line) => line === '' || line === '>' || /^[> ] /.test(line))
 }
 
 // returns highlighted lines numbers, when in diff mode returns added/removed lines numbers
-export function highlightedLines(
-  code: string,
-  lang: ICodeLang
-): IHighlightedLines {
+export function highlightedLines(code: string, lang: ICodeLang): IHighlightedLines {
   const isDiff = lang.startsWith('diff-')
 
   let addedLines: number[] = []

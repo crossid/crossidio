@@ -12,10 +12,8 @@ export const Logomark = ({
       className={clsx(
         className,
         'rounded-md px-2 text-3xl',
-        kind === 'normal' &&
-          'bg-black text-white dark:bg-black dark:text-sky-500',
-        kind === 'grayscale' &&
-          'bg-gray-300 text-white dark:bg-slate-800 dark:text-slate-500'
+        kind === 'normal' && 'bg-black text-white dark:bg-black dark:text-sky-500',
+        kind === 'grayscale' && 'bg-gray-300 text-white dark:bg-slate-800 dark:text-slate-500'
       )}
     >
       C

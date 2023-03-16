@@ -70,10 +70,7 @@ export function BlogPostLayout({
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center overflow-hidden">
         <div className="flex w-[108rem] flex-none justify-end">
           <picture>
-            <source
-              srcSet={require('@/images/beams/docs@30.avif').default.src}
-              type="image/avif"
-            />
+            <source srcSet={require('@/images/beams/docs@30.avif').default.src} type="image/avif" />
             <img
               src={require('@/images/beams/docs@tinypng.png').default.src}
               alt=""
@@ -119,15 +116,9 @@ export function BlogPostLayout({
 
         <meta property="og:type" content="article" />
         <meta property="article:tag" content={`${tags.join(',')}`} />
-        <meta
-          property="article:author"
-          content={`https://github.com/${authors[0].github}`}
-        />
+        <meta property="article:author" content={`https://github.com/${authors[0].github}`} />
         {/* <meta property="article:published_time" content="2018-05-14T00:00:00.000Z"/> */}
-        <meta
-          property="article:published_time"
-          content={formatDate(date, MACHINE_FORMAT)}
-        />
+        <meta property="article:published_time" content={formatDate(date, MACHINE_FORMAT)} />
       </Head>
       <div className="">
         <div className="mx-auto max-w-8xl">
@@ -201,11 +192,7 @@ export function BlogPostLayout({
                   </dl>
                 </div>
                 <div className="mt-6">
-                  <ul
-                    className={clsx(
-                      '-mx-5 -mt-6 flex flex-wrap text-sm leading-6'
-                    )}
-                  >
+                  <ul className={clsx('-mx-5 -mt-6 flex flex-wrap text-sm leading-6')}>
                     {authors.map((author) => (
                       <li
                         key={author.name}
@@ -220,9 +207,7 @@ export function BlogPostLayout({
                           height={32}
                         />
                         <div className="text-sm leading-4">
-                          <div className="text-slate-900 dark:text-slate-200">
-                            {author.name}
-                          </div>
+                          <div className="text-slate-900 dark:text-slate-200">{author.name}</div>
                           <div className="mt-1">
                             <a
                               href={`https://github.com/${authors[0].github}`}

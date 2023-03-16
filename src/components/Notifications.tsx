@@ -1,9 +1,5 @@
 import { Transition } from '@headlessui/react'
-import {
-  CheckCircleIcon,
-  XMarkIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/outline'
+import { CheckCircleIcon, XMarkIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { ReactElement, ReactNode } from 'react'
 
 interface NotificationsDef {
@@ -20,13 +16,7 @@ export interface NotificationDef {
   level: level
 }
 
-function Notifications({
-  items,
-  removeItem,
-}: {
-  items: NotificationsDef[]
-  removeItem: Function
-}) {
+function Notifications({ items, removeItem }: { items: NotificationsDef[]; removeItem: Function }) {
   return (
     <div
       aria-live="assertive"
@@ -75,26 +65,18 @@ function Notifications({
   )
 }
 
-const Notification: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+const Notification: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <h1 className="flex flex-1 items-center text-3xl font-semibold text-gray-900">
-      {children}
-    </h1>
+    <h1 className="flex flex-1 items-center text-3xl font-semibold text-gray-900">{children}</h1>
   )
 }
 
 const svg = (level: level) => {
   switch (level) {
     case 'info':
-      return (
-        <CheckCircleIcon className="h-6 w-6 text-gray-900 dark:text-indigo-200" />
-      )
+      return <CheckCircleIcon className="h-6 w-6 text-gray-900 dark:text-indigo-200" />
     case 'error':
-      return (
-        <XCircleIcon className="h-6 w-6 text-gray-900 dark:text-indigo-200" />
-      )
+      return <XCircleIcon className="h-6 w-6 text-gray-900 dark:text-indigo-200" />
   }
 }
 

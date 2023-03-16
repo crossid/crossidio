@@ -13,8 +13,8 @@ const Hero = () => (
         <span className="block xl:inline">How can we help you?</span>
       </h1>
       <p className="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-        We are here to help you with your identity challenges, let us know how
-        and we&apos;ll get back to you.
+        We are here to help you with your identity challenges, let us know how and we&apos;ll get
+        back to you.
       </p>
     </div>
   </div>
@@ -43,9 +43,7 @@ function Form() {
 
   const encode = (data: any) => {
     return Object.keys(data)
-      .map(
-        (key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key])
-      )
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
       .join('&')
   }
   const handleSubmit = (e: React.FormEvent) => {
@@ -79,8 +77,7 @@ function Form() {
     e.preventDefault()
   }
 
-  const handleChange = (e: any) =>
-    setForm({ ...form, [e.target.name]: e.target.value })
+  const handleChange = (e: any) => setForm({ ...form, [e.target.name]: e.target.value })
 
   return (
     <>
@@ -96,8 +93,7 @@ function Form() {
                 Let&apos;s Talk
               </h2>
               <p className="mt-3 text-lg leading-6 text-gray-500">
-                Contact us directly or fill the form and we&apos;ll get back to
-                you.
+                Contact us directly or fill the form and we&apos;ll get back to you.
               </p>
               <dl className="mt-8 text-base text-gray-500">
                 <div>
@@ -260,13 +256,10 @@ function Form() {
             ) : (
               <div className="mx-auto max-w-lg py-16 px-4 text-center sm:py-24 sm:px-6 lg:max-w-none lg:px-8">
                 <h2 className="text-2xl font-extrabold tracking-tight text-indigo-500 dark:text-sky-500 sm:text-5xl md:text-4xl">
-                  <span className="block xl:inline">
-                    Thank you for reaching out!
-                  </span>
+                  <span className="block xl:inline">Thank you for reaching out!</span>
                 </h2>
                 <p className="mx-auto mt-3 max-w-md text-base text-gray-500 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
-                  We got your message and will get back to you as soon as we
-                  can.
+                  We got your message and will get back to you as soon as we can.
                 </p>
               </div>
             )}

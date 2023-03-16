@@ -66,9 +66,14 @@ const StorySteps = ({
   const innerHeight = isBrowser() ? windowInnerHeight || window.innerHeight : 0
 
   const offsetValue =
-    isOffsetDefinedInPixels && typeof offset === 'string' ? +offset.replace('px', '') / innerHeight : offset
+    isOffsetDefinedInPixels && typeof offset === 'string'
+      ? +offset.replace('px', '') / innerHeight
+      : offset
 
-  const progressThreshold = useMemo(() => createThreshold(threshold, innerHeight), [innerHeight, threshold])
+  const progressThreshold = useMemo(
+    () => createThreshold(threshold, innerHeight),
+    [innerHeight, threshold]
+  )
 
   return (
     <React.Fragment>

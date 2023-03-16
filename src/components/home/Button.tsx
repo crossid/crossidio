@@ -53,8 +53,7 @@ export function Button({
   children?: ReactNode
 }) {
   let colorClasses = typeof color === 'string' ? colors[color] : color
-  let darkColorClasses =
-    typeof darkColor === 'string' ? colorsDark[darkColor] || [] : darkColor
+  let darkColorClasses = typeof darkColor === 'string' ? colorsDark[darkColor] || [] : darkColor
 
   return (
     <Link

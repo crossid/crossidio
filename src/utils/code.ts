@@ -43,9 +43,7 @@ export function codeSections(code: string) {
 
     if (start && end) {
       if (!segments[section]) segments[section] = []
-      segments[section].push(
-        `${start - substractedLines}:${end - substractedLines}`
-      )
+      segments[section].push(`${start - substractedLines}:${end - substractedLines}`)
       substractedLines += 2
       start = undefined
       end = undefined

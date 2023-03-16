@@ -2,21 +2,11 @@ import { DarkMode, Gradient, LightMode } from '@/components/Icon'
 
 export const GithubViewBox = '0 0 24 24'
 
-export function GithubIcon({
-  id,
-  color,
-}: {
-  id: string
-  color: 'amber' | 'blue' | 'gray'
-}) {
+export function GithubIcon({ id, color }: { id: string; color: 'amber' | 'blue' | 'gray' }) {
   return (
     <>
       <defs>
-        <Gradient
-          id={`${id}-gradient`}
-          color={color}
-          gradientTransform="matrix(0 21 -21 0 12 3)"
-        />
+        <Gradient id={`${id}-gradient`} color={color} gradientTransform="matrix(0 21 -21 0 12 3)" />
         <Gradient
           id={`${id}-gradient-dark`}
           color={color}

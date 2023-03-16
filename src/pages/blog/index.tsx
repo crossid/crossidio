@@ -87,10 +87,7 @@ const BlogItem = ({
           </dd>
         </dl>
       </div>
-      <Link
-        className="flex items-center text-sm font-medium text-sky-500"
-        href={`/blog/${slug}`}
-      >
+      <Link className="flex items-center text-sm font-medium text-sky-500" href={`/blog/${slug}`}>
         <span className="absolute -inset-y-2.5 -inset-x-4 sm:rounded-2xl md:-inset-y-4 md:-inset-x-6"></span>
         <span className="relative">
           Read more
@@ -121,10 +118,7 @@ const Blog = (props: any) => {
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center overflow-hidden">
         <div className="flex w-[108rem] flex-none justify-end">
           <picture>
-            <source
-              srcSet={require('@/images/beams/docs@30.avif').default.src}
-              type="image/avif"
-            />
+            <source srcSet={require('@/images/beams/docs@30.avif').default.src} type="image/avif" />
             <img
               src={require('@/images/beams/docs@tinypng.png').default.src}
               alt=""

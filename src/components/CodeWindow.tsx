@@ -26,12 +26,7 @@ export function CodeWindow({
       )}
     >
       <div className="relative flex w-full flex-col">
-        <div
-          className={clsx(
-            'flex-none',
-            border && 'border-b border-slate-500/30'
-          )}
-        >
+        <div className={clsx('flex-none', border && 'border-b border-slate-500/30')}>
           <div className="flex h-8 items-center space-x-1.5 px-3">
             <div className="h-2.5 w-2.5 rounded-full bg-slate-600" />
             <div className="h-2.5 w-2.5 rounded-full bg-slate-600" />
@@ -39,9 +34,7 @@ export function CodeWindow({
           </div>
           {/* <div className="h-px bg-gradient-to-r from-sky-300/0 via-sky-300/20 to-sky-300/0" /> */}
         </div>
-        <div className="relative flex min-h-0 flex-auto flex-col">
-          {children}
-        </div>
+        <div className="relative flex min-h-0 flex-auto flex-col">{children}</div>
       </div>
     </div>
   )
@@ -88,10 +81,7 @@ CodeWindow.Code2 = forwardRef<HTMLDivElement, Code2Props>(function Code(
     >
       <div className="relative w-full flex-auto">
         <pre
-          className={clsx(
-            'flex min-h-full text-sm leading-6',
-            language && `language-${language}`
-          )}
+          className={clsx('flex min-h-full text-sm leading-6', language && `language-${language}`)}
         >
           {showLineNumbers && (
             <div

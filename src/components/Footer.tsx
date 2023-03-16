@@ -116,10 +116,7 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer
-      className="bg-white dark:bg-slate-900"
-      aria-labelledby="footerHeading"
-    >
+    <footer className="bg-white dark:bg-slate-900" aria-labelledby="footerHeading">
       <h2 id="footerHeading" className="sr-only">
         Footer
       </h2>

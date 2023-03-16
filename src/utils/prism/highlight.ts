@@ -46,9 +46,7 @@ export function highlight(code: string, lang: ICodeLang) {
       }
     }
 
-    let lineClassName = ['token', ...commonTypes, className]
-      .filter(Boolean)
-      .join(' ')
+    let lineClassName = ['token', ...commonTypes, className].filter(Boolean).join(' ')
 
     if (empty) {
       return `<span class="${lineClassName}">\n</span>`
@@ -57,9 +55,7 @@ export function highlight(code: string, lang: ICodeLang) {
     return `<span class="${lineClassName}">${line
       .map((token) =>
         token.types.length
-          ? `<span class="token ${token.types.join(' ')}">${
-              token.content
-            }</span>`
+          ? `<span class="token ${token.types.join(' ')}">${token.content}</span>`
           : token.content
       )
       .join('')}\n</span>`
@@ -86,11 +82,7 @@ export function highlight(code: string, lang: ICodeLang) {
         .map((line, index) =>
           stringify(
             line,
-            `block${
-              highlights.highlighted.includes(index)
-                ? codeStyles.highlighted
-                : ''
-            }`
+            `block${highlights.highlighted.includes(index) ? codeStyles.highlighted : ''}`
           )
         )
         .join('')
@@ -102,8 +94,7 @@ export function highlight(code: string, lang: ICodeLang) {
   return grammar === 'html'
     ? code.replace(
         /\*\*(.*?)\*\*/g,
-        (_, text) =>
-          `<span class="code-highlight bg-code-highlight">${text}</span>`
+        (_, text) => `<span class="code-highlight bg-code-highlight">${text}</span>`
       )
     : code
 }

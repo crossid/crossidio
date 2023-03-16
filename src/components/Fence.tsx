@@ -33,12 +33,7 @@ export function Fence({
       })}
     >
       <div className="relative w-full flex-auto">
-        <pre
-          className={clsx(
-            'flex text-sm leading-6',
-            language && `language-${language}`
-          )}
-        >
+        <pre className={clsx('flex text-sm leading-6', language && `language-${language}`)}>
           {showLineNumbers && (
             <div
               aria-hidden="true"
@@ -72,16 +67,12 @@ export function Fence({
               <div
                 key={lineIndex}
                 className={clsx(
-                  highlights.highlighted.includes(lineIndex) &&
-                    codeStyles.highlighted
+                  highlights.highlighted.includes(lineIndex) && codeStyles.highlighted
                 )}
               >
                 {tokens.map((token, tokenIndex) => {
                   return (
-                    <span
-                      key={tokenIndex}
-                      className={getClassNameForToken(token)}
-                    >
+                    <span key={tokenIndex} className={getClassNameForToken(token)}>
                       {token.content}
                     </span>
                   )

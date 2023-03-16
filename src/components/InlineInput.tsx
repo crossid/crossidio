@@ -1,13 +1,7 @@
 import { useKeyPress } from '@/hooks/useKeyPress'
 import { useOnClickOutside } from '@/hooks/useOnclickOutside'
 import clsx from 'clsx'
-import {
-  HTMLInputTypeAttribute,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { HTMLInputTypeAttribute, useCallback, useEffect, useRef, useState } from 'react'
 
 // https://joelmturner.com/blog/inline-text-edit-react-hooks
 export default function InlineEdit({
@@ -38,10 +32,7 @@ export default function InlineEdit({
     }
   })
 
-  const handleSpanClick = useCallback(
-    () => setIsInputActive(true),
-    [setIsInputActive]
-  )
+  const handleSpanClick = useCallback(() => setIsInputActive(true), [setIsInputActive])
 
   // focus the cursor in the input field on edit start
   useEffect(() => {

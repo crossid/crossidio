@@ -38,10 +38,7 @@ const Page = ({ posts, tag }: { posts: Post[]; tag: string }) => {
       <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex justify-center overflow-hidden">
         <div className="flex w-[108rem] flex-none justify-end">
           <picture>
-            <source
-              srcSet={require('@/images/beams/docs@30.avif').default.src}
-              type="image/avif"
-            />
+            <source srcSet={require('@/images/beams/docs@30.avif').default.src} type="image/avif" />
             <img
               src={require('@/images/beams/docs@tinypng.png').default.src}
               alt=""
@@ -108,9 +105,7 @@ const Page = ({ posts, tag }: { posts: Post[]; tag: string }) => {
                     <p className="text-xl font-semibold text-gray-900 dark:text-slate-200">
                       {post.frontMatter.title}
                     </p>
-                    <p className="mt-3 text-base text-gray-400">
-                      {post.frontMatter.description}
-                    </p>
+                    <p className="mt-3 text-base text-gray-400">{post.frontMatter.description}</p>
                   </Link>
                   <div className="mt-3">
                     <Link

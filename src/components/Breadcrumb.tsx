@@ -8,13 +8,7 @@ export interface IPage {
   current: boolean
 }
 
-export function Breadcrumb({
-  pages,
-  className,
-}: {
-  className?: string
-  pages: IPage[]
-}) {
+export function Breadcrumb({ pages, className }: { className?: string; pages: IPage[] }) {
   return (
     <nav className={clsx('flex', className)} aria-label="Breadcrumb">
       <ol role="list" className="flex items-center space-x-4">

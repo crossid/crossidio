@@ -91,16 +91,9 @@ async function createConfig(): Promise<Config> {
           const attributes = node.transformAttributes(config)
           const children = node.transformChildren(config)
           const code = children.toString().trimEnd()
-          const { lines, highlights } = highlightedCode(
-            code,
-            attributes.language
-          )
+          const { lines, highlights } = highlightedCode(code, attributes.language)
 
-          return new Tag(
-            this.render,
-            { ...attributes, lines, highlights },
-            children
-          )
+          return new Tag(this.render, { ...attributes, lines, highlights }, children)
         },
       },
       link: {
@@ -144,10 +137,7 @@ export const getStaticProps: GetStaticProps<{
   // Create a renderable tree
   const content = JSON.stringify(Markdoc.transform(ast, config))
 
-  const frontmatter = yaml.load(ast.attributes.frontmatter) as Record<
-    string,
-    any
-  >
+  const frontmatter = yaml.load(ast.attributes.frontmatter) as Record<string, any>
   frontmatter.authors = frontmatter.authors?.map((a: string) => authors[a])
   frontmatter.date = frontmatter.date.getTime()
 

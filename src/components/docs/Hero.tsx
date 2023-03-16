@@ -134,28 +134,13 @@ export default function DocsHero() {
                       language={codeLanguage}
                       theme={undefined}
                     >
-                      {({
-                        className,
-                        style,
-                        tokens,
-                        getLineProps,
-                        getTokenProps,
-                      }) => (
-                        <pre
-                          className={clsx(
-                            className,
-                            'flex overflow-x-auto pb-6'
-                          )}
-                          style={style}
-                        >
+                      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+                        <pre className={clsx(className, 'flex overflow-x-auto pb-6')} style={style}>
                           <code className="px-4">
                             {tokens.map((line, lineIndex) => (
                               <div key={lineIndex} {...getLineProps({ line })}>
                                 {line.map((token, tokenIndex) => (
-                                  <span
-                                    key={tokenIndex}
-                                    {...getTokenProps({ token })}
-                                  />
+                                  <span key={tokenIndex} {...getTokenProps({ token })} />
                                 ))}
                               </div>
                             ))}

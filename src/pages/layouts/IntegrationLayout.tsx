@@ -3,11 +3,7 @@ import { Prose } from '@/components/Prose'
 import { TenantContext } from '@/hooks/tenant'
 import { ICollectorInfo } from '@/utils/loadIntegrations'
 import { getCrossidManagementHost } from '@/utils/location'
-import {
-  ChevronRightIcon,
-  LockOpenIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline'
+import { ChevronRightIcon, LockOpenIcon, PlusIcon } from '@heroicons/react/24/outline'
 import Markdoc from '@markdoc/markdoc'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -15,12 +11,7 @@ import Link from 'next/link'
 import React, { useContext } from 'react'
 import { IIntegrationProps } from '../integrations/[integration]'
 
-export default function IntegrationLayout({
-  slug,
-  integration,
-  content,
-  host,
-}: IIntegrationProps) {
+export default function IntegrationLayout({ slug, integration, content, host }: IIntegrationProps) {
   const { tenant } = useContext(TenantContext)
   if (!content) return null
 
@@ -41,10 +32,7 @@ export default function IntegrationLayout({
     <>
       <Head>
         <title>{displayName}</title>
-        <meta
-          name="og:title"
-          content={`Integrate ${displayName} with Crossid`}
-        />
+        <meta name="og:title" content={`Integrate ${displayName} with Crossid`} />
         {description && <meta name="description" content={description} />}
         {description && <meta name="og:description" content={description} />}
         <meta name="og:url" content={`${host}/integrations/${integration}`} />
@@ -69,21 +57,13 @@ export default function IntegrationLayout({
           <div className="flex items-start space-x-5">
             <div className="flex-shrink-0">
               <div className="relative border border-gray-300 p-4 dark:border-sky-500 dark:bg-slate-700">
-                <Image
-                  className="h-20 w-20"
-                  src={logoURL}
-                  width={20}
-                  height={20}
-                  alt="logo"
-                />
+                <Image className="h-20 w-20" src={logoURL} width={20} height={20} alt="logo" />
               </div>
             </div>
             {/* Use vertical padding to simulate center alignment when both lines of text are one line,
       but preserve the same layout if the text wraps without making the image jump around. */}
             <div className="pt-1.5">
-              <h1 className="text-4xl text-gray-900 dark:text-slate-300">
-                Add {displayName}
-              </h1>
+              <h1 className="text-4xl text-gray-900 dark:text-slate-300">Add {displayName}</h1>
               <p className="prose py-2 text-sm text-gray-500 lg:prose-xl dark:text-slate-200">
                 {description}
               </p>
@@ -115,9 +95,7 @@ export default function IntegrationLayout({
                       <div className="space-y-5">
                         <div className="flex items-center space-x-2">
                           <LockOpenIcon className="h-5 w-5 text-green-500" />
-                          <span className="text-sm font-medium text-green-700">
-                            Available
-                          </span>
+                          <span className="text-sm font-medium text-green-700">Available</span>
                         </div>
                         {/* Take file's date */}
                         {/* <div className="flex items-center space-x-2">
@@ -131,26 +109,17 @@ export default function IntegrationLayout({
                       </div>
                       <div className="mt-6 space-y-8 border-t border-b border-gray-200 py-6">
                         <div>
-                          <h2 className="text-sm font-medium text-gray-500">
-                            Powered By
-                          </h2>
+                          <h2 className="text-sm font-medium text-gray-500">Powered By</h2>
                           <ul className="mt-3 space-y-3">
                             <li className="flex justify-start">
-                              <Link
-                                href="/"
-                                className="flex items-center space-x-3"
-                              >
-                                <div className="text-sm font-medium text-gray-900">
-                                  {poweredBy}
-                                </div>
+                              <Link href="/" className="flex items-center space-x-3">
+                                <div className="text-sm font-medium text-gray-900">{poweredBy}</div>
                               </Link>
                             </li>
                           </ul>
                         </div>
                         <div>
-                          <h2 className="text-sm font-medium text-gray-500">
-                            Tags
-                          </h2>
+                          <h2 className="text-sm font-medium text-gray-500">Tags</h2>
                           <ul className="mt-2 leading-8">
                             {keywords.map((k) => (
                               <Keyword
@@ -169,11 +138,7 @@ export default function IntegrationLayout({
                       <Prose className="max-w-none">
                         {infoCollector && (
                           <>
-                            {Markdoc.renderers.react(
-                              JSON.parse(infoCollector.content),
-                              React,
-                              {}
-                            )}
+                            {Markdoc.renderers.react(JSON.parse(infoCollector.content), React, {})}
                           </>
                         )}
                       </Prose>
@@ -186,9 +151,7 @@ export default function IntegrationLayout({
                 <div className="space-y-5">
                   <div className="flex items-center space-x-2">
                     <LockOpenIcon className="h-5 w-5 text-green-500" />
-                    <span className="text-sm font-medium text-green-700">
-                      Available
-                    </span>
+                    <span className="text-sm font-medium text-green-700">Available</span>
                   </div>
                   {/* Take file's date */}
                   {/* <div className="flex items-center space-x-2">
@@ -214,9 +177,7 @@ export default function IntegrationLayout({
                     </ul>
                   </div>
                   <div>
-                    <h2 className="text-sm font-medium text-gray-500">
-                      Support
-                    </h2>
+                    <h2 className="text-sm font-medium text-gray-500">Support</h2>
                     <dd className="mt-1 text-sm text-gray-900">
                       <ul className="divide-y divide-gray-200 border-b border-gray-200 dark:divide-sky-500 dark:border-sky-500">
                         <SupportLink title="Support" to="/contact" />
@@ -249,10 +210,7 @@ const Keyword = ({ name, linkTo }: { name: string; linkTo: string }) => (
       className="relative mr-2 inline-flex items-center rounded-full border border-gray-300 px-3 py-0.5 dark:border-sky-600"
     >
       <div className="absolute flex flex-shrink-0 items-center justify-center">
-        <span
-          className="h-1.5 w-1.5 rounded-full bg-rose-500"
-          aria-hidden="true"
-        ></span>
+        <span className="h-1.5 w-1.5 rounded-full bg-rose-500" aria-hidden="true"></span>
       </div>
       <div className="ml-3.5 text-sm font-medium uppercase text-gray-900 dark:text-slate-300">
         {name}

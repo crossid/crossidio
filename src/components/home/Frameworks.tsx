@@ -45,16 +45,14 @@ export function Frameworks() {
           light={require('@/images/icons/home/frameworks.png').default.src}
           dark={require('@/images/icons/home/frameworks-dark.png').default.src}
         />
-        <Caption className="text-indigo-500 dark:text-sky-500">
-          Framework Driven
-        </Caption>
+        <Caption className="text-indigo-500 dark:text-sky-500">Framework Driven</Caption>
         <BigText>
           <Widont>Any framework, simplified.</Widont>
         </BigText>
         <Paragraph>
-          Want to add authentication to your single page application? Whether
-          you use <InlineCode>React</InlineCode>, <InlineCode>Vue</InlineCode>{' '}
-          or plain <InlineCode>javascript</InlineCode>, we got you covered.
+          Want to add authentication to your single page application? Whether you use{' '}
+          <InlineCode>React</InlineCode>, <InlineCode>Vue</InlineCode> or plain{' '}
+          <InlineCode>javascript</InlineCode>, we got you covered.
         </Paragraph>
         <Link href="/docs/frameworks" color="sky" darkColor="gray">
           Learn more<span className="sr-only">, reusing styles</span>
@@ -189,9 +187,7 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
                     type="button"
                     className={clsx(
                       'relative py-2 px-3',
-                      tabIndex === activeTab
-                        ? 'text-sky-300'
-                        : 'hover:text-slate-300'
+                      tabIndex === activeTab ? 'text-sky-300' : 'hover:text-slate-300'
                     )}
                     onClick={() => setActiveTab(tabIndex)}
                   >
@@ -223,24 +219,18 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
                     (token.types[token.types.length - 1] === 'class-name' ||
                       (token.types[token.types.length - 1] === 'tag' &&
                         /^([A-Z]|x-)/.test(token.content))) &&
-                    tokens[tokenIndex - 1]?.types[
-                      tokens[tokenIndex - 1].types.length - 1
-                    ] === 'punctuation' &&
+                    tokens[tokenIndex - 1]?.types[tokens[tokenIndex - 1].types.length - 1] ===
+                      'punctuation' &&
                     (tokens[tokenIndex - 1]?.content === '<' ||
                       tokens[tokenIndex - 1].content === '</')
                   ) {
                     return (
-                      <span
-                        key={tokenIndex}
-                        className={getClassNameForToken(token)}
-                      >
+                      <span key={tokenIndex} className={getClassNameForToken(token)}>
                         <ComponentLink
                           onClick={() =>
                             setActiveTab(
                               Object.keys(tabs[framework]).findIndex((x) =>
-                                x.startsWith(
-                                  `${token.content.replace(/^x-/, '')}.`
-                                )
+                                x.startsWith(`${token.content.replace(/^x-/, '')}.`)
                               )
                             )
                           }
@@ -255,24 +245,14 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
                     token.types[token.types.length - 1] === 'string' &&
                     /^(['"`])\.\/.*?\.(js|vue|jsx|tsx)\1$/.test(token.content)
                   ) {
-                    const tab = token.content.substr(
-                      3,
-                      token.content.length - 4
-                    )
+                    const tab = token.content.substr(3, token.content.length - 4)
                     return (
-                      <span
-                        key={tokenIndex}
-                        className={getClassNameForToken(token)}
-                      >
+                      <span key={tokenIndex} className={getClassNameForToken(token)}>
                         {token.content.substr(0, 1)}
                         <button
                           type="button"
                           className="underline"
-                          onClick={() =>
-                            setActiveTab(
-                              Object.keys(tabs[framework]).indexOf(tab)
-                            )
-                          }
+                          onClick={() => setActiveTab(Object.keys(tabs[framework]).indexOf(tab))}
                         >
                           ./{tab}
                         </button>
@@ -282,10 +262,7 @@ function ComponentExample({ framework }: { framework: FrameworkType }) {
                   }
 
                   return (
-                    <span
-                      key={tokenIndex}
-                      className={getClassNameForToken(token)}
-                    >
+                    <span key={tokenIndex} className={getClassNameForToken(token)}>
                       {token.content}
                     </span>
                   )
@@ -369,9 +346,7 @@ function AppSample() {
         <div>
           <p className="my-14 text-base text-gray-500">
             {selectedItem === 'public' && (
-              <span>
-                Public is seen by everyone, even if user is not authenticated.
-              </span>
+              <span>Public is seen by everyone, even if user is not authenticated.</span>
             )}
             {selectedItem === 'protected' && (
               <span>Protected is seen only by authenticated users.</span>

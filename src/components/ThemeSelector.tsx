@@ -61,8 +61,7 @@ export function ThemeSelector(props: any) {
     } else {
       setSelectedTheme(
         themes.find(
-          (theme) =>
-            theme.value === document.documentElement.getAttribute('data-theme')
+          (theme) => theme.value === document.documentElement.getAttribute('data-theme')
         ) || fallbackTheme
       )
     }
@@ -71,9 +70,8 @@ export function ThemeSelector(props: any) {
   useEffect(() => {
     let handler = () =>
       setSelectedTheme(
-        themes.find(
-          (theme) => theme.value === (window.localStorage.theme ?? 'system')
-        ) || fallbackTheme
+        themes.find((theme) => theme.value === (window.localStorage.theme ?? 'system')) ||
+          fallbackTheme
       )
 
     window.addEventListener('storage', handler)
@@ -82,12 +80,7 @@ export function ThemeSelector(props: any) {
   }, [])
 
   return (
-    <Listbox
-      as="div"
-      value={selectedTheme}
-      onChange={setSelectedTheme}
-      {...props}
-    >
+    <Listbox as="div" value={selectedTheme} onChange={setSelectedTheme} {...props}>
       <Listbox.Label className="sr-only">Theme</Listbox.Label>
       <Listbox.Button
         className="flex h-6 w-6 items-center justify-center rounded-lg shadow-md shadow-black/5 ring-1 ring-black/5 dark:bg-slate-700 dark:ring-inset dark:ring-white/5"
@@ -104,15 +97,12 @@ export function ThemeSelector(props: any) {
             key={theme.value}
             value={theme}
             className={({ active, selected }) =>
-              clsx(
-                'flex cursor-pointer select-none items-center rounded-[0.625rem] p-1',
-                {
-                  'text-indigo-500 dark:text-sky-500': selected,
-                  'text-slate-900 dark:text-white': active && !selected,
-                  'text-slate-700 dark:text-slate-400': !active && !selected,
-                  'bg-slate-100 dark:bg-slate-900/40': active,
-                }
-              )
+              clsx('flex cursor-pointer select-none items-center rounded-[0.625rem] p-1', {
+                'text-indigo-500 dark:text-sky-500': selected,
+                'text-slate-900 dark:text-white': active && !selected,
+                'text-slate-700 dark:text-slate-400': !active && !selected,
+                'bg-slate-100 dark:bg-slate-900/40': active,
+              })
             }
           >
             {({ selected }) => (
@@ -121,9 +111,7 @@ export function ThemeSelector(props: any) {
                   <theme.icon
                     className={clsx(
                       'h-4 w-4',
-                      selected
-                        ? 'fill-indigo-400 dark:fill-sky-400'
-                        : 'fill-slate-400'
+                      selected ? 'fill-indigo-400 dark:fill-sky-400' : 'fill-slate-400'
                     )}
                   />
                 </div>

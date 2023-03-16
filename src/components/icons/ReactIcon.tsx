@@ -2,13 +2,7 @@ import { DarkMode, Gradient, LightMode } from '@/components/Icon'
 
 export const ReactViewBox = '-11.5 -10.23174 23 20.46348'
 
-export function ReactIcon({
-  id,
-  color,
-}: {
-  id: string
-  color: 'blue' | 'amber' | 'gray'
-}) {
+export function ReactIcon({ id, color }: { id: string; color: 'blue' | 'amber' | 'gray' }) {
   return (
     <>
       <LightMode>

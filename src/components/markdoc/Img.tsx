@@ -20,12 +20,5 @@ export function Img({
     segment += r.asPath
   }
 
-  return (
-    <Image
-      src={`/${segment}/${name}`}
-      width={width}
-      height={height}
-      alt={alt}
-    />
-  )
+  return <Image src={`/${segment}/${name}`} width={width} height={height} alt={alt} />
 }

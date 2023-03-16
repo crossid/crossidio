@@ -7,10 +7,16 @@ const calcRootMargin = (offset: number) => {
   return `-${offset * 100}% 0px -${100 - offset * 100}% 0px`
 }
 
-const calcProgressRootMargin = (direction: 'up' | 'down', offset: number, node: any, innerHeight: number) => {
+const calcProgressRootMargin = (
+  direction: 'up' | 'down',
+  offset: number,
+  node: any,
+  innerHeight: number
+) => {
   if (!node.current) return '0px'
   const offsetHeight = node.current.offsetHeight / innerHeight
-  if (direction === 'down') return `${(offsetHeight - offset) * 100}% 0px ${offset * 100 - 100}% 0px`
+  if (direction === 'down')
+    return `${(offsetHeight - offset) * 100}% 0px ${offset * 100 - 100}% 0px`
   return `-${offset * 100}% 0px ${offsetHeight * 100 - (100 - offset * 100)}% 0px`
 }
 
@@ -119,7 +125,17 @@ const Step = ({
       })
       handleSetLastScrollTop(scrollTop)
     }
-  }, [data, direction, entry, handleSetLastScrollTop, isIntersecting, onStepEnter, onStepExit, scrollTop, storyStepsId])
+  }, [
+    data,
+    direction,
+    entry,
+    handleSetLastScrollTop,
+    isIntersecting,
+    onStepEnter,
+    onStepExit,
+    scrollTop,
+    storyStepsId,
+  ])
 
   if (!children) return null
 

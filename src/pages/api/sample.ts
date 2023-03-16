@@ -5,10 +5,7 @@ import { promisify } from 'util'
 
 const pipeline = promisify(stream.pipeline)
 
-function replaceFileContent(
-  content: string,
-  dataObj: Record<string, string>
-): string {
+function replaceFileContent(content: string, dataObj: Record<string, string>): string {
   let newContent = content
   for (const [key, value] of Object.entries(dataObj)) {
     newContent = newContent.replaceAll(`\${{${key}}}`, value)
@@ -16,10 +13,7 @@ function replaceFileContent(
   return newContent
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const query = req.query
   const { data } = query
   if (!data) {

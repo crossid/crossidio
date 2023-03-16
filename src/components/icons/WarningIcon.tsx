@@ -1,12 +1,6 @@
 import { DarkMode, Gradient, LightMode } from '@/components/Icon'
 
-export function WarningIcon({
-  id,
-  color,
-}: {
-  id: string
-  color: 'blue' | 'amber' | 'gray'
-}) {
+export function WarningIcon({ id, color }: { id: string; color: 'blue' | 'amber' | 'gray' }) {
   return (
     <>
       <defs>

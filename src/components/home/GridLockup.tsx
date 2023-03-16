@@ -28,17 +28,8 @@ export function GridLockup({
   rightProps?: {}
 }) {
   return (
-    <GridLockup.Container
-      className={className}
-      overhang={overhang}
-      beams={beams}
-    >
-      <GridLockup.Grid
-        left={left}
-        right={right}
-        leftProps={leftProps}
-        rightProps={rightProps}
-      />
+    <GridLockup.Container className={className} overhang={overhang} beams={beams}>
+      <GridLockup.Grid left={left} right={right} leftProps={leftProps} rightProps={rightProps} />
     </GridLockup.Container>
   )
 }
@@ -106,10 +97,7 @@ GridLockup.Grid = function Inner({
     <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
       <div
         {...leftProps}
-        className={clsx(
-          'flex flex-col lg:col-span-5 xl:col-span-6',
-          leftProps.className
-        )}
+        className={clsx('flex flex-col lg:col-span-5 xl:col-span-6', leftProps.className)}
       >
         {left}
       </div>
@@ -124,10 +112,7 @@ GridLockup.Grid = function Inner({
       </div>
     </div>
   ) : (
-    <div
-      {...leftProps}
-      className={clsx('mx-auto max-w-7xl sm:px-6 md:px-8', leftProps.className)}
-    >
+    <div {...leftProps} className={clsx('mx-auto max-w-7xl sm:px-6 md:px-8', leftProps.className)}>
       {left}
     </div>
   )

@@ -17,9 +17,7 @@ export const getStaticProps: GetStaticProps<{
   integrations: IMiniIntegration[]
 }> = async () => {
   const all = await getAllIntegrations()
-  const filtered = all.filter(
-    filterByKeywords(['identityProvider', 'token extension'])
-  )
+  const filtered = all.filter(filterByKeywords(['identityProvider', 'token extension']))
 
   const minis = filtered.map((i) => {
     const { displayName, description = null, logoURL, keywords } = i.json
@@ -38,9 +36,7 @@ export const getStaticProps: GetStaticProps<{
   }
 }
 
-export default function Page(
-  props: InferGetStaticPropsType<typeof getStaticProps>
-) {
+export default function Page(props: InferGetStaticPropsType<typeof getStaticProps>) {
   const { integrations } = props
   const title = 'Integrations'
   const description = 'Third party integrations'
@@ -65,18 +61,14 @@ export default function Page(
                 Integrations
               </h2>
               <p className="mt-6 text-lg leading-8 text-gray-600 dark:text-slate-500">
-                Boost experience and enhance functionality with zero-code third
-                party integrations.
+                Boost experience and enhance functionality with zero-code third party integrations.
               </p>
             </div>
           </div>
         </div>
 
         <div className="mb-32">
-          <ul
-            role="list"
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
+          <ul role="list" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {integrations.map((integ) => (
               <Integration key={integ.id} {...integ} />
             ))}
@@ -94,23 +86,13 @@ function Integration({ id, displayName, logoURL, keywords }: IMiniIntegration) {
       <div className="flex space-x-5 px-6 py-5">
         <div className="flex-shrink-0">
           <div className="rounded-md border border-gray-100 p-1 dark:border-0 dark:border-sky-500 dark:bg-slate-700">
-            <Image
-              className="h-10 w-10"
-              src={logoURL}
-              width={20}
-              height={20}
-              alt="logo"
-            />
+            <Image className="h-10 w-10" src={logoURL} width={20} height={20} alt="logo" />
           </div>
         </div>
-        <div
-          className={clsx('min-w-0 flex-1', disabled && 'pointer-events-none')}
-        >
+        <div className={clsx('min-w-0 flex-1', disabled && 'pointer-events-none')}>
           <Link href={`/integrations/${id}`} className="focus:outline-none">
             <span className="absolute inset-0" aria-hidden="true"></span>
-            <p className="text-sm font-medium text-gray-900 dark:text-slate-300">
-              {displayName}
-            </p>
+            <p className="text-sm font-medium text-gray-900 dark:text-slate-300">{displayName}</p>
             <div className="min-h-max flex-row space-y-0 truncate py-1">
               {keywords.map((k) => (
                 <span

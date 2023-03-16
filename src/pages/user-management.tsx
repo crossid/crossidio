@@ -21,8 +21,7 @@ const Hero = () => {
                 <span className="block">Manage Users</span>
               </h2>
               <p className={`mt-8 text-lg leading-6`}>
-                Unified management of user profiles, privileges and devices at
-                scale.
+                Unified management of user profiles, privileges and devices at scale.
               </p>
             </div>
           </div>
@@ -39,13 +38,7 @@ const Hero = () => {
   )
 }
 
-const FeatureItem = ({
-  title,
-  description,
-}: {
-  title: string
-  description: string
-}) => (
+const FeatureItem = ({ title, description }: { title: string; description: string }) => (
   <div className="flex">
     <svg
       className="h-6 w-6 flex-shrink-0 dark:text-sky-400"
@@ -55,17 +48,10 @@ const FeatureItem = ({
       stroke="currentColor"
       aria-hidden="true"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M5 13l4 4L19 7"
-      />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
     </svg>
     <div className="ml-3">
-      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">
-        {title}
-      </dt>
+      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">{title}</dt>
       <dd className="mt-2 text-base">{description}</dd>
     </div>
   </div>
@@ -140,17 +126,10 @@ const RuleItem = ({ label, text }: { label: string; text: string }) => (
       stroke="currentColor"
       aria-hidden="true"
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M5 13l4 4L19 7"
-      />
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
     </svg>
     <div className="ml-3">
-      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">
-        {label}
-      </dt>
+      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">{label}</dt>
       <dd className="mt-2 text-base">{text}</dd>
     </div>
   </div>
@@ -174,9 +153,7 @@ const RoleItem = ({
       </div>
     </div>
     <div className="ml-4">
-      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">
-        {label}
-      </dt>
+      <dt className="text-lg font-medium leading-6 text-gray-900 dark:text-slate-300">{label}</dt>
       <dd className="mt-2 text-base">{text}</dd>
     </div>
   </div>
@@ -283,11 +260,7 @@ const AccessControlSection = () => (
             />
           </pattern>
         </defs>
-        <rect
-          width="404"
-          height="784"
-          fill="url(#64e643ad-2176-4f86-b3d7-f2c5da3b6a6d)"
-        />
+        <rect width="404" height="784" fill="url(#64e643ad-2176-4f86-b3d7-f2c5da3b6a6d)" />
       </svg>
 
       <div className="relative mx-auto mt-12 px-4 sm:mt-16 sm:px-6 lg:mt-24 lg:max-w-7xl lg:px-8">
@@ -297,15 +270,12 @@ const AccessControlSection = () => (
               Lightweight Groups
             </h3>
             <p className="mt-3 text-lg">
-              Build business functional groups to abstract technical
-              entitlements without RBAC hassle.
+              Build business functional groups to abstract technical entitlements without RBAC
+              hassle.
             </p>
 
             <dl className="mt-10 space-y-10">
-              <RoleItem
-                label="Applications"
-                text="Assign multiple applications per group."
-              >
+              <RoleItem label="Applications" text="Assign multiple applications per group.">
                 <svg
                   className="h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -340,10 +310,7 @@ const AccessControlSection = () => (
                   />
                 </svg>
               </RoleItem>
-              <RoleItem
-                label="Temporary"
-                text="Increase security by assigning roles temporarily."
-              >
+              <RoleItem label="Temporary" text="Increase security by assigning roles temporarily.">
                 <svg
                   className="h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -389,11 +356,7 @@ const AccessControlSection = () => (
                   />
                 </pattern>
               </defs>
-              <rect
-                width="784"
-                height="404"
-                fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)"
-              />
+              <rect width="784" height="404" fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
             </svg>
             <Image
               className="relative mx-auto"

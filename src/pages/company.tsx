@@ -46,8 +46,7 @@ export default function Company() {
                 Meet our team
               </h2>
               <p className="dark:t text-xl text-gray-500 dark:text-slate-300">
-                Our team is based on specialists with over a decade of
-                experience in identity.
+                Our team is based on specialists with over a decade of experience in identity.
               </p>
             </div>
             <div className="lg:col-span-2">
@@ -64,12 +63,8 @@ export default function Company() {
                         alt=""
                       />
                       <div className="space-y-1 text-lg font-medium leading-6">
-                        <h3 className="text-slate-900 dark:text-slate-400">
-                          {p.name}
-                        </h3>
-                        <p className="text-gray-500 dark:text-slate-300">
-                          {p.title}
-                        </p>
+                        <h3 className="text-slate-900 dark:text-slate-400">{p.name}</h3>
+                        <p className="text-gray-500 dark:text-slate-300">{p.title}</p>
                       </div>
                     </div>
                   </li>

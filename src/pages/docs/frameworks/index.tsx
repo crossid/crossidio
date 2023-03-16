@@ -2,11 +2,7 @@ import path from 'path'
 import glob from 'glob-promise'
 import fs from 'fs'
 import yaml from 'js-yaml'
-import {
-  GetStaticProps,
-  GetStaticPropsContext,
-  InferGetStaticPropsType,
-} from 'next'
+import { GetStaticProps, GetStaticPropsContext, InferGetStaticPropsType } from 'next'
 import { IFramework } from '@/types'
 import { Icon, iconTypes } from '@/components/Icon'
 import Link from 'next/link'
@@ -28,9 +24,7 @@ export const getStaticProps: GetStaticProps<{
     const parts = p.split(path.sep)
     const framework = parts[parts.length - 2]
     const fwMetaFileName = path.join(FW_DIR, framework + '/index.yml')
-    const frameworkMeta = yaml.load(
-      fs.readFileSync(fwMetaFileName, 'utf-8')
-    ) as IFramework
+    const frameworkMeta = yaml.load(fs.readFileSync(fwMetaFileName, 'utf-8')) as IFramework
 
     return {
       framework,
@@ -47,9 +41,7 @@ export const getStaticProps: GetStaticProps<{
 
 const title = 'Frameworks'
 const desc = 'Integrate your framework of choice with Crossid'
-export default function Page(
-  props: InferGetStaticPropsType<typeof getStaticProps>
-) {
+export default function Page(props: InferGetStaticPropsType<typeof getStaticProps>) {
   const { frameworks } = props
 
   return (
@@ -90,9 +82,7 @@ export default function Page(
           <div className="prose prose-slate mt-16 max-w-3xl dark:prose-dark">
             <p>
               Don&apos;t see your framework of choice?{' '}
-              <a href="mailto:support@crossid.io?subject=Framework XY integration">
-                contact us
-              </a>
+              <a href="mailto:support@crossid.io?subject=Framework XY integration">contact us</a>
             </p>
           </div>
         </div>

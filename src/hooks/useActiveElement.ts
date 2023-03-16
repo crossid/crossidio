@@ -34,10 +34,7 @@ export function useActiveElement(
       }
 
       for (let index = 0; index < elements.length; index++) {
-        if (
-          window.scrollY >=
-          elements[index].getBoundingClientRect().top - offset
-        ) {
+        if (window.scrollY >= elements[index].getBoundingClientRect().top - offset) {
           setActiveIndex(elements[index])
         } else {
           break

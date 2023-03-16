@@ -73,13 +73,10 @@ export async function getFolder(folderName: string): Promise<GithubFolder> {
   return folderRespJson
 }
 
-export async function getFileWithContentByName(
-  filename: string
-): Promise<GithubFile | null> {
+export async function getFileWithContentByName(filename: string): Promise<GithubFile | null> {
   const { tree } = await getFolder(integrationsTreeName)
   const fileToFetch = tree.find(
-    (f) =>
-      f.path === filename || f.path.split('.')[0] === filename.split('.')[0]
+    (f) => f.path === filename || f.path.split('.')[0] === filename.split('.')[0]
   )
   if (!fileToFetch) {
     return null
@@ -94,10 +91,7 @@ async function getFile(fileUrl: string): Promise<GithubFile> {
   return responseJson
 }
 
-async function getFileWithContent(
-  fileUrl: string,
-  path?: string
-): Promise<GithubFile> {
+async function getFileWithContent(fileUrl: string, path?: string): Promise<GithubFile> {
   const gFile = await getFile(fileUrl)
   let buff = Buffer.from(gFile.content, gFile.encoding)
   gFile.json = JSON.parse(buff.toString('utf-8'))
@@ -118,9 +112,7 @@ export async function getAllIntegrations(): Promise<GithubFile[]> {
 
 export function filterByKeywords(tags: string[]) {
   return function (f: GithubFile) {
-    const filteredArray = f.json.keywords.filter((value) =>
-      tags.includes(value)
-    )
+    const filteredArray = f.json.keywords.filter((value) => tags.includes(value))
     return filteredArray.length > 0
   }
 }

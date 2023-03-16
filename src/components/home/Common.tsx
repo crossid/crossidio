@@ -121,9 +121,7 @@ export function Tabs<T>({
       <ul
         className="inline-grid flex-none gap-x-2 px-4 sm:px-0 xl:gap-x-6"
         style={{
-          gridTemplateColumns: `repeat(${
-            Object.keys(tabs).length
-          }, minmax(6rem, 1fr))`,
+          gridTemplateColumns: `repeat(${Object.keys(tabs).length}, minmax(6rem, 1fr))`,
         }}
       >
         {Object.entries(tabs).map(([name, icon]) => (

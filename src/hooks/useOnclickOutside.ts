@@ -1,10 +1,7 @@
 // https://usehooks.com/useOnClickOutside/
 import { RefObject, useEffect } from 'react'
 
-export function useOnClickOutside(
-  ref: RefObject<HTMLElement>,
-  handler: Function
-) {
+export function useOnClickOutside(ref: RefObject<HTMLElement>, handler: Function) {
   useEffect(
     () => {
       const listener = (event: Event) => {

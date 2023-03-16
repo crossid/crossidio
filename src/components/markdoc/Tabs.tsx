@@ -3,13 +3,7 @@ import React, { ReactNode } from 'react'
 
 export const TabContext = React.createContext({})
 
-export function Tabs({
-  labels,
-  children,
-}: {
-  labels: string[]
-  children: ReactNode
-}) {
+export function Tabs({ labels, children }: { labels: string[]; children: ReactNode }) {
   const [currentTab, setCurrentTab] = React.useState(labels[0])
 
   return (
@@ -39,13 +33,7 @@ export function Tabs({
   )
 }
 
-export function Tab({
-  label,
-  children,
-}: {
-  label: string
-  children: ReactNode
-}) {
+export function Tab({ label, children }: { label: string; children: ReactNode }) {
   const currentTab = React.useContext(TabContext)
 
   if (label !== currentTab) {
