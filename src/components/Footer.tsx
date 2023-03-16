@@ -7,12 +7,6 @@ import { getCurrentYear } from '@/utils/date'
 /* This example requires Tailwind CSS v2.0+ */
 const navigation = {
   features: features,
-  solutions: [
-    { name: 'Marketing', href: '#' },
-    { name: 'Analytics', href: '#' },
-    { name: 'Commerce', href: '#' },
-    { name: 'Insights', href: '#' },
-  ],
   support: [
     { name: 'Pricing', href: '#' },
     { name: 'Documentation', href: '#' },
@@ -30,10 +24,15 @@ const navigation = {
     },
     { name: 'Blog', href: '/blog' },
     {
+      name: 'Github',
+      href: 'https://github.com/crossid',
+    },
+    {
       name: 'Reference',
       href: 'https://developer.crossid.io/api/v1',
     },
   ],
+  resources: [{ name: 'Digital Ocean', href: '/digitalocean' }],
   company: [
     { name: 'About', href: '/company' },
     { name: 'Contact', href: '/contact' },
@@ -211,12 +210,12 @@ export default function Footer() {
               </div>
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
+              <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                  Company
+                  Resources
                 </h3>
                 <ul className="mt-4 space-y-4">
-                  {navigation.company.map((item) => (
+                  {navigation.resources.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.href}
@@ -228,12 +227,12 @@ export default function Footer() {
                   ))}
                 </ul>
               </div>
-              <div className="mt-12 md:mt-0">
+              <div>
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                  Legal
+                  Company
                 </h3>
                 <ul className="mt-4 space-y-4">
-                  {navigation.legal.map((item) => (
+                  {navigation.company.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.href}

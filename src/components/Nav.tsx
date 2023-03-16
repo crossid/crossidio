@@ -7,6 +7,7 @@ import {
   Bars3Icon,
   BookmarkSquareIcon,
   ChevronDownIcon,
+  CodeBracketIcon,
   ComputerDesktopIcon,
   DocumentMagnifyingGlassIcon,
   DocumentTextIcon,
@@ -46,6 +47,11 @@ const developer = [
     icon: PencilSquareIcon,
   },
   {
+    name: 'Github',
+    href: 'https://github.com/crossid',
+    icon: CodeBracketIcon,
+  },
+  {
     name: 'Reference',
     href: `https://developer.crossid.io/api/v1/`,
     icon: DocumentMagnifyingGlassIcon,
@@ -53,10 +59,11 @@ const developer = [
 ]
 
 const resources = [
-  { name: 'Community', href: '#', icon: UsersIcon },
-  { name: 'Partners', href: '#', icon: GlobeAltIcon },
-  { name: 'Guides', href: '#', icon: BookmarkSquareIcon },
-  { name: 'Webinars', href: '#', icon: ComputerDesktopIcon },
+  { name: 'Digital Ocean', href: '/digitalocean' },
+  // { name: 'Community', href: '#', icon: UsersIcon },
+  // { name: 'Partners', href: '#', icon: GlobeAltIcon },
+  // { name: 'Guides', href: '#', icon: BookmarkSquareIcon },
+  // { name: 'Webinars', href: '#', icon: ComputerDesktopIcon },
 ]
 
 const blogPosts = [
@@ -282,6 +289,28 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                     ))}
                                   </ul>
                                 </div>
+                                <div>
+                                  <h3 className="text-sm font-medium uppercase tracking-wide text-gray-500 dark:text-sky-500">
+                                    Resources
+                                  </h3>
+                                  <ul className="mt-5 space-y-6">
+                                    {resources.map((item) => (
+                                      <li key={item.name} className="flow-root">
+                                        <Link
+                                          href={item.href}
+                                          onClick={() => resourcesButtonRef.current?.click()}
+                                          className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50 dark:text-slate-500 dark:hover:bg-slate-800"
+                                        >
+                                          {/* <item.icon
+                                            className="h-6 w-6 flex-shrink-0 text-gray-400 dark:text-sky-500"
+                                            aria-hidden="true"
+                                          /> */}
+                                          <span className="">{item.name}</span>
+                                        </Link>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
                                 <div className="hidden">
                                   <h3 className="text-sm font-medium uppercase tracking-wide text-gray-500">
                                     Resources
@@ -293,10 +322,10 @@ export default function Nav({ navigation }: { navigation?: INav }) {
                                           href={item.href}
                                           className="-m-3 flex items-center rounded-md p-3 text-base font-medium text-gray-900 hover:bg-gray-50"
                                         >
-                                          <item.icon
+                                          {/* <item.icon
                                             className="h-6 w-6 flex-shrink-0 text-gray-400"
                                             aria-hidden="true"
-                                          />
+                                          /> */}
                                           <span className="ml-4">{item.name}</span>
                                         </Link>
                                       </li>
