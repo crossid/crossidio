@@ -165,49 +165,50 @@ export default function DownloadSampleButton({
                     </Dialog.Title>
                   </div>
 
-                  <Selector app={app || null} setApp={setApp} apps={apps} showStatus />
-                  <>
-                    <ConfigureAppInput
-                      title="Client ID"
-                      placeholder="Client ID"
-                      id="client_id"
-                      value={app?.clientId || ''}
-                      setValue={(d) => {}}
-                    />
-                    <ConfigureAppInput
-                      title="Login Redirect URL"
-                      placeholder="Login URL"
-                      id="redirect_uri"
-                      value={app?.loginUri || ''}
-                      setValue={(d) => {}}
-                    />
-                    <ConfigureAppInput
-                      title="Logout Redirect URL"
-                      id="post_logout_redirect_uri"
-                      value={app?.logoutUri || ''}
-                      setValue={(d: string) => {}}
-                      placeholder={'Logout Redirect'}
-                    />
-                    <ConfigureAppInput
-                      title="Web Origin"
-                      id="allowed_cors_origin"
-                      value={app?.corsOrigin || ''}
-                      setValue={(d) => {}}
-                      placeholder={'Web Origin'}
-                    />
-                  </>
-
-                  <div className="mt-5 sm:mt-4 sm:flex">
-                    <button
-                      disabled={isSubmitDisabled()}
-                      type="submit"
-                      onClick={downloadExample}
-                      className={className}
-                    >
-                      <ArrowDownTrayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-                      <span>Download</span>
-                    </button>
-                  </div>
+                  <form className="space-y-2">
+                    <Selector app={app || null} setApp={setApp} apps={apps} showStatus />
+                    <>
+                      <ConfigureAppInput
+                        title="Client ID"
+                        placeholder="Client ID"
+                        id="client_id"
+                        value={app?.clientId || ''}
+                        setValue={(d) => {}}
+                      />
+                      <ConfigureAppInput
+                        title="Login Redirect URL"
+                        placeholder="Login URL"
+                        id="redirect_uri"
+                        value={app?.loginUri || ''}
+                        setValue={(d) => {}}
+                      />
+                      <ConfigureAppInput
+                        title="Logout Redirect URL"
+                        id="post_logout_redirect_uri"
+                        value={app?.logoutUri || ''}
+                        setValue={(d: string) => {}}
+                        placeholder={'Logout Redirect'}
+                      />
+                      <ConfigureAppInput
+                        title="Web Origin"
+                        id="allowed_cors_origin"
+                        value={app?.corsOrigin || ''}
+                        setValue={(d) => {}}
+                        placeholder={'Web Origin'}
+                      />
+                    </>
+                    <div className="pt-5 sm:pt-4 sm:flex">
+                      <button
+                        disabled={isSubmitDisabled()}
+                        type="submit"
+                        onClick={downloadExample}
+                        className={className}
+                      >
+                        <ArrowDownTrayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+                        <span>Download</span>
+                      </button>
+                    </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
