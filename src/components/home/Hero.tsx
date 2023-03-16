@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { LoginAlbum } from '../mocks/LoginAlbum'
 import LoginBox from '../mocks/LoginBox'
 
 export function Hero() {
@@ -6,7 +7,7 @@ export function Hero() {
     <Layout
       left={
         <div className="lg:-mr-18">
-          <LoginBox />
+          <LoginAlbum />
         </div>
       }
     ></Layout>

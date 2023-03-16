@@ -1,4 +1,4 @@
-import LoginBox from '../mocks/LoginBox'
+import { LoginAlbum } from '../mocks/LoginAlbum'
 import {
   Section,
   SectionTitle,
@@ -26,7 +26,7 @@ export function RunSection() {
           </ProductIntroContent>
         </ProductIntro>
         <ProductContent className="hidden lg:block">
-          <LoginBox />
+          <LoginAlbum className="absolute" />
         </ProductContent>
       </ProductSummary>
     </Section>
