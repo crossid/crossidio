@@ -1,6 +1,6 @@
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import Link from 'next/link'
-import { ButtonHTMLAttributes, DetailedHTMLProps, MouseEvent, MouseEventHandler } from 'react'
+import { MouseEvent } from 'react'
 
 export default function Banner({
   onClose,
@@ -8,7 +8,7 @@ export default function Banner({
   onClose: (e: MouseEvent<HTMLButtonElement>) => void
 }) {
   return (
-    <div className="flex items-center gap-x-6 bg-indigo-600 py-2.5 px-6 sm:px-3.5 sm:before:flex-1">
+    <div className="flex items-center gap-x-6 bg-indigo-600 py-2.5 px-6 dark:bg-sky-600 sm:px-3.5 sm:before:flex-1">
       <p className="text-sm leading-6 text-white">
         <Link href="/digitalocean">
           <strong className="font-semibold">Digital Ocean </strong>
