@@ -49,7 +49,7 @@ export default function SectionsNav({
       <NavSvg fillPercent={fillPercent} />
       <ul
         className={clsx(
-          'relative m-auto flex h-[60vh] flex-col items-center justify-between grid-in-[navbar]',
+          'relative m-auto flex h-[50vh] flex-col items-center justify-between grid-in-[navbar]',
           styles.navlink
         )}
       >
