@@ -34,7 +34,6 @@ export default function Company() {
     <>
       <Head>
         <title>About</title>
-        <title>About</title>
         <meta name="og:title" content="About Company" />
         <meta name="description" content="About Company" />
       </Head>
