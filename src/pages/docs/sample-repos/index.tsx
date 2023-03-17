@@ -43,8 +43,8 @@ export const getStaticProps: GetStaticProps<{
 export default function Page(props: InferGetStaticPropsType<typeof getStaticProps>) {
   const { repos } = props
   return (
-    <div className="not-prose overflow-hidden bg-white shadow sm:rounded-md">
-      <ul role="list" className="divide-y divide-gray-200">
+    <div className="not-prose overflow-hidden bg-white shadow dark:bg-slate-800/30 sm:rounded-md">
+      <ul role="list" className="divide-y divide-gray-200 dark:divide-slate-800">
         {repos.map((r, i) => (
           <Repo key={i} repo={r}></Repo>
         ))}
@@ -56,15 +56,17 @@ export default function Page(props: InferGetStaticPropsType<typeof getStaticProp
 function Repo({ repo }: { repo: IRepo }) {
   return (
     <li key={repo.repo}>
-      <a href={repo.github.html_url} className="block hover:bg-gray-50">
+      <a href={repo.github.html_url} className="block hover:bg-gray-50 dark:hover:bg-slate-800/50">
         <div className="px-4 py-4 sm:px-6">
           <div className="flex items-center justify-between">
-            <p className="truncate text-sm font-medium text-indigo-600">{repo.repo}</p>
+            <p className="truncate text-sm font-medium text-indigo-600 dark:text-sky-600">
+              {repo.repo}
+            </p>
             <div className="ml-2 flex flex-shrink-0">
               {repo.github.topics.map((t) => (
                 <span
                   key={t}
-                  className="mr-1 inline-flex rounded-full bg-indigo-50 px-2 text-xs font-semibold leading-5 text-indigo-800"
+                  className="mr-1 inline-flex rounded-full bg-indigo-50 px-2 text-xs font-semibold leading-5 text-indigo-800 dark:bg-slate-800 dark:text-slate-500"
                 >
                   {t}
                 </span>
