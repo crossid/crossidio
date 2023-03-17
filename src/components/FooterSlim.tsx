@@ -8,7 +8,7 @@ export default function FooterSlim() {
   const navigation = useMemo(() => {
     return {
       main: [
-        { name: 'Try free', href: `/signup?return_to=${router.asPath}` },
+        { name: 'Try free', href: `/signup?return_to=${router.pathname}` },
         { name: 'Blog', href: '/blog' },
         { name: 'Docs', href: '/docs' },
       ],
