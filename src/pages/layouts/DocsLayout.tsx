@@ -20,6 +20,10 @@ const navigation: INav = [
         title: 'Frameworks',
         href: '/docs/frameworks',
       },
+      {
+        title: 'Sample Repositories',
+        href: '/docs/sample-repos',
+      },
     ],
   },
   {
