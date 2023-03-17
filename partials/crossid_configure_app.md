@@ -6,12 +6,12 @@ An application defines how authentication works for your project.
 
 ### Configure Application
 
-Use the right pane to create or select an application,
+Use the right pane to select or create an application,
 
 Every application in Crossid is assigned with a unique _Client ID_ that should be defined in your code.
 
 {% callout type="tip" %}
-For advanced application settings, use the [dashboard](management)
+For advanced application settings, use the [dashboard](management/apps)
 {% /callout %}
 
 ### Configure Login redirect URL
