@@ -45,6 +45,8 @@ export interface IFramework {
   description: string
   // framework tags (e.g., 'javascript', 'spa')
   tags: string[]
+  // related frameworks (e.g., "vue")
+  related_frameworks: string[]
   // the logo of the framework
   logo: string
   // the repo of the framework

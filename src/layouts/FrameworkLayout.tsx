@@ -40,6 +40,7 @@ import { FrameworkApiRefLink } from '@/components/markdoc/FrameworkApiRefLink'
 import { scroll } from '@/utils/scroll'
 import { useRouter } from 'next/router'
 import { CreateTenantButton } from '@/components/CreateTenant'
+import FrameworksLinks from '@/components/markdoc/FrameworksLinks'
 
 const Heading: React.FC<
   {
@@ -74,6 +75,7 @@ const components = {
   Callout,
   FenceClient,
   FrameworkApiRefLink,
+  FrameworksLinks,
 }
 
 type Comp = 'code' | 'configure-app'
@@ -296,7 +298,7 @@ function Code({
   // const highlighted = highligtedCodebyMarkdownMeta(meta || '')
 
   return (
-    <CodeWindow border={false} className="xl:h-[50rem]">
+    <CodeWindow border={false} className="xl:h-[45rem]">
       {/* <div className="relative min-w-full flex-none px-1"> */}
       <div className="flex justify-between px-1">
         <ul className="flex text-sm leading-6 text-slate-400">

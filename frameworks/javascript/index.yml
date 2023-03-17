@@ -1,0 +1,27 @@
+title: Javascript
+description: The core language of the web.
+logo: javascript
+appType: singlePageApp
+aliases:
+  - js
+tags:
+  - javascript
+  - spa
+related_frameworks:
+  - react
+languages:
+  - javascript
+sdk_repo:
+  owner: crossid
+  name: crossid-spa-js
+  url: https://github.com/crossid/crossid-spa-js
+  branch: main
+  api_reference: https://crossid.github.io/crossid-spa-js
+sample_repo:
+  owner: crossid
+  name: crossid-js-samples
+  url: https://github.com/crossid/crossid-js-samples
+  branch: main
+  folders:
+    - type: auth
+      name: auth

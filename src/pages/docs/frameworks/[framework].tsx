@@ -183,6 +183,14 @@ async function createConfig(fwMeta: IFramework): Promise<Config> {
           },
         },
       },
+      fw_links: {
+        render: 'FrameworksLinks',
+        attributes: {
+          frameworks: {
+            type: Array,
+          },
+        },
+      },
       sdkApiLink: {
         render: 'FrameworkApiRefLink',
         attributes: {
