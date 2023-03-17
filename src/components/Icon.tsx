@@ -5,6 +5,7 @@ import { InstallationIcon } from '@/components/icons/InstallationIcon'
 import { LightbulbIcon } from '@/components/icons/LightbulbIcon'
 import { WarningIcon } from '@/components/icons/WarningIcon'
 import { PluginsIcon } from '@/components/icons/PluginsIcon'
+import { InfoIcon, InfoViewBox } from '@/components/icons/InfoIcon'
 import { PresetsIcon } from '@/components/icons/PresetsIcon'
 import { GithubIcon, GithubViewBox } from '@/components/icons/GithubIcon'
 import { ReactIcon, ReactViewBox } from '@/components/icons/ReactIcon'
@@ -12,6 +13,7 @@ import { ReactIcon, ReactViewBox } from '@/components/icons/ReactIcon'
 export type iconTypes =
   | 'installation'
   | 'lightbulb'
+  | 'info'
   | 'warning'
   | 'github'
   | 'react'
@@ -27,11 +29,13 @@ const icons = {
   warning: WarningIcon,
   github: GithubIcon,
   react: ReactIcon,
+  info: InfoIcon,
 }
 
 const iconsViewBox = {
   react: ReactViewBox,
   github: GithubViewBox,
+  info: InfoViewBox,
 } as Record<iconTypes, string>
 
 const iconStyles = {
