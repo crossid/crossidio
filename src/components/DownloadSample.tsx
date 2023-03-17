@@ -142,11 +142,11 @@ export default function DownloadSampleButton({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all md:p-16 xl:p-32">
+                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-slate-900 md:p-16 xl:p-32">
                   <div className="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
                     <button
                       type="button"
-                      className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:bg-slate-800"
                       onClick={() => closeModal()}
                     >
                       <span className="sr-only">Close</span>
@@ -156,11 +156,14 @@ export default function DownloadSampleButton({
                   <div className="">
                     <Dialog.Title
                       as="h3"
-                      className="pb-3 text-lg font-medium leading-6 text-gray-900"
+                      className="pb-3 text-lg font-medium leading-6 text-gray-900 dark:text-slate-400"
                     >
                       Select an application to configure the sample accordingly.
                     </Dialog.Title>
-                    <Dialog.Title as="h2" className="pb-8 text-sm font-medium text-gray-400">
+                    <Dialog.Title
+                      as="h2"
+                      className="pb-8 text-sm font-medium text-gray-400 dark:text-slate-500"
+                    >
                       Code will be downloaded from the github sample repo.
                     </Dialog.Title>
                   </div>
@@ -197,7 +200,7 @@ export default function DownloadSampleButton({
                         placeholder={'Web Origin'}
                       />
                     </>
-                    <div className="pt-5 sm:pt-4 sm:flex">
+                    <div className="pt-5 sm:flex sm:pt-4">
                       <button
                         disabled={isSubmitDisabled()}
                         type="submit"

@@ -367,7 +367,7 @@ export function ConfigureAppInput({
 
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+      <label htmlFor={id} className="block text-sm font-medium text-gray-700 dark:text-slate-500">
         {title}
       </label>
       <div className="mt-1">
@@ -411,7 +411,11 @@ export function Selector({
 }) {
   return (
     <>
-      {!hideLabel && <label className="block text-sm font-medium text-gray-700">Select app</label>}
+      {!hideLabel && (
+        <label className="block text-sm font-medium text-gray-700 dark:text-slate-500">
+          Select app
+        </label>
+      )}
       <Listbox defaultValue={app} onChange={(a: selectorApp) => setApp(a)} disabled={disabled}>
         {({ open }) => (
           <>
@@ -452,7 +456,9 @@ export function Selector({
                       key={app?.id}
                       className={({ active }) =>
                         clsx(
-                          active ? 'bg-indigo-600 text-white dark:bg-sky-800' : 'text-gray-900',
+                          active
+                            ? 'bg-indigo-600 text-white dark:bg-sky-800'
+                            : 'text-gray-900 dark:text-slate-400',
                           'relative cursor-default select-none py-2 pl-3 pr-9'
                         )
                       }
