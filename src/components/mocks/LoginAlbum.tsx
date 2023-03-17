@@ -1,5 +1,4 @@
-import clsx from 'clsx'
-import { AnimatePresence, AnimateSharedLayout, motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import LoginBox from './LoginBox'
 import OtpBox from './OtpBox'
@@ -35,24 +34,22 @@ export function LoginAlbum({ className }: { className?: string }) {
   })
 
   return (
-    <AnimateSharedLayout>
-      <motion.div layout transition={{ delay: 0, duration: 2 }} className={className}>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={activeSection.id}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{
-              transition: { delay: 0, duration: 1 },
-            }}
-          >
-            <div>
-              {activeSection.id === 'login' && <LoginBox />}
-              {activeSection.id === 'otp' && <OtpBox />}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </motion.div>
-    </AnimateSharedLayout>
+    <motion.div layout transition={{ delay: 0, duration: 2 }} className={className}>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={activeSection.id}
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{
+            transition: { delay: 0, duration: 1 },
+          }}
+        >
+          <div>
+            {activeSection.id === 'login' && <LoginBox />}
+            {activeSection.id === 'otp' && <OtpBox />}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </motion.div>
   )
 }
