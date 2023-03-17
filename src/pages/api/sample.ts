@@ -8,7 +8,7 @@ const pipeline = promisify(stream.pipeline)
 function replaceFileContent(content: string, dataObj: Record<string, string>): string {
   let newContent = content
   for (const [key, value] of Object.entries(dataObj)) {
-    newContent = newContent.replaceAll(`\${{${key}}}`, value)
+    newContent = newContent.replaceAll(`{{${key}}}`, value)
   }
   return newContent
 }
