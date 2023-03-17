@@ -5,16 +5,14 @@ import { Logo } from './Logo'
 import { useAuth } from '@crossid/crossid-react'
 import {
   Bars3Icon,
-  BookmarkSquareIcon,
   ChevronDownIcon,
   CodeBracketIcon,
-  ComputerDesktopIcon,
   DocumentMagnifyingGlassIcon,
   DocumentTextIcon,
   EnvelopeIcon,
-  GlobeAltIcon,
   PencilSquareIcon,
-  UsersIcon,
+  PlayIcon,
+  SquaresPlusIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { clsx } from 'clsx'
@@ -36,6 +34,16 @@ const callsToAction = [
 ]
 
 const developer = [
+  // {
+  //   name: 'Get Started',
+  //   href: '/docs/guides/get-started/preface',
+  //   icon: PlayIcon,
+  // },
+  {
+    name: 'Frameworks',
+    href: '/docs/frameworks',
+    icon: SquaresPlusIcon,
+  },
   {
     name: 'Docs',
     href: '/docs',
