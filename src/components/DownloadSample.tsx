@@ -78,7 +78,8 @@ export default function DownloadSampleButton({
   }
 
   // downloading a file only works from anchor elements, so that's what I did
-  function downloadExample() {
+  function downloadExample(e: React.MouseEvent<HTMLElement>) {
+    e.preventDefault()
     const a = document.createElement('a')
     a.style.display = 'none'
     a.href = url
