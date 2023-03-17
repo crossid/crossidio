@@ -37,6 +37,14 @@ const navigation: INav = [
         title: 'Custom Domain',
         href: '/docs/howto/custom-domain',
       },
+      {
+        title: 'Post Login Page',
+        href: '/docs/howto/default-login',
+      },
+      {
+        title: 'Post Signup Page',
+        href: '/docs/howto/default-signup',
+      },
     ],
   },
   {

@@ -1,7 +1,7 @@
 ---
 id: custom-domain
 title: Custom Domain
-sidebar_label: Custom DOmain
+sidebar_label: Custom Domain
 slug: /howto/custom-domain
 description: How to configure a custom domain
 ---
