@@ -55,6 +55,10 @@ export function Icon({
   className: string
 }) {
   let id = useId()
+  if (!icons[icon]) {
+    console.error(`no icon found for ${icon}`)
+    return null
+  }
   let IconComponent = icons[icon]
 
   if (!IconComponent) {
