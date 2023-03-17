@@ -22,7 +22,7 @@ const styles = {
 
 const icons = {
   tip: (props: any) => <Icon icon="lightbulb" {...props} />,
-  info: (props: any) => <Icon {...props} icon="lightbulb" />,
+  info: (props: any) => <Icon {...props} icon="info" />,
   warning: (props: any) => <Icon icon="warning" color="amber" {...props} />,
 }
 
@@ -38,11 +38,19 @@ export function Callout({
   let IconComponent = icons[type]
 
   return (
-    <div className={clsx('my-8 flex rounded-3xl p-6', styles[type].container)}>
+    <div
+      className={clsx(
+        'flex rounded-3xl',
+        styles[type].container,
+        title ? 'my-8 p-6' : 'my-4 items-center justify-center p-4'
+        // align-items: center;
+        // justify-content: center;
+      )}
+    >
       <IconComponent className="h-8 w-8 flex-none" />
       <div className="ml-4 flex-auto">
-        <p className={clsx('font-display m-0 text-xl', styles[type].title)}>{title}</p>
-        <div className={clsx('prose mt-2.5', styles[type].body)}>{children}</div>
+        {title && <p className={clsx('font-display m-0 text-xl', styles[type].title)}>{title}</p>}
+        <div className={clsx('prose', styles[type].body)}>{children}</div>
       </div>
     </div>
   )
