@@ -1,5 +1,12 @@
 import { PuzzlePieceIcon, UserIcon } from '@heroicons/react/24/outline'
-import React from 'react'
+import React, { ForwardRefExoticComponent, ReactNode, SVGProps } from 'react'
+
+export interface IFeature {
+  title: string
+  description: string
+  icon?: ForwardRefExoticComponent<SVGProps<SVGSVGElement>>
+  tags?: string[]
+}
 
 export interface feature {
   id: string
@@ -7,6 +14,7 @@ export interface feature {
   description: string
   href: string
   icon: React.ElementType
+  features?: Record<string, IFeature[]>
 }
 
 export const features: feature[] = [
