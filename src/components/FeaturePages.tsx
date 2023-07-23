@@ -286,7 +286,7 @@ export const Section2Right = ({ children }: { children: ReactNode }) => (
           height="20"
           patternUnits="userSpaceOnUse"
         >
-          <rect x="0" y="0" width="4" height="4" className="text-gray-800" fill="currentColor" />
+          <rect x="0" y="0" width="4" height="4" className="text-gray-200 dark:text-slate-800" fill="currentColor" />
         </pattern>
       </defs>
       <rect width="784" height="404" fill="url(#e80155a9-dfde-425a-b5ea-1f6fadd20131)" />
