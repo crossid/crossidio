@@ -103,7 +103,7 @@ export const features: feature[] = [
         },
         {
           title: 'Decision insights.',
-          description: 'Assists reviewers to take a more accurate descision via insights.',
+          description: 'Assists reviewers to take a more accurate decisions via insights.',
           icon: LightBulbIcon,
         },
       ],
