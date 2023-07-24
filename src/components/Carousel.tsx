@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel-react'
+import Autoplay from 'embla-carousel-autoplay'
 
 import clsx from 'clsx'
 
@@ -93,7 +94,7 @@ type PropType = PropsWithChildren & {
 
 const Carousel: React.FC<PropType> = (props) => {
   const { noNav, noIndicators, options } = props
-  const [emblaRef, emblaApi] = useEmblaCarousel(options)
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()])
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true)
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true)
   const [selectedIndex, setSelectedIndex] = useState(0)
