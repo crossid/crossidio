@@ -27,7 +27,7 @@ import {
 import { features } from '@/data/enterprise_features'
 import Head from 'next/head'
 import Image from 'next/image'
-import { Carousel } from '@/components/Carousel'
+import Carousel from '@/components/Carousel'
 
 // images
 import HeroScreenshot from '@/images/enterprise/features/recertification/portal_review_simplified.png'
@@ -81,8 +81,8 @@ const PortalFeatures = () => {
       description="Enhnaced experience of the review process drastically affects the effort result."
       features={feature.features?.portal || []}
     >
-      <div className="mx-auto  align-middle">
-        <Carousel>
+      <div className="mx-auto align-middle">
+        <Carousel indicatorClassName="bg-indigo-500 dark:bg-sky-500">
           <Image src={PortalInbox} alt="Portal Inbox Screenshot" />
           <Image src={PortalMultiTasksReview} alt="Portal Review Screenshot" />
         </Carousel>
